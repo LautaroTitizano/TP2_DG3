@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lutheria — Instrumentos Construidos con Alma</title>
+  <meta name="description" content="Construcción artesanal, restauración profesional y formación completa para quienes desean aprender el oficio desde cero." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Montserrat via Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       NAV
+  ══════════════════════════════════════════ -->
+  <nav class="nav" role="navigation" aria-label="Navegación principal">
+    <a href="#" class="nav__logo">LUTH<span>E</span>RIA</a>
+    <ul class="nav__links">
+      <li><a href="#arte">El arte</a></li>
+      <li><a href="#proceso">Proceso</a></li>
+      <li><a href="#cursos">Cursos</a></li>
+      <li><a href="#testimonios">Testimonios</a></li>
+      <li><a href="#contacto" class="btn btn-dark" style="padding:10px 20px">Inscribirse</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════ -->
+  <section class="hero" aria-label="Inicio">
+    <div class="hero__content">
+      <span class="hero__eyebrow reveal">Taller artesanal · Buenos Aires</span>
+      <h1 class="hero__title reveal reveal-delay-1">
+        INSTRU<br>MENTOS<br>CONSTRUIDOS<br><em>CON ALMA.</em>
+      </h1>
+      <p class="hero__subtitle reveal reveal-delay-2">
+        Construcción artesanal, restauración profesional y formación completa
+        para quienes desean aprender el oficio desde cero.
+      </p>
+      <div class="hero__actions reveal reveal-delay-3">
+        <a href="#cursos" class="btn btn-dark">Explorar taller</a>
+        <a href="#proceso" class="btn btn-outline">Ver proceso</a>
+      </div>
+      <div class="hero__scroll reveal reveal-delay-4">
+        <div class="hero__scroll-line"></div>
+        <span>Deslizá para conocer</span>
+      </div>
+    </div>
+
+    <div class="hero__image">
+      <img src="assets/images/hero_guitar.jpg" alt="Guitarra artesanal en construcción" loading="eager" />
+      <div class="hero__image-overlay"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       EL ARTE DETRÁS DEL SONIDO — Acordeón
+  ══════════════════════════════════════════ -->
+  <section class="arte" id="arte" aria-label="El arte detrás del sonido">
+    <div class="arte__header reveal">
+      <p class="label-num">/ 01</p>
+      <h2>EL ARTE<br>DETRÁS DEL SONIDO</h2>
+    </div>
+
+    <div class="arte__list" role="list">
+
+      <!-- SELECCIÓN -->
+      <article class="arte__item" role="listitem">
+        <div class="arte__item-header" role="button" tabindex="0" aria-expanded="false"
+             aria-controls="arte-body-1">
+          <span class="arte__item-num">01</span>
+          <span class="arte__item-title">SELECCIÓN</span>
+          <div class="arte__item-arrow" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </div>
+        </div>
+        <div class="arte__item-body" id="arte-body-1">
+          <div class="arte__item-body-inner">
+            <div class="arte__item-content">
+              <div class="arte__item-text">
+                <h3>01. Selección</h3>
+                <p>Maderas escogidas por estabilidad, resonancia y carácter acústico. Cada pieza es evaluada individualmente antes de ingresar al proceso.</p>
+                <ul class="arte__item-list">
+                  <li>Cedro canadiense para tapas</li>
+                  <li>Palo santo y nogal para aros y fondo</li>
+                  <li>Ébano africano para diapasón</li>
+                </ul>
+              </div>
+              <div class="arte__item-image">
+                <img src="assets/images/proceso_01.jpg" alt="Selección de maderas" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- DISEÑO -->
+      <article class="arte__item" role="listitem">
+        <div class="arte__item-header" role="button" tabindex="0" aria-expanded="false"
+             aria-controls="arte-body-2">
+          <span class="arte__item-num">02</span>
+          <span class="arte__item-title">DISEÑO</span>
+          <div class="arte__item-arrow" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </div>
+        </div>
+        <div class="arte__item-body" id="arte-body-2">
+          <div class="arte__item-body-inner">
+            <div class="arte__item-content">
+              <div class="arte__item-text">
+                <h3>02. Diseño</h3>
+                <p>Ergonomía adaptada al músico y a su forma de tocar. Cada instrumento nace de un diálogo entre técnica y sensibilidad estética.</p>
+                <ul class="arte__item-list">
+                  <li>Plantillas personalizadas por músico</li>
+                  <li>Cálculo de escala y tensión óptima</li>
+                  <li>Bocetos y maquetas de referencia</li>
+                </ul>
+              </div>
+              <div class="arte__item-image">
+                <img src="assets/images/proceso_02.jpg" alt="Diseño del instrumento" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CONSTRUCCIÓN -->
+      <article class="arte__item" role="listitem">
+        <div class="arte__item-header" role="button" tabindex="0" aria-expanded="false"
+             aria-controls="arte-body-3">
+          <span class="arte__item-num">03</span>
+          <span class="arte__item-title">CONSTRUCCIÓN</span>
+          <div class="arte__item-arrow" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </div>
+        </div>
+        <div class="arte__item-body" id="arte-body-3">
+          <div class="arte__item-body-inner">
+            <div class="arte__item-content">
+              <div class="arte__item-text">
+                <h3>03. Construcción</h3>
+                <p>Ensamblado artesanal, calibración y afinación estructural. Cientos de horas de trabajo preciso dan forma a cada instrumento.</p>
+                <ul class="arte__item-list">
+                  <li>Encolado y prensado en frío</li>
+                  <li>Tallado de mástil a mano</li>
+                  <li>Instalación de trastes y cejuela</li>
+                </ul>
+              </div>
+              <div class="arte__item-image">
+                <img src="assets/images/proceso_03.jpg" alt="Construcción del instrumento" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ACABADO -->
+      <article class="arte__item" role="listitem">
+        <div class="arte__item-header" role="button" tabindex="0" aria-expanded="false"
+             aria-controls="arte-body-4">
+          <span class="arte__item-num">04</span>
+          <span class="arte__item-title">ACABADO</span>
+          <div class="arte__item-arrow" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </div>
+        </div>
+        <div class="arte__item-body" id="arte-body-4">
+          <div class="arte__item-body-inner">
+            <div class="arte__item-content">
+              <div class="arte__item-text">
+                <h3>04. Acabado</h3>
+                <p>Protección, estética y máxima resonancia. El lacado final no solo embelece: potencia el sonido y protege la madera por décadas.</p>
+                <ul class="arte__item-list">
+                  <li>Laca nitrocelulósica de curado lento</li>
+                  <li>Pulido a mano en varias etapas</li>
+                  <li>Configuración y puesta a punto final</li>
+                </ul>
+              </div>
+              <div class="arte__item-image">
+                <img src="assets/images/proceso_04.jpg" alt="Acabado del instrumento" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       DE LA IDEA AL INSTRUMENTO — Proceso
+  ══════════════════════════════════════════ -->
+  <section class="proceso" id="proceso" aria-label="Proceso de construcción">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="label-num">/ 02</p>
+        <h2>DE LA IDEA<br>AL INSTRUMENTO</h2>
+      </div>
+
+      <div class="proceso__steps">
+        <div class="proceso__step reveal reveal-delay-1">
+          <span class="proceso__step-num">01</span>
+          <h3 class="proceso__step-title">Solicitud</h3>
+          <p class="proceso__step-desc">Maderas escogidas por estabilidad, resonancia y carácter acústico.</p>
+        </div>
+        <div class="proceso__step reveal reveal-delay-2">
+          <span class="proceso__step-num">02</span>
+          <h3 class="proceso__step-title">Diagnóstico</h3>
+          <p class="proceso__step-desc">Ergonomía adaptada al músico y a su forma de tocar.</p>
+        </div>
+        <div class="proceso__step reveal reveal-delay-3">
+          <span class="proceso__step-num">03</span>
+          <h3 class="proceso__step-title">Presupuesto</h3>
+          <p class="proceso__step-desc">Ensamblado artesanal, calibración y afinación estructural.</p>
+        </div>
+        <div class="proceso__step reveal reveal-delay-4">
+          <span class="proceso__step-num">04</span>
+          <h3 class="proceso__step-title">Intervención</h3>
+          <p class="proceso__step-desc">Protección, estética y máxima resonancia.</p>
+        </div>
+        <div class="proceso__step reveal" style="transition-delay:0.55s">
+          <span class="proceso__step-num">05</span>
+          <h3 class="proceso__step-title">Entrega</h3>
+          <p class="proceso__step-desc">Protección, estética y máxima resonancia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       CURSOS — Del taller a tus manos
+  ══════════════════════════════════════════ -->
+  <section class="cursos" id="cursos" aria-label="Cursos de luthería">
+    <div class="cursos__intro reveal">
+      <h2>DEL TALLER<br>A TUS MANOS.<br>GUIAMOS<br>TU TALENTO.</h2>
+      <div class="cursos__intro-sub">
+        <p>Cursos presenciales para construir, reparar y comprender instrumentos de manera profesional.</p>
+        <a href="#" class="btn btn-dark">Ver más</a>
+      </div>
+    </div>
+
+    <div class="cursos__rail" role="list" aria-label="Listado de cursos">
+
+      <!-- Curso destacado -->
+      <article class="curso-card" role="listitem">
+        <div class="curso-card__image">
+          <img src="assets/images/curso_01.jpg" alt="Construcción de guitarra clásica desde cero" loading="lazy" />
+          <div class="curso-card__overlay">
+            <span class="curso-card__badge">⭐ Curso estrella</span>
+            <h3 class="curso-card__title">Guitarra Clásica<br>desde Cero</h3>
+            <p class="curso-card__sub">12 semanas · Presencial</p>
+          </div>
+          <div class="curso-card__info">
+            <span class="curso-card__badge">⭐ Curso estrella</span>
+            <h3 class="curso-card__title">Guitarra Clásica desde Cero</h3>
+            <p>El programa más completo del taller. Construís tu propia guitarra clásica de principio a fin, aprendiendo cada etapa del oficio.</p>
+            <div class="curso-card__meta">
+              <span>12 semanas</span>
+              <span>Presencial</span>
+              <span>Cupos limitados</span>
+            </div>
+            <a href="#" class="btn btn-accent">Inscribirse</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Curso 2 -->
+      <article class="curso-card" role="listitem">
+        <div class="curso-card__image">
+          <img src="assets/images/curso_02.jpg" alt="Reparación y restauración de guitarras" loading="lazy" />
+          <div class="curso-card__overlay">
+            <h3 class="curso-card__title">Reparación<br>& Restauración</h3>
+            <p class="curso-card__sub">6 semanas · Presencial</p>
+          </div>
+          <div class="curso-card__info">
+            <h3 class="curso-card__title">Reparación & Restauración</h3>
+            <p>Técnicas profesionales para diagnosticar y reparar guitarras acústicas y eléctricas.</p>
+            <div class="curso-card__meta">
+              <span>6 semanas</span>
+              <span>Presencial</span>
+            </div>
+            <a href="#" class="btn btn-accent">Ver detalles</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Curso 3 -->
+      <article class="curso-card" role="listitem">
+        <div class="curso-card__image">
+          <img src="assets/images/curso_03.jpg" alt="Luthería eléctrica" loading="lazy" />
+          <div class="curso-card__overlay">
+            <h3 class="curso-card__title">Luthería<br>Eléctrica</h3>
+            <p class="curso-card__sub">8 semanas · Presencial</p>
+          </div>
+          <div class="curso-card__info">
+            <h3 class="curso-card__title">Luthería Eléctrica</h3>
+            <p>Construí tu propia guitarra eléctrica sólida o semi-hollow, incluyendo electrónica.</p>
+            <div class="curso-card__meta">
+              <span>8 semanas</span>
+              <span>Presencial</span>
+            </div>
+            <a href="#" class="btn btn-accent">Ver detalles</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STATS — Cada pieza importa
+  ══════════════════════════════════════════ -->
+  <section class="stats" aria-label="Estadísticas del taller">
+    <div class="container">
+      <div class="stats__inner">
+        <h2 class="stats__heading reveal">
+          CADA<br>PIEZA<br><em>IMPORTA.</em>
+        </h2>
+        <div class="stats__grid">
+          <div class="stat-item">
+            <div class="stat-item__value" data-target="18" data-suffix="+"
+                 aria-label="Más de 18 años de oficio">18+</div>
+            <div class="stat-item__label">Años de oficio</div>
+            <div class="stat-item__desc">Desde 2006 construyendo instrumentos con identidad propia.</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__value" data-target="340" data-suffix="+"
+                 aria-label="Más de 340 instrumentos entregados">340+</div>
+            <div class="stat-item__label">Instrumentos</div>
+            <div class="stat-item__desc">Cada uno único, diseñado y construido a medida.</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__value" data-target="90" data-suffix="%"
+                 aria-label="90 por ciento de clientes recurrentes">90%</div>
+            <div class="stat-item__label">Clientes recurrentes</div>
+            <div class="stat-item__desc">Quienes pasan por el taller, vuelven por más.</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__value" data-target="12"
+                 aria-label="12 países donde suenan nuestros instrumentos">12</div>
+            <div class="stat-item__label">Países</div>
+            <div class="stat-item__desc">Instrumentos que viajaron lejos con sus músicos.</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__value" data-target="500" data-suffix="+"
+                 aria-label="Más de 500 alumnos formados">500+</div>
+            <div class="stat-item__label">Alumnos formados</div>
+            <div class="stat-item__desc">Una comunidad que sigue creciendo semestre a semestre.</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__value" data-target="3"
+                 aria-label="3 generaciones de lutheros">3</div>
+            <div class="stat-item__label">Generaciones</div>
+            <div class="stat-item__desc">Un oficio transmitido de mano en mano, de generación en generación.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       VIDEO — No fabricamos instrumentos
+  ══════════════════════════════════════════ -->
+  <section class="video-section" id="video" aria-label="Video del taller">
+    <div class="video-section__text">
+      <h2 class="reveal">NO FABRICAMOS<br>INSTRUMENTOS.<br>CREAMOS UN<br>LEGADO ÚNICO.</h2>
+      <p class="reveal reveal-delay-1">
+        Cada pieza que sale de este taller lleva consigo décadas de oficio,
+        el carácter de su madera y la intención de quien la encargó.
+        No es producción: es autoría.
+      </p>
+    </div>
+
+    <div class="video-section__player">
+      <div class="video-wrapper" role="button" tabindex="0" aria-label="Reproducir video del taller">
+        <!-- Reemplazá el src con tu video real -->
+        <video
+          src=""
+          poster="assets/images/video_thumb.jpg"
+          loop
+          muted
+          playsinline
+          preload="none"
+        ></video>
+        <!-- Fallback si no hay video -->
+        <img class="video-thumb" src="assets/images/video_thumb.jpg" alt="Video del taller"
+             style="display:none" loading="lazy" />
+        <div class="video-play-btn" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       CTA BANNER
+  ══════════════════════════════════════════ -->
+  <section class="cta-section" id="contacto" aria-label="Llamada a la acción">
+    <div class="cta-banner reveal">
+      <div class="cta-banner__text">
+        <h2>¿LISTO PARA DAR<br>VIDA A TU<br>INSTRUMENTO?</h2>
+        <p>Dos formas de empezar: encargá tu instrumento a medida o sumáte a uno de nuestros cursos del próximo ciclo.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px; flex-shrink:0">
+        <a href="#cursos" class="btn btn-accent" style="text-align:center">Inscribirme al taller</a>
+        <a href="mailto:hola@lutheria.com" class="btn btn-outline"
+           style="color:#fdfcf8; border-color:rgba(253,252,248,0.3); text-align:center">
+          Encargar instrumento
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       TESTIMONIOS
+  ══════════════════════════════════════════ -->
+  <section class="testimonios" id="testimonios" aria-label="Testimonios de alumnos">
+    <div class="testimonios__header reveal">
+      <p class="label-num">/ 03</p>
+      <h2>LO QUE DICEN<br>QUIENES TOCAN</h2>
+    </div>
+
+    <div class="testimonios__grid">
+
+      <article class="testimonio-card reveal">
+        <div class="testimonio-card__stars">
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+        </div>
+        <blockquote class="testimonio-card__text">
+          "El proceso de construcción me cambió para siempre. No solo aprendí luthería:
+          aprendí a escuchar la madera y a entender qué quiere ser cada instrumento."
+        </blockquote>
+        <div class="testimonio-card__author">
+          <div class="testimonio-card__avatar">
+            <img src="assets/images/testimonio_01.jpg" alt="Martín Rosas" loading="lazy" />
+          </div>
+          <div>
+            <p class="testimonio-card__name">Martín Rosas</p>
+            <p class="testimonio-card__role">Guitarrista profesional</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="testimonio-card reveal reveal-delay-1">
+        <div class="testimonio-card__stars">
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+        </div>
+        <blockquote class="testimonio-card__text">
+          "El taller que está construyendo juntos es lo mejor. No me imaginé que
+          aprendería tanto en tan poco tiempo. Cada lección fue una revelación."
+        </blockquote>
+        <div class="testimonio-card__author">
+          <div class="testimonio-card__avatar">
+            <img src="assets/images/testimonio_02.jpg" alt="Laura Cáceres" loading="lazy" />
+          </div>
+          <div>
+            <p class="testimonio-card__name">Laura Cáceres</p>
+            <p class="testimonio-card__role">Alumna, Ciclo 2024</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="testimonio-card reveal reveal-delay-2">
+        <div class="testimonio-card__stars">
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+          <div class="testimonio-card__star"></div>
+        </div>
+        <blockquote class="testimonio-card__text">
+          "Traje mi guitarra favorita para restaurarla y volví con otra perspectiva
+          del instrumento. Diego la devolvió mejor de lo que era cuando salió de fábrica."
+        </blockquote>
+        <div class="testimonio-card__author">
+          <div class="testimonio-card__avatar">
+            <img src="assets/images/testimonio_03.jpg" alt="Diego Ferreira" loading="lazy" />
+          </div>
+          <div>
+            <p class="testimonio-card__name">Diego Ferreira</p>
+            <p class="testimonio-card__role">Músico de sesión</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       GALERÍA
+  ══════════════════════════════════════════ -->
+  <section class="galeria" aria-label="Galería del proceso">
+    <div class="galeria__header reveal">
+      <p class="label-num">/ 04</p>
+      <h2>IMÁGENES<br>DEL PROCESO</h2>
+    </div>
+
+    <div class="galeria__grid">
+      <div class="galeria-item reveal">
+        <img src="assets/images/galeria_01.jpg" alt="Vista del taller" loading="lazy" />
+        <div class="galeria-item__overlay"><span>El taller</span></div>
+      </div>
+      <div class="galeria-item reveal reveal-delay-1">
+        <img src="assets/images/galeria_02.jpg" alt="Detalle de encolado" loading="lazy" />
+        <div class="galeria-item__overlay"><span>Encolado</span></div>
+      </div>
+      <div class="galeria-item reveal reveal-delay-2">
+        <img src="assets/images/galeria_03.jpg" alt="Tallado a mano" loading="lazy" />
+        <div class="galeria-item__overlay"><span>Tallado</span></div>
+      </div>
+      <div class="galeria-item reveal reveal-delay-1">
+        <img src="assets/images/galeria_04.jpg" alt="Lacado final" loading="lazy" />
+        <div class="galeria-item__overlay"><span>Lacado</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <div class="footer__logo">LUTH<span>E</span>RIA</div>
+          <p class="footer__tagline">Construcción artesanal de instrumentos de cuerda en Buenos Aires. Tradición, técnica y pasión desde 2006.</p>
+        </div>
+
+        <div class="footer__col">
+          <h4>Taller</h4>
+          <ul>
+            <li><a href="#">El proceso</a></li>
+            <li><a href="#">Instrumentos</a></li>
+            <li><a href="#">Restauración</a></li>
+            <li><a href="#">Galería</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Formación</h4>
+          <ul>
+            <li><a href="#">Cursos presenciales</a></li>
+            <li><a href="#">Calendario</a></li>
+            <li><a href="#">Becas</a></li>
+            <li><a href="#">Materiales</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="mailto:hola@lutheria.com">hola@lutheria.com</a></li>
+            <li><a href="tel:+541112345678">+54 11 1234-5678</a></li>
+            <li><a href="#">Buenos Aires, AR</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2025 Lutheria. Todos los derechos reservados.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Instagram">Instagram</a>
+          <a href="#" aria-label="YouTube">YouTube</a>
+          <a href="#" aria-label="WhatsApp">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+
+  <script>
+    // Si no hay video real, mostrar la imagen thumb como fallback
+    const vid = document.querySelector('.video-wrapper video');
+    const thumb = document.querySelector('.video-wrapper img.video-thumb');
+    if (vid && !vid.src) {
+      vid.style.display = 'none';
+      if (thumb) thumb.style.display = 'block';
+    }
+    // Accesibilidad: acordeón con teclado
+    document.querySelectorAll('.arte__item-header').forEach(header => {
+      header.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          header.click();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
