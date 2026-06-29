@@ -406,19 +406,99 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && modal && !modal.hidden) closeModal();
   });
 
-  /* ── 13. MADERAS — animar barras al entrar en viewport ─── */
-  const maderaCards = document.querySelectorAll('.madera-card');
-  const maderaObs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          maderaObs.unobserve(e.target);
-        }
+  /* ── 13. MADERAS — carrusel drag + nav + progreso ─────── */
+  const maderasStage   = document.getElementById('maderasStage');
+  const maderasPrev    = document.getElementById('maderasPrev');
+  const maderasNext    = document.getElementById('maderasNext');
+  const maderasIdxEl   = document.getElementById('maderasIdx');
+  const maderasProgress= document.getElementById('maderasProgress');
+  const maderasDragHint= document.getElementById('maderasDragHint');
+
+  if (maderasStage) {
+    const slides   = maderasStage.querySelectorAll('.madera-slide');
+    const total    = slides.length;
+    let   hasScrolled = false;
+
+    // Actualizar índice y barra de progreso
+    const updateMaderasUI = () => {
+      const scrollLeft = maderasStage.scrollLeft;
+      const maxScroll  = maderasStage.scrollWidth - maderasStage.clientWidth;
+      const progress   = maxScroll > 0 ? scrollLeft / maxScroll : 0;
+
+      // Progreso
+      if (maderasProgress) {
+        maderasProgress.style.width = (progress * 100) + '%';
+      }
+
+      // Índice activo (slide visible a la izquierda del viewport del stage)
+      let activeIdx = 0;
+      slides.forEach((slide, i) => {
+        const slideLeft = slide.offsetLeft - maderasStage.offsetLeft;
+        if (scrollLeft >= slideLeft - 40) activeIdx = i;
       });
-    },
-    { threshold: 0.2 }
-  );
-  maderaCards.forEach(c => maderaObs.observe(c));
+      if (maderasIdxEl) {
+        maderasIdxEl.textContent = String(activeIdx + 1).padStart(2, '0');
+      }
+
+      // Ocultar drag hint al primer scroll
+      if (!hasScrolled && scrollLeft > 10) {
+        hasScrolled = true;
+        maderasDragHint?.classList.add('hidden');
+      }
+    };
+
+    maderasStage.addEventListener('scroll', updateMaderasUI, { passive: true });
+    updateMaderasUI();
+
+    // Botones prev/next — desplazan un slide
+    const scrollToSlide = (dir) => {
+      const slideW = slides[0]?.offsetWidth + 24 || 504;
+      maderasStage.scrollBy({ left: dir * slideW, behavior: 'smooth' });
+    };
+    maderasPrev?.addEventListener('click', () => scrollToSlide(-1));
+    maderasNext?.addEventListener('click', () => scrollToSlide(1));
+
+    // Drag mouse
+    let mDown = false, mStartX = 0, mScrollLeft = 0;
+    maderasStage.addEventListener('mousedown', e => {
+      mDown = true;
+      maderasStage.style.userSelect = 'none';
+      mStartX = e.pageX - maderasStage.offsetLeft;
+      mScrollLeft = maderasStage.scrollLeft;
+    });
+    ['mouseleave','mouseup'].forEach(ev =>
+      maderasStage.addEventListener(ev, () => { mDown = false; maderasStage.style.userSelect = ''; })
+    );
+    maderasStage.addEventListener('mousemove', e => {
+      if (!mDown) return;
+      e.preventDefault();
+      const x = e.pageX - maderasStage.offsetLeft;
+      maderasStage.scrollLeft = mScrollLeft - (x - mStartX) * 1.3;
+    });
+
+    // Touch drag
+    let tStartX = 0, tScrollLeft = 0;
+    maderasStage.addEventListener('touchstart', e => {
+      tStartX = e.touches[0].pageX;
+      tScrollLeft = maderasStage.scrollLeft;
+    }, { passive: true });
+    maderasStage.addEventListener('touchmove', e => {
+      maderasStage.scrollLeft = tScrollLeft - (e.touches[0].pageX - tStartX);
+    }, { passive: true });
+
+    // Animar barras al entrar el stage en viewport
+    const barsObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            maderasStage.classList.add('bars-visible');
+            barsObs.unobserve(maderasStage);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    barsObs.observe(maderasStage);
+  }
 
 });

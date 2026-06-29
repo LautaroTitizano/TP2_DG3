@@ -376,198 +376,143 @@
   </section>
 
   <!-- ══════════════════════════════════════════
-       MADERAS — Guía de materiales
+       MADERAS — Carrusel horizontal
   ══════════════════════════════════════════ -->
   <section class="maderas" id="maderas" aria-label="Maderas de luthería">
-    <div class="maderas__header reveal">
-      <p class="label-num">/ 03</p>
-      <h2>LA MADERA<br>QUE DA VOZ</h2>
-      <p class="maderas__intro-text">No toda madera suena igual. La elección del material define el carácter, la proyección y la longevidad de cada instrumento. Estas son las especies con las que trabajamos.</p>
+
+    <div class="maderas__top">
+      <div class="maderas__header reveal">
+        <p class="label-num">/ 03</p>
+        <h2>LA MADERA<br>QUE DA VOZ</h2>
+        <p class="maderas__intro-text">No toda madera suena igual. Estas son las especies con las que trabajamos — arrastrálas para explorarlas.</p>
+      </div>
+      <div class="maderas__nav reveal">
+        <button class="maderas__nav-btn" id="maderasPrev" aria-label="Anterior">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="maderas__nav-count"><span id="maderasIdx">01</span> / 06</span>
+        <button class="maderas__nav-btn" id="maderasNext" aria-label="Siguiente">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
     </div>
 
-    <div class="maderas__grid">
-
-      <article class="madera-card reveal reveal-delay-1">
-        <div class="madera-card__icon">
-          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="30" cy="30" rx="22" ry="26" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M30 4 Q38 15 36 30 Q34 45 30 56" stroke="currentColor" stroke-width="1"/>
-            <path d="M30 4 Q22 15 24 30 Q26 45 30 56" stroke="currentColor" stroke-width="1"/>
-            <path d="M8 30 Q18 26 30 28 Q42 30 52 28" stroke="currentColor" stroke-width="1"/>
-            <path d="M10 20 Q20 18 30 20 Q40 22 50 20" stroke="currentColor" stroke-width="0.8"/>
-            <path d="M10 40 Q20 38 30 40 Q40 42 50 40" stroke="currentColor" stroke-width="0.8"/>
-          </svg>
-        </div>
-        <div class="madera-card__body">
-          <span class="madera-card__tag">Tapa armónica</span>
-          <h3 class="madera-card__name">Cedro Canadiense</h3>
-          <p class="madera-card__desc">Cálido y resonante con respuesta rápida al ataque. Ideal para guitarras de fingerpicking. Madura bien con el tiempo y gana brillo con los años de uso.</p>
-          <div class="madera-card__props">
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Tono</span>
-              <div class="madera-card__prop-bar"><div style="width:78%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Proyección</span>
-              <div class="madera-card__prop-bar"><div style="width:65%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Calidez</span>
-              <div class="madera-card__prop-bar"><div style="width:90%"></div></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="madera-card reveal reveal-delay-2">
-        <div class="madera-card__icon">
-          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M30 6 L32 20 L46 22 L34 32 L38 46 L30 38 L22 46 L26 32 L14 22 L28 20 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <circle cx="30" cy="30" r="6" stroke="currentColor" stroke-width="1"/>
-          </svg>
-        </div>
-        <div class="madera-card__body">
-          <span class="madera-card__tag">Aros y fondo</span>
-          <h3 class="madera-card__name">Palo Santo</h3>
-          <p class="madera-card__desc">Oscuro, complejo y con presencia en los graves. Otorga claridad en la gama alta y sustain prolongado. Reconocido en las mejores guitarras del mundo.</p>
-          <div class="madera-card__props">
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Tono</span>
-              <div class="madera-card__prop-bar"><div style="width:95%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Proyección</span>
-              <div class="madera-card__prop-bar"><div style="width:88%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Sustain</span>
-              <div class="madera-card__prop-bar"><div style="width:92%"></div></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="madera-card reveal reveal-delay-3">
-        <div class="madera-card__icon">
-          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="12" y="8" width="36" height="44" rx="4" stroke="currentColor" stroke-width="1.5"/>
-            <line x1="12" y1="20" x2="48" y2="20" stroke="currentColor" stroke-width="0.8"/>
-            <line x1="12" y1="30" x2="48" y2="30" stroke="currentColor" stroke-width="0.8"/>
-            <line x1="12" y1="40" x2="48" y2="40" stroke="currentColor" stroke-width="0.8"/>
-            <line x1="24" y1="8" x2="24" y2="52" stroke="currentColor" stroke-width="0.8"/>
-            <line x1="36" y1="8" x2="36" y2="52" stroke="currentColor" stroke-width="0.8"/>
-          </svg>
-        </div>
-        <div class="madera-card__body">
-          <span class="madera-card__tag">Diapasón</span>
-          <h3 class="madera-card__name">Ébano Africano</h3>
-          <p class="madera-card__desc">Densidad extrema para mayor ataque y definición. Superficie lisa y duradera que favorece la velocidad en el mástil. El material favorito de los luthiers más exigentes.</p>
-          <div class="madera-card__props">
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Dureza</span>
-              <div class="madera-card__prop-bar"><div style="width:98%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Ataque</span>
-              <div class="madera-card__prop-bar"><div style="width:85%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Definición</span>
-              <div class="madera-card__prop-bar"><div style="width:94%"></div></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="madera-card reveal reveal-delay-1">
-        <div class="madera-card__icon">
-          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 10 Q30 6 40 10 L44 48 Q30 54 16 48 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <path d="M20 10 Q30 18 40 10" stroke="currentColor" stroke-width="1"/>
-            <path d="M18 28 Q30 34 42 28" stroke="currentColor" stroke-width="0.8"/>
-          </svg>
-        </div>
-        <div class="madera-card__body">
-          <span class="madera-card__tag">Mástil</span>
-          <h3 class="madera-card__name">Caoba Hondureña</h3>
-          <p class="madera-card__desc">Equilibrio perfecto entre peso, estabilidad y carácter acústico. Refuerza los medios y da cuerpo a la voz del instrumento sin opacarlo.</p>
-          <div class="madera-card__props">
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Estabilidad</span>
-              <div class="madera-card__prop-bar"><div style="width:88%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Calidez</span>
-              <div class="madera-card__prop-bar"><div style="width:82%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Peso</span>
-              <div class="madera-card__prop-bar"><div style="width:55%"></div></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="madera-card reveal reveal-delay-2">
-        <div class="madera-card__icon">
-          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 50 Q15 20 30 8 Q45 20 45 50" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <path d="M22 50 Q22 28 30 18 Q38 28 38 50" stroke="currentColor" stroke-width="1"/>
-            <line x1="15" y1="38" x2="45" y2="38" stroke="currentColor" stroke-width="0.8"/>
-            <line x1="17" y1="28" x2="43" y2="28" stroke="currentColor" stroke-width="0.8"/>
-          </svg>
-        </div>
-        <div class="madera-card__body">
-          <span class="madera-card__tag">Tapa alternativa</span>
-          <h3 class="madera-card__name">Abeto de Sitka</h3>
-          <p class="madera-card__desc">La madera de tapa más utilizada en guitarras acústicas de todo el mundo. Brillante, articulada, con voz abierta y gran dinámica en toda la gama.</p>
-          <div class="madera-card__props">
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Brillo</span>
-              <div class="madera-card__prop-bar"><div style="width:92%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Dinámica</span>
-              <div class="madera-card__prop-bar"><div style="width:87%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Proyección</span>
-              <div class="madera-card__prop-bar"><div style="width:80%"></div></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="madera-card reveal reveal-delay-3">
-        <div class="madera-card__icon">
-          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="30" cy="30" r="20" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M30 10 Q42 20 42 30 Q42 40 30 50 Q18 40 18 30 Q18 20 30 10Z" stroke="currentColor" stroke-width="1"/>
-            <circle cx="30" cy="30" r="5" stroke="currentColor" stroke-width="1"/>
-          </svg>
-        </div>
-        <div class="madera-card__body">
-          <span class="madera-card__tag">Aros y fondo</span>
-          <h3 class="madera-card__name">Nogal Americano</h3>
-          <p class="madera-card__desc">Tono equilibrado con carácter propio. Excelente sustituto del palo santo para guitarras de construcción y restauración. Veteado decorativo destacado.</p>
-          <div class="madera-card__props">
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Equilibrio</span>
-              <div class="madera-card__prop-bar"><div style="width:85%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Carácter</span>
-              <div class="madera-card__prop-bar"><div style="width:78%"></div></div>
-            </div>
-            <div class="madera-card__prop">
-              <span class="madera-card__prop-label">Sustain</span>
-              <div class="madera-card__prop-bar"><div style="width:72%"></div></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
+    <!-- Barra de progreso -->
+    <div class="maderas__progress-wrap">
+      <div class="maderas__progress-bar" id="maderasProgress"></div>
     </div>
+
+    <!-- Carrusel -->
+    <div class="maderas__stage" id="maderasStage">
+      <ul class="maderas__list">
+
+        <li class="madera-slide">
+          <div class="madera-slide__image">
+            <img src="assets/images/madera_cedro.jpg" alt="Cedro Canadiense — veta y textura" loading="lazy" />
+          </div>
+          <div class="madera-slide__body">
+            <span class="madera-slide__tag">Tapa armónica</span>
+            <h3 class="madera-slide__name">Cedro Canadiense</h3>
+            <p class="madera-slide__desc">Cálido y resonante con respuesta rápida al ataque. Ideal para fingerpicking. Gana brillo con los años de uso.</p>
+            <div class="madera-slide__props">
+              <div class="madera-slide__prop"><span>Tono</span><div class="msp-bar"><div style="width:78%"></div></div></div>
+              <div class="madera-slide__prop"><span>Proyección</span><div class="msp-bar"><div style="width:65%"></div></div></div>
+              <div class="madera-slide__prop"><span>Calidez</span><div class="msp-bar"><div style="width:90%"></div></div></div>
+            </div>
+          </div>
+        </li>
+
+        <li class="madera-slide">
+          <div class="madera-slide__image">
+            <img src="assets/images/madera_palo.jpg" alt="Palo Santo — veta oscura" loading="lazy" />
+          </div>
+          <div class="madera-slide__body">
+            <span class="madera-slide__tag">Aros y fondo</span>
+            <h3 class="madera-slide__name">Palo Santo</h3>
+            <p class="madera-slide__desc">Oscuro, complejo, con presencia en los graves y claridad en los agudos. Sustain extraordinario.</p>
+            <div class="madera-slide__props">
+              <div class="madera-slide__prop"><span>Tono</span><div class="msp-bar"><div style="width:95%"></div></div></div>
+              <div class="madera-slide__prop"><span>Proyección</span><div class="msp-bar"><div style="width:88%"></div></div></div>
+              <div class="madera-slide__prop"><span>Sustain</span><div class="msp-bar"><div style="width:92%"></div></div></div>
+            </div>
+          </div>
+        </li>
+
+        <li class="madera-slide">
+          <div class="madera-slide__image">
+            <img src="assets/images/madera_ebano.jpg" alt="Ébano africano — superficie densa" loading="lazy" />
+          </div>
+          <div class="madera-slide__body">
+            <span class="madera-slide__tag">Diapasón</span>
+            <h3 class="madera-slide__name">Ébano Africano</h3>
+            <p class="madera-slide__desc">Densidad extrema para mayor ataque y definición. Superficie lisa que favorece la velocidad en el mástil.</p>
+            <div class="madera-slide__props">
+              <div class="madera-slide__prop"><span>Dureza</span><div class="msp-bar"><div style="width:98%"></div></div></div>
+              <div class="madera-slide__prop"><span>Ataque</span><div class="msp-bar"><div style="width:85%"></div></div></div>
+              <div class="madera-slide__prop"><span>Definición</span><div class="msp-bar"><div style="width:94%"></div></div></div>
+            </div>
+          </div>
+        </li>
+
+        <li class="madera-slide">
+          <div class="madera-slide__image">
+            <img src="assets/images/madera_caoba.jpg" alt="Caoba hondureña — grano cálido" loading="lazy" />
+          </div>
+          <div class="madera-slide__body">
+            <span class="madera-slide__tag">Mástil</span>
+            <h3 class="madera-slide__name">Caoba Hondureña</h3>
+            <p class="madera-slide__desc">Equilibrio entre peso, estabilidad y carácter acústico. Refuerza los medios y da cuerpo a la voz.</p>
+            <div class="madera-slide__props">
+              <div class="madera-slide__prop"><span>Estabilidad</span><div class="msp-bar"><div style="width:88%"></div></div></div>
+              <div class="madera-slide__prop"><span>Calidez</span><div class="msp-bar"><div style="width:82%"></div></div></div>
+              <div class="madera-slide__prop"><span>Peso</span><div class="msp-bar"><div style="width:55%"></div></div></div>
+            </div>
+          </div>
+        </li>
+
+        <li class="madera-slide">
+          <div class="madera-slide__image">
+            <img src="assets/images/madera_abeto.jpg" alt="Abeto de Sitka — fibra clara" loading="lazy" />
+          </div>
+          <div class="madera-slide__body">
+            <span class="madera-slide__tag">Tapa alternativa</span>
+            <h3 class="madera-slide__name">Abeto de Sitka</h3>
+            <p class="madera-slide__desc">La más utilizada en guitarras acústicas del mundo. Brillante, articulada y con gran dinámica en toda la gama.</p>
+            <div class="madera-slide__props">
+              <div class="madera-slide__prop"><span>Brillo</span><div class="msp-bar"><div style="width:92%"></div></div></div>
+              <div class="madera-slide__prop"><span>Dinámica</span><div class="msp-bar"><div style="width:87%"></div></div></div>
+              <div class="madera-slide__prop"><span>Proyección</span><div class="msp-bar"><div style="width:80%"></div></div></div>
+            </div>
+          </div>
+        </li>
+
+        <li class="madera-slide">
+          <div class="madera-slide__image">
+            <img src="assets/images/madera_nogal.jpg" alt="Nogal americano — veteado decorativo" loading="lazy" />
+          </div>
+          <div class="madera-slide__body">
+            <span class="madera-slide__tag">Aros y fondo</span>
+            <h3 class="madera-slide__name">Nogal Americano</h3>
+            <p class="madera-slide__desc">Tono equilibrado con carácter propio. Excelente alternativa al palo santo. Veteado decorativo destacado.</p>
+            <div class="madera-slide__props">
+              <div class="madera-slide__prop"><span>Equilibrio</span><div class="msp-bar"><div style="width:85%"></div></div></div>
+              <div class="madera-slide__prop"><span>Carácter</span><div class="msp-bar"><div style="width:78%"></div></div></div>
+              <div class="madera-slide__prop"><span>Sustain</span><div class="msp-bar"><div style="width:72%"></div></div></div>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- Cursor drag hint -->
+    <div class="maderas__drag-hint" id="maderasDragHint" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      <span>Arrastrá para explorar</span>
+    </div>
+
   </section>
 
   <!-- ══════════════════════════════════════════
