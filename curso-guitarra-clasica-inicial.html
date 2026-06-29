@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guitarra Clásica Nivel Inicial — TRASTES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Black.woff2') format('woff2');
+      font-weight: 900;
+    }
+
+    :root {
+      --bg: #fdfcf8;
+      --dark: #282625;
+      --accent: #c8a97e;
+      --accent-dark: #a07848;
+      --muted: #8a8278;
+      --border: #e2ded8;
+      --font-display: 'Geist', system-ui, sans-serif;
+      --font-body: 'Montserrat', sans-serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--dark);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; width: 100%; object-fit: cover; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 64px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(253,252,248,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav__logo {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav__logo-dot {
+      display: inline-block;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .nav__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav__back:hover { color: var(--dark); }
+    .nav__back svg { transition: transform 0.2s var(--ease-out-expo); }
+    .nav__back:hover svg { transform: translateX(-3px); }
+
+    /* HERO del curso */
+    .curso-hero {
+      position: relative;
+      height: 70vh;
+      min-height: 480px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      margin-top: 64px;
+    }
+    .curso-hero__bg {
+      position: absolute;
+      inset: 0;
+    }
+    .curso-hero__bg img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+    }
+    .curso-hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(20,18,17,0.9) 0%, rgba(20,18,17,0.4) 50%, rgba(20,18,17,0.2) 100%);
+    }
+    .curso-hero__content {
+      position: relative;
+      z-index: 1;
+      padding: 0 80px 60px;
+      width: 100%;
+    }
+    .curso-hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(200,169,126,0.2);
+      border: 1px solid rgba(200,169,126,0.5);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .curso-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .curso-hero__meta {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .curso-hero__meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .curso-hero__meta-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .curso-hero__meta-value {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* LAYOUT PRINCIPAL */
+    .curso-body {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 40px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 80px;
+      align-items: start;
+    }
+
+    /* CONTENIDO PRINCIPAL */
+    .curso-main { display: flex; flex-direction: column; gap: 60px; }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .curso-desc h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .curso-desc p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .curso-desc p:last-child { margin-bottom: 0; }
+
+    /* TEMARIO */
+    .temario__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .temario__semana {
+      background: var(--bg);
+      padding: 28px 24px;
+    }
+    .temario__semana-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .temario__semana-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .temario__semana-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* PARA QUIÉN */
+    .para-quien__list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .para-quien__item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .para-quien__item:last-child { border-bottom: none; }
+    .para-quien__icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(200,169,126,0.12);
+      border: 1px solid rgba(200,169,126,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+    .para-quien__text strong {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .para-quien__text p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* LO QUE VAS A APRENDER */
+    .aprende__list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .aprende__item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--dark);
+      line-height: 1.5;
+    }
+    .aprende__item::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    /* SIDEBAR */
+    .curso-sidebar {
+      position: sticky;
+      top: 84px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .sidebar-card--dark {
+      background: var(--dark);
+      border-color: var(--dark);
+    }
+
+    .sidebar-inscripcion {
+      padding: 32px 28px;
+    }
+    .sidebar-inscripcion h3 {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .sidebar-inscripcion .precio-info {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 24px;
+    }
+    .sidebar-detalles {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      margin-bottom: 24px;
+    }
+    .sidebar-detalle {
+      background: var(--dark);
+      padding: 12px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sidebar-detalle__label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .sidebar-detalle__value {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .btn-inscribir {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 24px;
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+      text-align: center;
+    }
+    .btn-inscribir:hover {
+      background: var(--accent-dark);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .btn-consultar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 24px;
+      background: transparent;
+      color: rgba(255,255,255,0.65);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .btn-consultar:hover {
+      border-color: rgba(255,255,255,0.5);
+      color: #fff;
+    }
+
+    .sidebar-incluye {
+      padding: 24px 28px;
+    }
+    .sidebar-incluye h4 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+    .incluye-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .incluye-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .incluye-check {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: rgba(200,169,126,0.15);
+      border: 1px solid rgba(200,169,126,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--accent);
+      font-size: 10px;
+    }
+
+    /* CUOTAS DISPONIBLES */
+    .sidebar-cupos {
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .cupos-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #4caf50;
+      animation: pulse-dot 2s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(76,175,80,0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(76,175,80,0); }
+    }
+    .cupos-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .cupos-text strong { color: var(--dark); }
+
+    /* SECTION DIVIDER */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0;
+    }
+
+    /* FOOTER */
+    .curso-footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 32px 40px;
+      font-size: 0.8rem;
+    }
+    .curso-footer a { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      .curso-body {
+        grid-template-columns: 1fr;
+        padding: 48px 24px;
+        gap: 48px;
+      }
+      .curso-sidebar { position: static; }
+      .curso-hero__content { padding: 0 24px 40px; }
+      .temario__grid { grid-template-columns: 1fr; }
+      .aprende__list { grid-template-columns: 1fr; }
+      .nav { padding: 0 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav__back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Volver al inicio
+    </a>
+    <a href="index.html" class="nav__logo">TRASTES<span class="nav__logo-dot"></span></a>
+    <a href="mailto:trastes@gmail.com" style="font-size:0.75rem;font-weight:600;letter-spacing:0.06em;color:var(--muted);">Consultar</a>
+  </nav>
+
+  <!-- HERO -->
+  <header class="curso-hero">
+    <div class="curso-hero__bg">
+      <img src="assets/images/curso_01.jpg" alt="Guitarra Clásica Nivel Inicial" />
+    </div>
+    <div class="curso-hero__overlay"></div>
+    <div class="curso-hero__content">
+      <div class="curso-hero__badge">⭐ Curso más elegido</div>
+      <h1 class="curso-hero__title">Guitarra Clásica<br>Nivel Inicial</h1>
+      <div class="curso-hero__meta">
+        <div class="curso-hero__meta-item">
+          <span class="curso-hero__meta-label">Duración</span>
+          <span class="curso-hero__meta-value">12 semanas</span>
+        </div>
+        <div class="curso-hero__meta-item">
+          <span class="curso-hero__meta-label">Modalidad</span>
+          <span class="curso-hero__meta-value">Presencial</span>
+        </div>
+        <div class="curso-hero__meta-item">
+          <span class="curso-hero__meta-label">Cupos</span>
+          <span class="curso-hero__meta-value">8 alumnos</span>
+        </div>
+        <div class="curso-hero__meta-item">
+          <span class="curso-hero__meta-label">Próximo inicio</span>
+          <span class="curso-hero__meta-value">Agosto 2025</span>
+        </div>
+        <div class="curso-hero__meta-item">
+          <span class="curso-hero__meta-label">Nivel</span>
+          <span class="curso-hero__meta-value">Sin experiencia requerida</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <main class="curso-body">
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="curso-main">
+
+      <!-- DESCRIPCIÓN -->
+      <section class="curso-desc">
+        <p class="section-label">Sobre el curso</p>
+        <h2>Construís tu propia<br>guitarra de principio a fin</h2>
+        <p>El programa más completo del taller. A lo largo de 12 semanas aprendés cada etapa del oficio de la luthería clásica: desde elegir y preparar las maderas hasta la puesta a punto final del instrumento que construiste con tus propias manos.</p>
+        <p>No se necesita experiencia previa. El ritmo del curso está pensado para quienes recién empiezan, con seguimiento personalizado durante todo el proceso. Al finalizar, te llevás una guitarra clásica de concierto que vale cientos de horas de trabajo artesanal.</p>
+        <p>Las clases son en grupos pequeños de máximo 8 alumnos, lo que garantiza atención individual y un ambiente de taller real, no de aula.</p>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- LO QUE VAS A APRENDER -->
+      <section>
+        <p class="section-label">Lo que vas a aprender</p>
+        <h2 style="font-family:var(--font-display);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:900;letter-spacing:-0.03em;text-transform:uppercase;margin-bottom:24px;">Habilidades concretas<br>de luthería clásica</h2>
+        <div class="aprende__list">
+          <div class="aprende__item">Selección y secado de maderas para luthería</div>
+          <div class="aprende__item">Construcción de tapa armónica con bracings</div>
+          <div class="aprende__item">Doblado y encolado de aros y fondo</div>
+          <div class="aprende__item">Tallado de mástil y cabezal a mano</div>
+          <div class="aprende__item">Instalación de trastes y cejuela de hueso</div>
+          <div class="aprende__item">Técnicas de lacado nitrocelulósico</div>
+          <div class="aprende__item">Pulido y acabado de alta calidad</div>
+          <div class="aprende__item">Puesta a punto y regulación profesional</div>
+          <div class="aprende__item">Lectura de planos técnicos de luthería</div>
+          <div class="aprende__item">Mantenimiento y cuidado del instrumento</div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- TEMARIO -->
+      <section>
+        <p class="section-label">Programa — 12 semanas</p>
+        <h2 style="font-family:var(--font-display);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:900;letter-spacing:-0.03em;text-transform:uppercase;margin-bottom:24px;">Contenido semana<br>a semana</h2>
+        <div class="temario__grid">
+          <div class="temario__semana">
+            <p class="temario__semana-num">Semanas 1 – 2</p>
+            <h3 class="temario__semana-title">Maderas y Herramientas</h3>
+            <p class="temario__semana-desc">Conocés las maderas con las que vas a trabajar, aprendés a evaluarlas por densidad y resonancia, y te familiarizás con las herramientas del taller: cepillos, gubias, formones y prensas.</p>
+          </div>
+          <div class="temario__semana">
+            <p class="temario__semana-num">Semanas 3 – 4</p>
+            <h3 class="temario__semana-title">Tapa Armónica</h3>
+            <p class="temario__semana-desc">Preparación y unión de las dos mitades de la tapa, instalación del rosetón y diseño del sistema de bracings. Aprendés cómo afecta cada decisión al sonido del instrumento.</p>
+          </div>
+          <div class="temario__semana">
+            <p class="temario__semana-num">Semanas 5 – 6</p>
+            <h3 class="temario__semana-title">Aros y Fondo</h3>
+            <p class="temario__semana-desc">Doblado de los aros por calor, construcción del fondo en dos piezas y ensamble del cuerpo del instrumento. Trabajo con molduras y filetería decorativa.</p>
+          </div>
+          <div class="temario__semana">
+            <p class="temario__semana-num">Semanas 7 – 8</p>
+            <h3 class="temario__semana-title">Mástil y Diapasón</h3>
+            <p class="temario__semana-desc">Tallado a mano del mástil en madera de caoba, instalación del refuerzo metálico, preparación del diapasón de ébano y cálculo de la escala de la guitarra.</p>
+          </div>
+          <div class="temario__semana">
+            <p class="temario__semana-num">Semanas 9 – 10</p>
+            <h3 class="temario__semana-title">Trastes y Ensamble</h3>
+            <p class="temario__semana-desc">Instalación y nivelación de los trastes, encolado del mástil al cuerpo, instalación del puente de palo santo y ajuste de la cejuela de hueso.</p>
+          </div>
+          <div class="temario__semana">
+            <p class="temario__semana-num">Semanas 11 – 12</p>
+            <h3 class="temario__semana-title">Lacado y Puesta a Punto</h3>
+            <p class="temario__semana-desc">Sellado, aplicación de laca nitrocelulósica en varias manos, pulido final a mano y puesta a punto completa: acción, afinación y revisión profesional del instrumento terminado.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- PARA QUIÉN ES -->
+      <section>
+        <p class="section-label">¿Para quién es este curso?</p>
+        <h2 style="font-family:var(--font-display);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:900;letter-spacing:-0.03em;text-transform:uppercase;margin-bottom:24px;">Ideal para perfiles<br>muy distintos</h2>
+        <div class="para-quien__list">
+          <div class="para-quien__item">
+            <div class="para-quien__icon">🎸</div>
+            <div class="para-quien__text">
+              <strong>Guitarristas que quieren entender su instrumento</strong>
+              <p>Si sos músico y querés saber exactamente por qué suena como suena tu guitarra, este curso te va a cambiar la forma de tocar y de escuchar.</p>
+            </div>
+          </div>
+          <div class="para-quien__item">
+            <div class="para-quien__icon">🪵</div>
+            <div class="para-quien__text">
+              <strong>Personas con habilidades manuales o carpintería</strong>
+              <p>Si ya trabajás la madera o tenés experiencia con herramientas, vas a encontrar que la luthería es un oficio exigente y muy satisfactorio.</p>
+            </div>
+          </div>
+          <div class="para-quien__item">
+            <div class="para-quien__icon">🎯</div>
+            <div class="para-quien__text">
+              <strong>Principiantes sin ninguna experiencia previa</strong>
+              <p>No necesitás saber nada de luthería ni de música para empezar. El curso está diseñado para que en 12 semanas cualquier persona construya su guitarra.</p>
+            </div>
+          </div>
+          <div class="para-quien__item">
+            <div class="para-quien__icon">🔧</div>
+            <div class="para-quien__text">
+              <strong>Quienes quieren dedicarse a la luthería profesionalmente</strong>
+              <p>Este curso es la base ideal para una carrera en luthería. Muchos de nuestros ex alumnos hoy tienen su propio taller.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="curso-sidebar">
+
+      <!-- INSCRIPCIÓN -->
+      <div class="sidebar-card sidebar-card--dark">
+        <div class="sidebar-inscripcion">
+          <h3>Inscribite al próximo ciclo</h3>
+          <p class="precio-info">Próximo inicio: Agosto 2025</p>
+          <div class="sidebar-detalles">
+            <div class="sidebar-detalle">
+              <span class="sidebar-detalle__label">Duración</span>
+              <span class="sidebar-detalle__value">12 semanas</span>
+            </div>
+            <div class="sidebar-detalle">
+              <span class="sidebar-detalle__label">Modalidad</span>
+              <span class="sidebar-detalle__value">Presencial</span>
+            </div>
+            <div class="sidebar-detalle">
+              <span class="sidebar-detalle__label">Frecuencia</span>
+              <span class="sidebar-detalle__value">2 clases por semana</span>
+            </div>
+            <div class="sidebar-detalle">
+              <span class="sidebar-detalle__label">Cupos</span>
+              <span class="sidebar-detalle__value">8 alumnos máx.</span>
+            </div>
+            <div class="sidebar-detalle">
+              <span class="sidebar-detalle__label">Ubicación</span>
+              <span class="sidebar-detalle__value">Buenos Aires</span>
+            </div>
+          </div>
+          <a href="mailto:trastes@gmail.com?subject=Inscripción%20Guitarra%20Clásica%20Nivel%20Inicial" class="btn-inscribir">
+            Inscribirme al curso →
+          </a>
+          <a href="https://wa.me/5491112345678?text=Hola!%20Me%20interesa%20el%20curso%20de%20Guitarra%20Clásica%20Nivel%20Inicial." target="_blank" class="btn-consultar">
+            💬 Consultar por WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- CUPOS -->
+      <div class="sidebar-card">
+        <div class="sidebar-cupos">
+          <div class="cupos-dot"></div>
+          <div class="cupos-text"><strong>Quedan 3 cupos disponibles</strong> para el ciclo de agosto</div>
+        </div>
+      </div>
+
+      <!-- QUÉ INCLUYE -->
+      <div class="sidebar-card">
+        <div class="sidebar-incluye">
+          <h4>Qué incluye el curso</h4>
+          <div class="incluye-list">
+            <div class="incluye-item">
+              <div class="incluye-check">✓</div>
+              Materiales de luthería incluidos
+            </div>
+            <div class="incluye-item">
+              <div class="incluye-check">✓</div>
+              Acceso completo al taller y herramientas
+            </div>
+            <div class="incluye-item">
+              <div class="incluye-check">✓</div>
+              Guitarra clásica terminada para llevarte
+            </div>
+            <div class="incluye-item">
+              <div class="incluye-check">✓</div>
+              Seguimiento personalizado del maestro
+            </div>
+            <div class="incluye-item">
+              <div class="incluye-check">✓</div>
+              Material de estudio y planos técnicos
+            </div>
+            <div class="incluye-item">
+              <div class="incluye-check">✓</div>
+              Certificado de aprobación del taller
+            </div>
+            <div class="incluye-item">
+              <div class="incluye-check">✓</div>
+              Acceso a comunidad de ex alumnos
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="curso-footer">
+    <p>© 2025 TRASTES — Instrumentos construidos con alma. Buenos Aires. <a href="index.html">Volver al sitio</a></p>
+  </footer>
+
+</body>
+</html>

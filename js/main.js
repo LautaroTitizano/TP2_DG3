@@ -232,56 +232,145 @@ document.addEventListener('DOMContentLoaded', () => {
   lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-  /* ── 10. TV STATIC — ruido animado sobre todo el sitio (post-hero) ── */
-  const staticCanvas = document.getElementById('tvStatic');
+  /* ── 10. TV STATIC — ruido solo en secciones oscuras (stats + video dark) ── */
+  // Función para crear y animar canvas de estática en una sección
+  function createDarkStatic(section) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  if (staticCanvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const sCtx = staticCanvas.getContext('2d');
+    const canvas = document.createElement('canvas');
+    canvas.className = 'dark-static-canvas';
+    canvas.setAttribute('aria-hidden', 'true');
+    section.appendChild(canvas);
 
-    // Ajustar el tamaño del canvas al viewport
-    const resizeStatic = () => {
-      // Usamos resolución reducida (÷3) para mejor rendimiento y grano más visible
-      staticCanvas.width  = Math.ceil(window.innerWidth  / 3);
-      staticCanvas.height = Math.ceil(window.innerHeight / 3);
+    const ctx = canvas.getContext('2d');
+
+    // Tamaño: baja resolución para mejor rendimiento y grano visible
+    const resize = () => {
+      canvas.width  = Math.ceil(section.offsetWidth  / 4);
+      canvas.height = Math.ceil(section.offsetHeight / 4);
     };
-    resizeStatic();
-    window.addEventListener('resize', resizeStatic, { passive: true });
+    resize();
 
-    // Velocidad 9 → FRAME_SKIP = 10 - 9 = 1 (casi cada frame)
+    // Escalar el canvas visualmente al tamaño de la sección con CSS
+    canvas.style.cssText = `
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.02;
+      mix-blend-mode: screen;
+    `;
+
+    // Velocidad 9 → FRAME_SKIP = 1 (casi cada frame)
     const FRAME_SKIP = 1;
-    let sFrame = 0;
+    let frame = 0;
+    let isVisible = false;
+    let animId = null;
 
-    const drawStatic = () => {
-      const w = staticCanvas.width;
-      const h = staticCanvas.height;
+    const draw = () => {
+      const w = canvas.width;
+      const h = canvas.height;
       if (!w || !h) return;
-      const imageData = sCtx.createImageData(w, h);
-      const data = imageData.data;
-      for (let i = 0; i < data.length; i += 4) {
+
+      // Ruido aleatorio
+      const imgData = ctx.createImageData(w, h);
+      const d = imgData.data;
+      for (let i = 0; i < d.length; i += 4) {
         const v = Math.random() * 255 | 0;
-        data[i] = data[i + 1] = data[i + 2] = v;
-        data[i + 3] = 255;
+        d[i] = d[i+1] = d[i+2] = v;
+        d[i+3] = 255;
       }
-      sCtx.putImageData(imageData, 0, 0);
+      ctx.putImageData(imgData, 0, 0);
+
+      // Scanlines: líneas horizontales oscuras cada ~3px → 36% opacidad
+      ctx.fillStyle = 'rgba(0,0,0,0.36)';
+      for (let y = 0; y < h; y += 3) {
+        ctx.fillRect(0, y, w, 1);
+      }
     };
 
-    // El canvas debe ser visible sólo cuando ya pasamos el hero
-    const hero = document.querySelector('.hero');
-    const showStaticOnScroll = () => {
-      if (!hero) return;
-      const heroBottom = hero.getBoundingClientRect().bottom;
-      staticCanvas.style.visibility = heroBottom <= 0 ? 'visible' : 'hidden';
+    const loop = () => {
+      if (isVisible) {
+        if (++frame % FRAME_SKIP === 0) draw();
+        animId = requestAnimationFrame(loop);
+      }
     };
-    window.addEventListener('scroll', showStaticOnScroll, { passive: true });
-    showStaticOnScroll();
 
-    (function loop() {
-      if (++sFrame % FRAME_SKIP === 0) drawStatic();
-      requestAnimationFrame(loop);
-    })();
+    // Solo animar cuando la sección es visible
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(e => {
+          isVisible = e.isIntersecting;
+          if (isVisible) {
+            resize();
+            draw();
+            animId = requestAnimationFrame(loop);
+          } else if (animId) {
+            cancelAnimationFrame(animId);
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    obs.observe(section);
+
+    window.addEventListener('resize', () => {
+      if (isVisible) resize();
+    }, { passive: true });
+  }
+
+  // Aplicar estática solo a la sección .stats y a .video-section
+  // (en .video-section el canvas NO cubre el video/imagen: z-index menor)
+  const statSection  = document.querySelector('.stats');
+  const videoSection2 = document.querySelector('.video-section');
+
+  if (statSection)   createDarkStatic(statSection);
+  if (videoSection2) {
+    // En video-section, crear el canvas y asegurarse de que no tape el contenido
+    createDarkStatic(videoSection2);
+    // El video y texto ya tienen z-index: 2 (definido en CSS)
   }
 
   /* ── 11. SELECTOR DE CURSOS — filtros ─────────────────── */
+  /* (ya continúa abajo) */
+
+  /* ── FAQ — Acordeón ────────────────────────────────────── */
+  const faqItems = document.querySelectorAll('.faq__item');
+  faqItems.forEach(item => {
+    const btn = item.querySelector('.faq__question');
+    btn.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      // Cerrar todos
+      faqItems.forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq__question').setAttribute('aria-expanded', 'false');
+      });
+      // Abrir el clickeado si estaba cerrado
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* ── GUITARRA CLÁSICA INICIAL — abrir nueva pestaña ────── */
+  // El card con data-curso="guitarra-clasica-inicial" abre una página dedicada
+  // en lugar de (o además de) el modal existente.
+  document.querySelector('.selector-cursos__list')?.addEventListener('click', e => {
+    const btn = e.target.closest('.selector-card__btn');
+    if (!btn) return;
+    const card = btn.closest('.selector-card');
+    if (card?.dataset.curso === 'guitarra-clasica-inicial') {
+      e.stopImmediatePropagation(); // Evitar que el modal también se abra
+      window.open('curso-guitarra-clasica-inicial.html', '_blank');
+    }
+    // Los demás cursos siguen usando el modal (handled below via openModal)
+  }, true); // capture: true para correr antes del handler del modal
+
+  /* Ahora los filtros: */
+  /* ────────────────────────────────────────────────────────── */
   const filterBtns = document.querySelectorAll('.filter-btn');
   const selectorCards = document.querySelectorAll('.selector-card');
 

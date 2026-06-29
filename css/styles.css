@@ -418,21 +418,33 @@ ul  { list-style: none; }
 }
 
 /* ============================================================
-   TV STATIC — solo visible sobre secciones oscuras
-   mix-blend-mode: screen lo hace invisible en fondos claros
-   y visible en fondos oscuros sin tocar el HTML.
+   TV STATIC — canvas posicionado absolutamente en cada
+   sección oscura (no fixed). Visible solo en .stats y .video-section.dark-mode
    ============================================================ */
 #tvStatic {
-  position: fixed;
+  display: none; /* desactivado como fixed global */
+}
+
+/* Canvas de estática local dentro de cada sección oscura */
+.dark-static-canvas {
+  position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 2;
-  opacity: 0.07;
+  z-index: 1;
+  opacity: 0.02;           /* Intensidad ~2% */
   mix-blend-mode: screen;
-  visibility: hidden;
 }
+
+/* Asegurar que las secciones oscuras tengan position relative */
+.stats { position: relative; overflow: hidden; }
+.video-section { position: relative; }
+
+/* El canvas NO debe cubrir imágenes ni videos */
+.video-section__player { position: relative; z-index: 2; }
+.video-section__text   { position: relative; z-index: 2; }
+.stats .container       { position: relative; z-index: 2; }
 
 /* Reveal animations */
 .reveal {
@@ -1342,10 +1354,12 @@ ul  { list-style: none; }
 }
 
 /* ============================================================
-   SECCIÓN: MADERAS — Carrusel horizontal
+   SECCIÓN: MADERAS — Carrusel horizontal COMPACTO
+   Las 6 maderas se muestran en tarjetas pequeñas desplazables
+   lateralmente. No ocupa toda la pantalla vertical.
    ============================================================ */
 .maderas {
-  padding: 120px 0 0;
+  padding: 80px 0 60px;
   background: var(--bg);
   border-top: 1px solid var(--border);
   overflow: hidden;
@@ -1356,35 +1370,35 @@ ul  { list-style: none; }
   align-items: flex-end;
   justify-content: space-between;
   padding: 0 80px;
-  margin-bottom: 52px;
+  margin-bottom: 28px;
   gap: 40px;
 }
 
 .maderas__header h2 {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, var(--size-4xl));
+  font-size: clamp(1.75rem, 3vw, var(--size-3xl));
   font-weight: 900;
   letter-spacing: -0.03em;
   line-height: 1;
   text-transform: uppercase;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 .maderas__intro-text {
   font-size: var(--size-sm);
   color: var(--muted);
-  line-height: 1.7;
-  max-width: 400px;
+  line-height: 1.6;
+  max-width: 380px;
 }
 
 /* Nav */
 .maderas__nav {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   flex-shrink: 0;
 }
 .maderas__nav-btn {
-  width: 40px; height: 40px;
+  width: 36px; height: 36px;
   border-radius: 50%;
   border: 1.5px solid var(--border);
   background: transparent;
@@ -1406,7 +1420,7 @@ ul  { list-style: none; }
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--muted);
-  min-width: 52px;
+  min-width: 48px;
   text-align: center;
 }
 #maderasIdx { color: var(--dark); }
@@ -1416,7 +1430,7 @@ ul  { list-style: none; }
   height: 1px;
   background: var(--border);
   position: relative;
-  margin: 0 80px 0;
+  margin: 0 80px 16px;
 }
 .maderas__progress-bar {
   position: absolute;
@@ -1428,12 +1442,12 @@ ul  { list-style: none; }
   margin-top: -0.5px;
 }
 
-/* Stage / carrusel */
+/* Stage / carrusel — scroll horizontal compacto */
 .maderas__stage {
   position: relative;
   overflow-x: scroll;
-  overflow-y: visible;
-  padding: 40px 80px 60px;
+  overflow-y: hidden;
+  padding: 16px 80px 24px;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -1444,52 +1458,55 @@ ul  { list-style: none; }
 
 .maderas__list {
   display: flex;
-  gap: 24px;
+  gap: 16px;
   list-style: none;
   width: max-content;
+  align-items: stretch;
 }
 
-/* Cada slide */
+/* Cada slide — compacto horizontal */
 .madera-slide {
-  width: 480px;
+  width: 260px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid var(--border);
   background: var(--bg);
-  transition: transform 0.4s var(--ease-out-expo),
-              box-shadow 0.4s ease;
+  transition: transform 0.35s var(--ease-out-expo),
+              box-shadow 0.35s ease,
+              border-color 0.25s ease;
 }
 .madera-slide:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(40,38,37,0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(40,38,37,0.1);
+  border-color: var(--accent);
 }
 
 .madera-slide__image {
-  height: 280px;
+  height: 140px;
   overflow: hidden;
-  position: relative;
+  flex-shrink: 0;
 }
 .madera-slide__image img {
   height: 100%;
   width: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--ease-out-expo);
+  transition: transform 0.5s var(--ease-out-expo);
 }
-.madera-slide:hover .madera-slide__image img { transform: scale(1.05); }
+.madera-slide:hover .madera-slide__image img { transform: scale(1.07); }
 
 .madera-slide__body {
-  padding: 28px 28px 32px;
+  padding: 16px 18px 18px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
+  flex: 1;
 }
 
 .madera-slide__tag {
-  font-size: var(--size-xs);
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1498,43 +1515,48 @@ ul  { list-style: none; }
 
 .madera-slide__name {
   font-family: var(--font-display);
-  font-size: var(--size-xl);
+  font-size: var(--size-base);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--dark);
+  line-height: 1.2;
 }
 
 .madera-slide__desc {
-  font-size: var(--size-sm);
+  font-size: 0.75rem;
   color: var(--muted);
-  line-height: 1.7;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .madera-slide__props {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
   margin-top: 8px;
-  padding-top: 16px;
+  padding-top: 10px;
   border-top: 1px solid var(--border);
 }
 
 .madera-slide__prop {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 .madera-slide__prop span {
-  font-size: var(--size-xs);
+  font-size: 0.65rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--muted);
-  min-width: 80px;
+  min-width: 64px;
 }
 .msp-bar {
   flex: 1;
-  height: 3px;
+  height: 2px;
   background: var(--border);
   border-radius: 2px;
   overflow: hidden;
@@ -1556,7 +1578,7 @@ ul  { list-style: none; }
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0 80px 24px;
+  padding: 0 80px 4px;
   font-size: var(--size-xs);
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -1568,12 +1590,12 @@ ul  { list-style: none; }
 .maderas__drag-hint.hidden { opacity: 0; pointer-events: none; }
 
 @media (max-width: 768px) {
-  .maderas__top { flex-direction: column; align-items: flex-start; padding: 0 24px; gap: 24px; }
-  .maderas__progress-wrap { margin: 0 24px; }
-  .maderas__stage { padding: 32px 24px 48px; }
-  .madera-slide { width: 320px; }
-  .madera-slide__image { height: 200px; }
-  .maderas__drag-hint { padding: 0 24px 20px; }
+  .maderas__top { flex-direction: column; align-items: flex-start; padding: 0 24px; gap: 20px; }
+  .maderas__progress-wrap { margin: 0 24px 12px; }
+  .maderas__stage { padding: 12px 24px 20px; }
+  .madera-slide { width: 210px; }
+  .madera-slide__image { height: 110px; }
+  .maderas__drag-hint { padding: 0 24px 4px; }
 }
 
 /* ============================================================
@@ -1907,7 +1929,103 @@ ul  { list-style: none; }
 }
 .curso-modal__cta { flex: 1; justify-content: center; }
 
-/* Responsive nuevas secciones */
+/* ============================================================
+   SECCIÓN: FAQ — Preguntas frecuentes
+   ============================================================ */
+.faq {
+  padding: 120px 0;
+  border-top: 1px solid var(--border);
+}
+
+.faq__header {
+  padding: 0 80px;
+  margin-bottom: 60px;
+}
+.faq__header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, var(--size-4xl));
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.faq__list {
+  border-top: 1px solid var(--border);
+  padding: 0 80px;
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.faq__question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--dark);
+  font-family: var(--font-display);
+  font-size: var(--size-lg);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: color 0.25s ease;
+}
+.faq__question:hover { color: var(--accent); }
+.faq__question[aria-expanded="true"] { color: var(--accent); }
+
+.faq__icon {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.4s var(--ease-out-expo),
+              background 0.25s ease,
+              border-color 0.25s ease;
+  color: var(--dark);
+}
+.faq__question[aria-expanded="true"] .faq__icon {
+  transform: rotate(45deg);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.faq__answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s var(--ease-out-expo);
+}
+.faq__item.open .faq__answer {
+  grid-template-rows: 1fr;
+}
+.faq__answer > p {
+  overflow: hidden;
+  padding: 0 0 28px;
+  font-size: var(--size-base);
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 720px;
+}
+
+@media (max-width: 768px) {
+  .faq__header { padding: 0 24px; }
+  .faq__list { padding: 0 24px; }
+  .faq__question { font-size: var(--size-base); }
+}
+
+/* ============================================================
+   RESPONSIVE nuevas secciones */
 @media (max-width: 1024px) {
   .maderas__grid { grid-template-columns: repeat(2, 1fr); }
   .selector-card { grid-template-columns: 1fr; gap: 20px; padding: 28px 40px; }
