@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tastes — Instrumentos Construidos con Alma</title>
+  <title>Trastes — Instrumentos Construidos con Alma</title>
   <meta name="description" content="Construcción artesanal, restauración profesional y formación completa para quienes desean aprender el oficio desde cero." />
   <link rel="stylesheet" href="css/styles.css" />
   <!-- Montserrat via Google Fonts -->
@@ -17,44 +17,50 @@
        NAV
   ══════════════════════════════════════════ -->
   <nav class="nav" role="navigation" aria-label="Navegación principal">
-    <a href="#" class="nav__logo">TRASTES</a>
+    <a href="#" class="nav__logo">TRASTES<span class="nav__logo-dot"></span></a>
     <ul class="nav__links">
       <li><a href="#arte">El arte</a></li>
       <li><a href="#proceso">Proceso</a></li>
       <li><a href="#cursos">Cursos</a></li>
       <li><a href="#testimonios">Testimonios</a></li>
-      <li><a href="#contacto" class="btn btn-dark" style="padding:10px 20px">Inscribirse</a></li>
     </ul>
+    <a href="#contacto" class="nav__cta">Inscribirse <span class="nav__cta-arrow">→</span></a>
   </nav>
 
   <!-- ══════════════════════════════════════════
        HERO
   ══════════════════════════════════════════ -->
   <section class="hero" aria-label="Inicio">
+    <!-- Imagen de fondo fija -->
+    <div class="hero__bg">
+      <img src="assets/images/hero_guitar.jpg" alt="" role="presentation" loading="eager" />
+      <div class="hero__bg-overlay"></div>
+    </div>
+
+    <!-- Contenido centrado sobre la imagen -->
     <div class="hero__content">
-     
-      <h1 class="hero__title reveal reveal-delay-1">
+      <p class="hero__eyebrow reveal reveal-delay-1">Buenos Aires · Desde 2006</p>
+      <h1 class="hero__title reveal reveal-delay-2">
         INSTRUMENTOS<br>CONSTRUIDOS<br><em>CON ALMA.</em>
       </h1>
-      <p class="hero__subtitle reveal reveal-delay-2">
+      <p class="hero__subtitle reveal reveal-delay-3">
         Construcción artesanal, restauración profesional y formación completa
         para quienes desean aprender el oficio desde cero.
       </p>
-      <div class="hero__actions reveal reveal-delay-3">
-        <a href="#cursos" class="btn btn-dark">Explorar taller</a>
-        <a href="#proceso" class="btn btn-outline">Ver proceso</a>
+      <div class="hero__actions reveal reveal-delay-4">
+        <a href="#cursos" class="btn btn-light">Explorar taller</a>
+        <a href="#proceso" class="btn btn-outline-light">Ver proceso</a>
       </div>
       <div class="hero__scroll reveal reveal-delay-4">
         <div class="hero__scroll-line"></div>
-      
       </div>
     </div>
-
-    <div class="hero__image">
-      <img src="assets/images/hero_guitar.jpg" alt="Guitarra artesanal en construcción" loading="eager" />
-      <div class="hero__image-overlay"></div>
-    </div>
   </section>
+
+  <!-- ══════════════════════════════════════════
+       TV STATIC — canvas global (post-hero)
+  ══════════════════════════════════════════ -->
+  <canvas id="tvStatic" aria-hidden="true"></canvas>
 
   <!-- ══════════════════════════════════════════
        EL ARTE DETRÁS DEL SONIDO — Acordeón
@@ -211,27 +217,27 @@
       <div class="proceso__steps">
         <div class="proceso__step reveal reveal-delay-1">
           <span class="proceso__step-num">01</span>
-          <h3 class="proceso__step-title">Solicitud</h3>
+          <h3 class="proceso__step-title">SOLICITUD</h3>
           <p class="proceso__step-desc">Maderas escogidas por estabilidad, resonancia y carácter acústico.</p>
         </div>
         <div class="proceso__step reveal reveal-delay-2">
           <span class="proceso__step-num">02</span>
-          <h3 class="proceso__step-title">Diagnóstico</h3>
+          <h3 class="proceso__step-title">DIAGNÓSTICO</h3>
           <p class="proceso__step-desc">Ergonomía adaptada al músico y a su forma de tocar.</p>
         </div>
         <div class="proceso__step reveal reveal-delay-3">
           <span class="proceso__step-num">03</span>
-          <h3 class="proceso__step-title">Presupuesto</h3>
+          <h3 class="proceso__step-title">PRESUPUESTO</h3>
           <p class="proceso__step-desc">Ensamblado artesanal, calibración y afinación estructural.</p>
         </div>
         <div class="proceso__step reveal reveal-delay-4">
           <span class="proceso__step-num">04</span>
-          <h3 class="proceso__step-title">Intervención</h3>
+          <h3 class="proceso__step-title">INTERVENCIÓN</h3>
           <p class="proceso__step-desc">Protección, estética y máxima resonancia.</p>
         </div>
         <div class="proceso__step reveal" style="transition-delay:0.55s">
           <span class="proceso__step-num">05</span>
-          <h3 class="proceso__step-title">Entrega</h3>
+          <h3 class="proceso__step-title">ENTREGA</h3>
           <p class="proceso__step-desc">Protección, estética y máxima resonancia.</p>
         </div>
       </div>
@@ -255,15 +261,15 @@
       <!-- Curso destacado -->
       <article class="curso-card" role="listitem">
         <div class="curso-card__image">
-          <img src="assets/images/curso_01.jpg" alt="Construcción de guitarra clásica desde cero" loading="lazy" />
+          <img src="assets/images/curso_01.jpg" alt="Construcción de guitarra clásica nivel inicial" loading="lazy" />
           <div class="curso-card__overlay">
             <span class="curso-card__badge">⭐ Curso estrella</span>
-            <h3 class="curso-card__title">Guitarra Clásica<br>desde Cero</h3>
+            <h3 class="curso-card__title">Guitarra Clásica<br>Nivel Inicial</h3>
             <p class="curso-card__sub">12 semanas · Presencial</p>
           </div>
           <div class="curso-card__info">
             <span class="curso-card__badge">⭐ Curso estrella</span>
-            <h3 class="curso-card__title">Guitarra Clásica desde Cero</h3>
+            <h3 class="curso-card__title">Guitarra Clásica Nivel Inicial</h3>
             <p>El programa más completo del taller. Construís tu propia guitarra clásica de principio a fin, aprendiendo cada etapa del oficio.</p>
             <div class="curso-card__meta">
               <span>12 semanas</span>
@@ -370,15 +376,208 @@
   </section>
 
   <!-- ══════════════════════════════════════════
+       MADERAS — Guía de materiales
+  ══════════════════════════════════════════ -->
+  <section class="maderas" id="maderas" aria-label="Maderas de luthería">
+    <div class="maderas__header reveal">
+      <p class="label-num">/ 03</p>
+      <h2>LA MADERA<br>QUE DA VOZ</h2>
+      <p class="maderas__intro-text">No toda madera suena igual. La elección del material define el carácter, la proyección y la longevidad de cada instrumento. Estas son las especies con las que trabajamos.</p>
+    </div>
+
+    <div class="maderas__grid">
+
+      <article class="madera-card reveal reveal-delay-1">
+        <div class="madera-card__icon">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="30" cy="30" rx="22" ry="26" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M30 4 Q38 15 36 30 Q34 45 30 56" stroke="currentColor" stroke-width="1"/>
+            <path d="M30 4 Q22 15 24 30 Q26 45 30 56" stroke="currentColor" stroke-width="1"/>
+            <path d="M8 30 Q18 26 30 28 Q42 30 52 28" stroke="currentColor" stroke-width="1"/>
+            <path d="M10 20 Q20 18 30 20 Q40 22 50 20" stroke="currentColor" stroke-width="0.8"/>
+            <path d="M10 40 Q20 38 30 40 Q40 42 50 40" stroke="currentColor" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <div class="madera-card__body">
+          <span class="madera-card__tag">Tapa armónica</span>
+          <h3 class="madera-card__name">Cedro Canadiense</h3>
+          <p class="madera-card__desc">Cálido y resonante con respuesta rápida al ataque. Ideal para guitarras de fingerpicking. Madura bien con el tiempo y gana brillo con los años de uso.</p>
+          <div class="madera-card__props">
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Tono</span>
+              <div class="madera-card__prop-bar"><div style="width:78%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Proyección</span>
+              <div class="madera-card__prop-bar"><div style="width:65%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Calidez</span>
+              <div class="madera-card__prop-bar"><div style="width:90%"></div></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="madera-card reveal reveal-delay-2">
+        <div class="madera-card__icon">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 6 L32 20 L46 22 L34 32 L38 46 L30 38 L22 46 L26 32 L14 22 L28 20 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="30" cy="30" r="6" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="madera-card__body">
+          <span class="madera-card__tag">Aros y fondo</span>
+          <h3 class="madera-card__name">Palo Santo</h3>
+          <p class="madera-card__desc">Oscuro, complejo y con presencia en los graves. Otorga claridad en la gama alta y sustain prolongado. Reconocido en las mejores guitarras del mundo.</p>
+          <div class="madera-card__props">
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Tono</span>
+              <div class="madera-card__prop-bar"><div style="width:95%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Proyección</span>
+              <div class="madera-card__prop-bar"><div style="width:88%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Sustain</span>
+              <div class="madera-card__prop-bar"><div style="width:92%"></div></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="madera-card reveal reveal-delay-3">
+        <div class="madera-card__icon">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="8" width="36" height="44" rx="4" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="12" y1="20" x2="48" y2="20" stroke="currentColor" stroke-width="0.8"/>
+            <line x1="12" y1="30" x2="48" y2="30" stroke="currentColor" stroke-width="0.8"/>
+            <line x1="12" y1="40" x2="48" y2="40" stroke="currentColor" stroke-width="0.8"/>
+            <line x1="24" y1="8" x2="24" y2="52" stroke="currentColor" stroke-width="0.8"/>
+            <line x1="36" y1="8" x2="36" y2="52" stroke="currentColor" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <div class="madera-card__body">
+          <span class="madera-card__tag">Diapasón</span>
+          <h3 class="madera-card__name">Ébano Africano</h3>
+          <p class="madera-card__desc">Densidad extrema para mayor ataque y definición. Superficie lisa y duradera que favorece la velocidad en el mástil. El material favorito de los luthiers más exigentes.</p>
+          <div class="madera-card__props">
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Dureza</span>
+              <div class="madera-card__prop-bar"><div style="width:98%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Ataque</span>
+              <div class="madera-card__prop-bar"><div style="width:85%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Definición</span>
+              <div class="madera-card__prop-bar"><div style="width:94%"></div></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="madera-card reveal reveal-delay-1">
+        <div class="madera-card__icon">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 10 Q30 6 40 10 L44 48 Q30 54 16 48 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M20 10 Q30 18 40 10" stroke="currentColor" stroke-width="1"/>
+            <path d="M18 28 Q30 34 42 28" stroke="currentColor" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <div class="madera-card__body">
+          <span class="madera-card__tag">Mástil</span>
+          <h3 class="madera-card__name">Caoba Hondureña</h3>
+          <p class="madera-card__desc">Equilibrio perfecto entre peso, estabilidad y carácter acústico. Refuerza los medios y da cuerpo a la voz del instrumento sin opacarlo.</p>
+          <div class="madera-card__props">
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Estabilidad</span>
+              <div class="madera-card__prop-bar"><div style="width:88%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Calidez</span>
+              <div class="madera-card__prop-bar"><div style="width:82%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Peso</span>
+              <div class="madera-card__prop-bar"><div style="width:55%"></div></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="madera-card reveal reveal-delay-2">
+        <div class="madera-card__icon">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 50 Q15 20 30 8 Q45 20 45 50" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M22 50 Q22 28 30 18 Q38 28 38 50" stroke="currentColor" stroke-width="1"/>
+            <line x1="15" y1="38" x2="45" y2="38" stroke="currentColor" stroke-width="0.8"/>
+            <line x1="17" y1="28" x2="43" y2="28" stroke="currentColor" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <div class="madera-card__body">
+          <span class="madera-card__tag">Tapa alternativa</span>
+          <h3 class="madera-card__name">Abeto de Sitka</h3>
+          <p class="madera-card__desc">La madera de tapa más utilizada en guitarras acústicas de todo el mundo. Brillante, articulada, con voz abierta y gran dinámica en toda la gama.</p>
+          <div class="madera-card__props">
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Brillo</span>
+              <div class="madera-card__prop-bar"><div style="width:92%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Dinámica</span>
+              <div class="madera-card__prop-bar"><div style="width:87%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Proyección</span>
+              <div class="madera-card__prop-bar"><div style="width:80%"></div></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="madera-card reveal reveal-delay-3">
+        <div class="madera-card__icon">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="30" cy="30" r="20" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M30 10 Q42 20 42 30 Q42 40 30 50 Q18 40 18 30 Q18 20 30 10Z" stroke="currentColor" stroke-width="1"/>
+            <circle cx="30" cy="30" r="5" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="madera-card__body">
+          <span class="madera-card__tag">Aros y fondo</span>
+          <h3 class="madera-card__name">Nogal Americano</h3>
+          <p class="madera-card__desc">Tono equilibrado con carácter propio. Excelente sustituto del palo santo para guitarras de construcción y restauración. Veteado decorativo destacado.</p>
+          <div class="madera-card__props">
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Equilibrio</span>
+              <div class="madera-card__prop-bar"><div style="width:85%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Carácter</span>
+              <div class="madera-card__prop-bar"><div style="width:78%"></div></div>
+            </div>
+            <div class="madera-card__prop">
+              <span class="madera-card__prop-label">Sustain</span>
+              <div class="madera-card__prop-bar"><div style="width:72%"></div></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
        VIDEO — No fabricamos instrumentos
   ══════════════════════════════════════════ -->
   <section class="video-section" id="video" aria-label="Video del taller">
     <div class="video-section__text">
       <h2 class="reveal">NO FABRICAMOS<br>INSTRUMENTOS.<br>CREAMOS UN<br>LEGADO ÚNICO.</h2>
       <p class="reveal reveal-delay-1">
-        Cada pieza que sale de este taller lleva consigo décadas de oficio,
-        el carácter de su madera y la intención de quien la encargó.
-        No es producción: es autoría.
+        Un legado no se fabrica en serie; se esculpe a medida. Involucramos la musica en cada desición desde la elección del tablón hasta el ajuste fino de la acción, dando vida a un instrumento con temperamento propio diseñado para desafiar el paso de las generaciones.
       </p>
     </div>
 
@@ -386,7 +585,7 @@
       <div class="video-wrapper" role="button" tabindex="0" aria-label="Reproducir video del taller">
         <!-- Reemplazá el src con tu video real -->
         <video
-          src=""
+          src="assets/images/video_thumb.mp4"
           poster="assets/images/video_thumb.jpg"
           loop
           muted
@@ -404,6 +603,172 @@
       </div>
     </div>
   </section>
+
+  <!-- ══════════════════════════════════════════
+       SELECTOR DE CURSOS
+  ══════════════════════════════════════════ -->
+  <section class="selector-cursos" id="elegir-curso" aria-label="Elegí tu curso">
+    <div class="selector-cursos__header reveal">
+      <p class="label-num">/ 05</p>
+      <h2>ELEGÍ TU<br>CAMINO</h2>
+      <p class="selector-cursos__sub">Seleccioná el curso que se adapta a tu nivel y objetivos.</p>
+    </div>
+
+    <div class="selector-cursos__filters reveal">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="inicial">Inicial</button>
+      <button class="filter-btn" data-filter="intermedio">Intermedio</button>
+      <button class="filter-btn" data-filter="avanzado">Avanzado</button>
+      <button class="filter-btn" data-filter="restauracion">Restauración</button>
+    </div>
+
+    <div class="selector-cursos__list" role="list">
+
+      <article class="selector-card reveal" role="listitem" data-nivel="inicial"
+               data-curso="guitarra-clasica-inicial">
+        <div class="selector-card__left">
+          <span class="selector-card__nivel nivel-inicial">Inicial</span>
+          <h3 class="selector-card__title">Guitarra Clásica<br>Nivel Inicial</h3>
+          <div class="selector-card__meta">
+            <span>⏱ 12 semanas</span>
+            <span>📍 Presencial</span>
+            <span>👤 Cupos: 8</span>
+          </div>
+        </div>
+        <div class="selector-card__right">
+          <p>Construís tu primera guitarra clásica de principio a fin. Sin experiencia previa requerida.</p>
+          <button class="btn btn-dark selector-card__btn" aria-label="Ver detalles de Guitarra Clásica Nivel Inicial">
+            Ver detalles <span>→</span>
+          </button>
+        </div>
+        <div class="selector-card__badge">⭐ Más elegido</div>
+      </article>
+
+      <article class="selector-card reveal reveal-delay-1" role="listitem" data-nivel="intermedio"
+               data-curso="guitarra-acustica-intermedio">
+        <div class="selector-card__left">
+          <span class="selector-card__nivel nivel-intermedio">Intermedio</span>
+          <h3 class="selector-card__title">Guitarra Acústica<br>Nivel Intermedio</h3>
+          <div class="selector-card__meta">
+            <span>⏱ 10 semanas</span>
+            <span>📍 Presencial</span>
+            <span>👤 Cupos: 6</span>
+          </div>
+        </div>
+        <div class="selector-card__right">
+          <p>Para quienes ya tienen noción del oficio. Profundizamos en acústica, tapa y bracings.</p>
+          <button class="btn btn-dark selector-card__btn" aria-label="Ver detalles de Guitarra Acústica Intermedio">
+            Ver detalles <span>→</span>
+          </button>
+        </div>
+      </article>
+
+      <article class="selector-card reveal reveal-delay-2" role="listitem" data-nivel="avanzado"
+               data-curso="lutheria-electrica">
+        <div class="selector-card__left">
+          <span class="selector-card__nivel nivel-avanzado">Avanzado</span>
+          <h3 class="selector-card__title">Luthería<br>Eléctrica</h3>
+          <div class="selector-card__meta">
+            <span>⏱ 8 semanas</span>
+            <span>📍 Presencial</span>
+            <span>👤 Cupos: 6</span>
+          </div>
+        </div>
+        <div class="selector-card__right">
+          <p>Sólida, semi-hollow, electrónica. El mundo de la guitarra eléctrica construida a mano.</p>
+          <button class="btn btn-dark selector-card__btn" aria-label="Ver detalles de Luthería Eléctrica">
+            Ver detalles <span>→</span>
+          </button>
+        </div>
+      </article>
+
+      <article class="selector-card reveal reveal-delay-3" role="listitem" data-nivel="restauracion"
+               data-curso="reparacion-restauracion">
+        <div class="selector-card__left">
+          <span class="selector-card__nivel nivel-restauracion">Restauración</span>
+          <h3 class="selector-card__title">Reparación<br>& Restauración</h3>
+          <div class="selector-card__meta">
+            <span>⏱ 6 semanas</span>
+            <span>📍 Presencial</span>
+            <span>👤 Cupos: 10</span>
+          </div>
+        </div>
+        <div class="selector-card__right">
+          <p>Aprendé a diagnosticar y recuperar instrumentos con técnicas de taller profesional.</p>
+          <button class="btn btn-dark selector-card__btn" aria-label="Ver detalles de Reparación y Restauración">
+            Ver detalles <span>→</span>
+          </button>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       MODAL — Detalle de curso
+  ══════════════════════════════════════════ -->
+  <div class="curso-modal" id="cursoModal" role="dialog" aria-modal="true" aria-label="Detalle del curso" hidden>
+    <div class="curso-modal__backdrop"></div>
+    <div class="curso-modal__panel">
+      <button class="curso-modal__close" aria-label="Cerrar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="curso-modal__image">
+        <img id="modalImg" src="assets/images/curso_01.jpg" alt="" />
+        <div class="curso-modal__image-overlay"></div>
+        <div class="curso-modal__image-meta">
+          <span id="modalNivel" class="selector-card__nivel">Inicial</span>
+          <h2 id="modalTitle" class="curso-modal__title">Guitarra Clásica<br>Nivel Inicial</h2>
+        </div>
+      </div>
+
+      <div class="curso-modal__body">
+        <div class="curso-modal__info-grid">
+          <div class="curso-modal__info-item">
+            <span class="curso-modal__info-label">Duración</span>
+            <span id="modalDuracion" class="curso-modal__info-value">12 semanas</span>
+          </div>
+          <div class="curso-modal__info-item">
+            <span class="curso-modal__info-label">Modalidad</span>
+            <span class="curso-modal__info-value">Presencial</span>
+          </div>
+          <div class="curso-modal__info-item">
+            <span class="curso-modal__info-label">Cupos</span>
+            <span id="modalCupos" class="curso-modal__info-value">8 alumnos</span>
+          </div>
+          <div class="curso-modal__info-item">
+            <span class="curso-modal__info-label">Inicio</span>
+            <span id="modalInicio" class="curso-modal__info-value">Agosto 2025</span>
+          </div>
+        </div>
+
+        <div class="curso-modal__desc">
+          <h3>Sobre el curso</h3>
+          <p id="modalDesc">El programa más completo del taller. Construís tu propia guitarra clásica de principio a fin, aprendiendo cada etapa del oficio con acompañamiento personalizado.</p>
+        </div>
+
+        <div class="curso-modal__temario">
+          <h3>Contenidos</h3>
+          <ul id="modalTemario">
+            <li>Selección y preparación de maderas</li>
+            <li>Construcción de tapa, fondo y aros</li>
+            <li>Tallado y encolado del mástil</li>
+            <li>Instalación de trastes y cejuela</li>
+            <li>Lacado y acabado final</li>
+            <li>Puesta a punto y regulación</li>
+          </ul>
+        </div>
+
+        <div class="curso-modal__actions">
+          <a href="#contacto" class="btn btn-accent curso-modal__cta">Inscribirme a este curso</a>
+          <a href="mailto:trastes@gmail.com" class="btn btn-outline">Consultar por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ══════════════════════════════════════════
        CTA BANNER

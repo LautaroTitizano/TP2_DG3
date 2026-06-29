@@ -232,13 +232,193 @@ document.addEventListener('DOMContentLoaded', () => {
   lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-  /* ── 10. HERO — parallax leve ─────────────────────────── */
-  const heroImg = document.querySelector('.hero__image img');
-  if (heroImg && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      heroImg.style.transform = `translateY(${y * 0.15}px)`;
-    }, { passive: true });
+  /* ── 10. TV STATIC — ruido animado sobre todo el sitio (post-hero) ── */
+  const staticCanvas = document.getElementById('tvStatic');
+
+  if (staticCanvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const sCtx = staticCanvas.getContext('2d');
+
+    // Ajustar el tamaño del canvas al viewport
+    const resizeStatic = () => {
+      // Usamos resolución reducida (÷3) para mejor rendimiento y grano más visible
+      staticCanvas.width  = Math.ceil(window.innerWidth  / 3);
+      staticCanvas.height = Math.ceil(window.innerHeight / 3);
+    };
+    resizeStatic();
+    window.addEventListener('resize', resizeStatic, { passive: true });
+
+    // Velocidad 9 → FRAME_SKIP = 10 - 9 = 1 (casi cada frame)
+    const FRAME_SKIP = 1;
+    let sFrame = 0;
+
+    const drawStatic = () => {
+      const w = staticCanvas.width;
+      const h = staticCanvas.height;
+      if (!w || !h) return;
+      const imageData = sCtx.createImageData(w, h);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const v = Math.random() * 255 | 0;
+        data[i] = data[i + 1] = data[i + 2] = v;
+        data[i + 3] = 255;
+      }
+      sCtx.putImageData(imageData, 0, 0);
+    };
+
+    // El canvas debe ser visible sólo cuando ya pasamos el hero
+    const hero = document.querySelector('.hero');
+    const showStaticOnScroll = () => {
+      if (!hero) return;
+      const heroBottom = hero.getBoundingClientRect().bottom;
+      staticCanvas.style.visibility = heroBottom <= 0 ? 'visible' : 'hidden';
+    };
+    window.addEventListener('scroll', showStaticOnScroll, { passive: true });
+    showStaticOnScroll();
+
+    (function loop() {
+      if (++sFrame % FRAME_SKIP === 0) drawStatic();
+      requestAnimationFrame(loop);
+    })();
   }
+
+  /* ── 11. SELECTOR DE CURSOS — filtros ─────────────────── */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const selectorCards = document.querySelectorAll('.selector-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+
+      selectorCards.forEach(card => {
+        const nivel = card.dataset.nivel;
+        if (filter === 'all' || nivel === filter) {
+          delete card.dataset.hidden;
+          // re-trigger reveal animation
+          card.classList.remove('visible');
+          setTimeout(() => card.classList.add('visible'), 50);
+        } else {
+          card.dataset.hidden = true;
+        }
+      });
+    });
+  });
+
+  /* ── 12. MODAL — detalle de curso ──────────────────────── */
+  const modal        = document.getElementById('cursoModal');
+  const modalBackdrop = modal?.querySelector('.curso-modal__backdrop');
+  const modalClose   = modal?.querySelector('.curso-modal__close');
+
+  // Datos de cada curso
+  const cursosData = {
+    'guitarra-clasica-inicial': {
+      title:    'Guitarra Clásica<br>Nivel Inicial',
+      nivel:    'Inicial',
+      nivelClass: 'nivel-inicial',
+      duracion: '12 semanas',
+      cupos:    '8 alumnos',
+      inicio:   'Agosto 2025',
+      img:      'assets/images/curso_01.jpg',
+      desc:     'El programa más completo del taller. Construís tu propia guitarra clásica de principio a fin, aprendiendo cada etapa del oficio con acompañamiento personalizado. No se requiere experiencia previa.',
+      temario:  ['Selección y secado de maderas','Construcción de tapa harmónica','Aros y fondo: doblado y ensamble','Tallado y encolado del mástil','Instalación de trastes y cejuela','Lacado nitrocelulósico y acabado','Puesta a punto y regulación final'],
+    },
+    'guitarra-acustica-intermedio': {
+      title:    'Guitarra Acústica<br>Nivel Intermedio',
+      nivel:    'Intermedio',
+      nivelClass: 'nivel-intermedio',
+      duracion: '10 semanas',
+      cupos:    '6 alumnos',
+      inicio:   'Septiembre 2025',
+      img:      'assets/images/curso_02.jpg',
+      desc:     'Diseñado para quienes ya tienen nociones del oficio. Profundizamos en acústica aplicada, diseño de bracings, tapas delgadas y técnicas de lacado avanzadas.',
+      temario:  ['Acústica aplicada a la luthería','Bracings: patrones y efectos sonoros','Tapas de espesor variable','Técnicas de encolado en frío','Lacado y pulido de alta calidad','Ajuste de acción y afinación'],
+    },
+    'lutheria-electrica': {
+      title:    'Luthería<br>Eléctrica',
+      nivel:    'Avanzado',
+      nivelClass: 'nivel-avanzado',
+      duracion: '8 semanas',
+      cupos:    '6 alumnos',
+      inicio:   'Octubre 2025',
+      img:      'assets/images/curso_03.jpg',
+      desc:     'Construí tu propia guitarra eléctrica sólida o semi-hollow incluyendo enrutado de pastillas, electrónica básica y ajuste de puente flotante.',
+      temario:  ['Diseño de cuerpos sólidos y semi-hollow','Enrutado de cavidades y puentes','Instalación de pastillas y controles','Cableado y electrónica básica','Pinturas sólidas y metalflake','Ajuste de puente Floyd Rose y hasta'],
+    },
+    'reparacion-restauracion': {
+      title:    'Reparación<br>& Restauración',
+      nivel:    'Restauración',
+      nivelClass: 'nivel-restauracion',
+      duracion: '6 semanas',
+      cupos:    '10 alumnos',
+      inicio:   'Julio 2025',
+      img:      'assets/images/proceso_03.jpg',
+      desc:     'Aprendé a diagnosticar, reparar y devolver la vida a instrumentos dañados. Desde grietas y deformaciones hasta refrets completos y ajustes de mástil.',
+      temario:  ['Diagnóstico de patologías comunes','Reparación de grietas y fracturas','Reemplazo y nivelación de trastes','Ajuste y enderezado de mástiles','Restauración de acabados originales','Configuración profesional de la acción'],
+    },
+  };
+
+  const openModal = (cursoId) => {
+    const data = cursosData[cursoId];
+    if (!data || !modal) return;
+
+    // Poblar modal
+    modal.querySelector('#modalImg').src        = data.img;
+    modal.querySelector('#modalImg').alt        = data.title.replace('<br>', ' ');
+    modal.querySelector('#modalTitle').innerHTML = data.title;
+    const nivelEl = modal.querySelector('#modalNivel');
+    nivelEl.textContent  = data.nivel;
+    nivelEl.className    = `selector-card__nivel ${data.nivelClass}`;
+    modal.querySelector('#modalDuracion').textContent = data.duracion;
+    modal.querySelector('#modalCupos').textContent    = data.cupos;
+    modal.querySelector('#modalInicio').textContent   = data.inicio;
+    modal.querySelector('#modalDesc').textContent     = data.desc;
+
+    const temarioEl = modal.querySelector('#modalTemario');
+    temarioEl.innerHTML = data.temario
+      .map(item => `<li>${item}</li>`)
+      .join('');
+
+    // Mostrar
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => modal.classList.add('open'));
+  };
+
+  const closeModal = () => {
+    if (!modal) return;
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { modal.hidden = true; }, 500);
+  };
+
+  // Delegar click en botones de selector-card
+  document.querySelector('.selector-cursos__list')?.addEventListener('click', e => {
+    const btn = e.target.closest('.selector-card__btn');
+    if (!btn) return;
+    const card = btn.closest('.selector-card');
+    openModal(card?.dataset.curso);
+  });
+
+  modalBackdrop?.addEventListener('click', closeModal);
+  modalClose?.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal && !modal.hidden) closeModal();
+  });
+
+  /* ── 13. MADERAS — animar barras al entrar en viewport ─── */
+  const maderaCards = document.querySelectorAll('.madera-card');
+  const maderaObs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          maderaObs.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+  maderaCards.forEach(c => maderaObs.observe(c));
 
 });
