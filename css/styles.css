@@ -500,7 +500,7 @@ h1, h2, h3, h4 {
 }
 .pick-card{
   position: relative;
-  background: var(--paper-2);
+  background: #f4f2ea;
   border-radius: 22px;
   padding: var(--space-lg) var(--space-md) var(--space-md);
   display:flex; flex-direction:column; align-items:center;
