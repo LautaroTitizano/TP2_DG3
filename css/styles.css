@@ -486,79 +486,110 @@ h1, h2, h3, h4 {
    MADERAS — La madera que da voz (PÚAS técnicas)
    ══════════════════════════════════════════════════════════ */
 .maderas{ border-bottom: var(--line); }
-.maderas__top{ display:flex; justify-content: space-between; align-items:flex-end; padding-right: var(--space-lg); border-bottom: var(--line); }
+.maderas__top{ display:flex; justify-content: space-between; align-items:flex-end; padding-right: var(--space-lg); }
 .maderas__intro-text{ color: var(--muted); font-size: 0.85rem; max-width: 460px; margin-top: var(--space-sm); }
 .maderas__nav{ display:none; }
 
+/* ── Tarjetas de madera (círculo-imagen + contenido desplegable) ──
+   Animación inspirada en un diseño de tarjeta "Uiverse.io by david-mohseni",
+   adaptada a la identidad visual de TRASTES. */
 .picks__grid{
   display:grid; grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+  padding: var(--space-xl) var(--space-lg) var(--space-2xl);
 }
 .pick-card{
-  border-right: var(--line);
   position: relative;
-  padding: var(--space-lg) var(--space-md);
-  min-height: 420px;
-  display:flex; flex-direction:column; align-items:center; justify-content: flex-start;
-  overflow:hidden;
+  background: var(--paper-2);
+  border-radius: 22px;
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+  display:flex; flex-direction:column; align-items:center;
+  text-align:center;
   cursor: pointer;
+  transition: box-shadow 0.45s var(--ease), transform 0.45s var(--ease), background 0.45s var(--ease);
 }
-.pick-card:last-child{ border-right:none; }
-.pick-card__index{ align-self:flex-start; font-size:0.7rem; color: var(--accent); font-weight:700; margin-bottom: var(--space-lg); }
+.pick-card:hover,
+.pick-card.open{
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  background: var(--paper);
+}
+.pick-card__index{ align-self:flex-start; font-size:0.7rem; color: var(--accent); font-weight:700; margin-bottom: var(--space-md); }
 
-.pick{
-  width: 108px; height: 132px;
-  clip-path: path("M54,2 C84,2 104,30 104,64 C104,104 78,128 54,126 C30,128 4,104 4,64 C4,30 24,2 54,2 Z");
-  position: relative;
-  box-shadow: var(--shadow-sm);
-  flex-shrink:0;
+/* El círculo: acá va la imagen de la madera (desde /assets/images/maderas/) */
+.pick-card__icon{
+  width: 100px; height: 100px;
+  border-radius: 50%;
   overflow: hidden;
-  transition: transform var(--dur) var(--ease);
+  flex-shrink: 0;
+  position: relative;
+  box-shadow:
+    8px 8px 18px rgba(28,26,22,0.14),
+    -8px -8px 18px rgba(255,255,255,0.65);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
 }
-/* Si agregás una <img> real de la madera dentro de .pick (ver comentarios en el HTML),
-   se acomoda automáticamente dentro de la forma de púa, por encima del degradado. */
-.pick img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
-.pick-card:hover .pick, .pick-card.open .pick{ transform: translateY(-4px) rotate(-3deg); }
-.pick::before{
-  content:""; position:absolute; inset:0;
-  background-image:
-    repeating-linear-gradient(98deg, rgba(0,0,0,0.16) 0 1px, transparent 1px 6px),
-    repeating-linear-gradient(95deg, rgba(255,255,255,0.12) 0 1px, transparent 1px 9px);
-  mix-blend-mode: multiply;
+.pick-card:hover .pick-card__icon,
+.pick-card.open .pick-card__icon{
+  transform: translateY(-4px) scale(1.06);
 }
-.pick::after{
-  content:""; position:absolute; inset:0;
-  background: radial-gradient(120% 90% at 30% 18%, rgba(255,255,255,0.35), transparent 60%);
+.pick-card__icon img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 }
-.pick--palisandro{ background: linear-gradient(155deg, var(--wood-palisandro-b), var(--wood-palisandro-a)); }
-.pick--algarrobo{  background: linear-gradient(155deg, var(--wood-algarrobo-b), var(--wood-algarrobo-a)); }
-.pick--cipres{     background: linear-gradient(155deg, var(--wood-cipres-b), var(--wood-cipres-a)); }
-.pick--abeto{      background: linear-gradient(155deg, var(--wood-abeto-b), var(--wood-abeto-a)); }
+/* Brillo sutil sobre la imagen, para que se sienta "pieza de taller" y no una foto plana */
+.pick-card__icon::after{
+  content:"";
+  position:absolute; inset:0;
+  background: radial-gradient(120% 90% at 28% 18%, rgba(255,255,255,0.35), transparent 60%);
+}
+/* Degradados de respaldo (se ven si todavía no pusiste una imagen real) */
+.pick-card__icon.pick--palisandro{ background: linear-gradient(155deg, var(--wood-palisandro-b), var(--wood-palisandro-a)); }
+.pick-card__icon.pick--algarrobo{  background: linear-gradient(155deg, var(--wood-algarrobo-b), var(--wood-algarrobo-a)); }
+.pick-card__icon.pick--cipres{     background: linear-gradient(155deg, var(--wood-cipres-b), var(--wood-cipres-a)); }
+.pick-card__icon.pick--abeto{      background: linear-gradient(155deg, var(--wood-abeto-b), var(--wood-abeto-a)); }
 
 .pick-card__name{
   font-family: var(--font-mono); font-weight:700; font-size:0.82rem; letter-spacing:0.08em;
-  margin-top: var(--space-md); text-align:center;
+  margin-top: var(--space-md);
 }
-.pick-card__hint{ font-size: 0.68rem; color: var(--muted); margin-top: 4px; }
+.pick-card__hint{
+  font-size: 0.68rem; color: var(--muted); margin-top: 4px;
+  max-height: 20px; opacity: 1;
+  transition: opacity 0.3s var(--ease), max-height 0.3s var(--ease), margin 0.3s var(--ease);
+}
+.pick-card:hover .pick-card__hint,
+.pick-card.open .pick-card__hint{
+  opacity: 0; max-height: 0; margin: 0;
+}
 
+/* Panel de propiedades: se despliega igual que el .content del Uiverse original,
+   pero con grid-rows (fluido y 100% responsive, sin alturas fijas en px). */
 .pick-card__panel{
-  position:absolute; left:0; right:0; bottom:0; top: auto; height: 0;
-  background: var(--ink); color: var(--paper);
-  border-top: var(--line);
-  overflow:hidden;
-  transition: height var(--dur) var(--ease);
-  padding: 0 var(--space-md);
+  width: 100%;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s var(--ease);
 }
-.pick-card.open .pick-card__panel{ height: 62%; padding: var(--space-md); }
-.pick-card__panel-title{ font-size:0.7rem; color: var(--accent); margin-bottom: var(--space-sm); }
+.pick-card:hover .pick-card__panel,
+.pick-card.open .pick-card__panel{
+  grid-template-rows: 1fr;
+}
+.pick-card__panel-inner{
+  overflow: hidden;
+  text-align: left;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 14px;
+}
+.pick-card__panel-inner-pad{ padding: var(--space-md); }
+.pick-card__panel-title{ font-size:0.68rem; color: var(--accent); margin-bottom: var(--space-sm); }
 .pick-card__panel ul li{ font-size: 0.74rem; line-height:1.5; position:relative; padding-left: 14px; margin-bottom:4px; }
 .pick-card__panel ul li::before{ content:"+"; position:absolute; left:0; color: var(--accent); }
 
-@media (max-width: 768px){
-  .picks__grid{ grid-template-columns: 1fr; }
-  .pick-card{ border-right:none; border-bottom: var(--line); min-height: unset; padding: var(--space-lg); }
-  .pick-card:last-child{ border-bottom:none; }
-  .pick-card.open .pick-card__panel{ height: auto; position: static; margin-top: var(--space-md); }
-  .pick-card__panel{ position: static; height: 0; }
+@media (max-width: 900px){
+  .picks__grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px){
+  .picks__grid{ grid-template-columns: 1fr; padding: var(--space-lg) var(--space-md) var(--space-xl); }
 }
 
 /* ══════════════════════════════════════════════════════════
