@@ -8,66 +8,99 @@
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <!-- DIN Condensed via Google Fonts aproximation -->
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════
-       NAV
-  ══════════════════════════════════════════ -->
-  <nav class="nav" role="navigation" aria-label="Navegación principal">
-    <a href="#" class="nav__logo">
-      <img src="assets/images/logo.png" alt="Trastes" class="nav__logo-img" />
-      TRASTES<span class="nav__logo-dot"></span>
-    </a>
-    <ul class="nav__links" id="nav-links">
+  <!-- ══ NAV ══════════════════════════════════════════════ -->
+  <nav class="nav" id="nav" role="navigation" aria-label="Navegación principal">
+    <a href="#" class="nav__logo">TRASTES<span class="nav__logo-dot"></span></a>
+
+    <!-- Links desktop -->
+    <ul class="nav__links" role="list">
       <li><a href="#arte">El arte</a></li>
-      <li><a href="#maderas">Maderas</a></li>
-      <li><a href="#mapa">Mapa</a></li>
+      <li><a href="#mapa">Guitarra</a></li>
       <li><a href="#cursos">Cursos</a></li>
       <li><a href="#testimonios">Testimonios</a></li>
-      <li class="nav__links-cta-mobile"><a href="#contacto">Inscribirse →</a></li>
+      <li><a href="#faq">FAQ</a></li>
     </ul>
-    <a href="#contacto" class="nav__cta">Inscribirse <span aria-hidden="true">→</span></a>
-    <button type="button" class="nav__toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menú">
-      <span class="nav__toggle-bar"></span>
-      <span class="nav__toggle-bar"></span>
-      <span class="nav__toggle-bar"></span>
-    </button>
+
+    <div class="nav__right">
+      <a href="#contacto" class="nav__cta">Inscribirse <span aria-hidden="true">→</span></a>
+      <!-- Hamburguesa mobile -->
+      <button class="nav__burger" id="navBurger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
-  <!-- ══════════════════════════════════════════
-       1. HERO
-  ══════════════════════════════════════════ -->
-  <section class="hero" aria-label="Inicio">
-    <div class="hero__bg">
-      <img src="assets/images/hero_guitar.jpg" alt="" role="presentation" loading="eager" />
+  <!-- Menú mobile overlay -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+    <button class="mobile-menu__close" id="mobileClose" aria-label="Cerrar menú">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <ul class="mobile-menu__links" role="list">
+      <li><a href="#arte" class="mobile-menu__link">El arte</a></li>
+      <li><a href="#mapa" class="mobile-menu__link">Guitarra</a></li>
+      <li><a href="#cursos" class="mobile-menu__link">Cursos</a></li>
+      <li><a href="#testimonios" class="mobile-menu__link">Testimonios</a></li>
+      <li><a href="#faq" class="mobile-menu__link">FAQ</a></li>
+      <li><a href="#contacto" class="mobile-menu__link mobile-menu__cta">Inscribirse →</a></li>
+    </ul>
+  </div>
+
+  <!-- ══ HERO — Claro en reposo, oscuro al hacer scroll ══ -->
+  <section class="hero" id="hero" aria-label="Inicio">
+    <!-- Fondo imagen (visible en estado oscuro) -->
+    <div class="hero__bg" aria-hidden="true">
+      <img src="assets/images/hero_guitar.jpg" alt="" role="presentation" loading="eager" fetchpriority="high" />
       <div class="hero__bg-overlay"></div>
     </div>
-    <div class="hero__content">
 
-      <h1 class="hero__title reveal reveal-delay-2"
-          data-typewriter='["INSTRUMENTOS","CONSTRUIDOS","CON ALMA."]'
-          aria-label="INSTRUMENTOS CONSTRUIDOS CON ALMA.">
-        INSTRUMENTOS<br>CONSTRUIDOS<br><em>CON ALMA.</em>
-      </h1>
-      <p class="hero__subtitle reveal reveal-delay-3">
-        Construcción artesanal, restauración profesional y formación completa
-        para quienes desean aprender.
-      </p>
-      <div class="hero__actions reveal reveal-delay-4">
-        <a href="#cursos" class="btn btn-light">Explorar taller</a>
-        <a href="#mapa" class="btn btn-outline-light">Ver proceso</a>
+    <div class="hero__content">
+      <!-- Estado claro: título limpio sobre fondo crema -->
+      <div class="hero__light-state">
+        <h1 class="hero__title-light">
+          INSTRUMENTOS<br>
+          <span class="hero__title-accent">DEL ALMA.</span>
+        </h1>
+        <p class="hero__sub-light">
+          Construcción artesanal y restauración profesional.<br>
+          Buenos Aires, desde 2006.
+        </p>
+        <div class="hero__actions-light">
+          <a href="#cursos" class="btn btn-dark">Explorar taller</a>
+          <a href="#arte" class="btn btn-outline">Ver proceso</a>
+        </div>
       </div>
-      <div class="hero__scroll reveal reveal-delay-4">
-        <div class="hero__scroll-line"></div>
+
+      <!-- Estado oscuro: aparece al hacer scroll (clase .scrolled en body) -->
+      <div class="hero__dark-state">
+        <p class="hero__eyebrow">Buenos Aires · Luthería artesanal</p>
+        <h1 class="hero__title-dark">
+          INSTRUMENTOS<br>CONSTRUIDOS<br><em>CON ALMA.</em>
+        </h1>
+        <p class="hero__subtitle">
+          Construcción artesanal, restauración profesional y formación completa
+          para quienes desean aprender el oficio.
+        </p>
+        <div class="hero__actions">
+          <a href="#cursos" class="btn btn-light">Explorar taller</a>
+          <a href="#arte" class="btn btn-outline-light">Ver proceso</a>
+        </div>
       </div>
+    </div>
+
+    <div class="hero__scroll-indicator" aria-hidden="true">
+      <div class="hero__scroll-line"></div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       2. EL ARTE DETRÁS DEL SONIDO — Acordeón
-  ══════════════════════════════════════════ -->
+  <!-- ══ 01 · EL ARTE DETRÁS DEL SONIDO ══════════════════ -->
   <section class="arte" id="arte" aria-label="El arte detrás del sonido">
     <div class="arte__header reveal">
       <p class="label-num">/ 01</p>
@@ -81,7 +114,7 @@
           <span class="arte__item-num">01</span>
           <span class="arte__item-title">SELECCIÓN</span>
           <div class="arte__item-arrow" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
           </div>
@@ -90,15 +123,15 @@
           <div class="arte__item-body-inner">
             <div class="arte__item-content">
               <div class="arte__item-text">
-                <p>Elegimos cada tabla por su veta, su peso, su eco. La madera habla antes de ser cortada.</p>
+                <p>Cada madera se elige por su carácter sonoro: densidad, resonancia y estabilidad. No hay dos piezas iguales.</p>
                 <ul class="arte__item-list">
-                  <li>Cedro canadiense para tapas</li>
-                  <li>Palo santo y nogal para aros y fondo</li>
-                  <li>Ébano africano para diapasón</li>
+                  <li>Cedro canadiense — tapas</li>
+                  <li>Palo santo — aros y fondo</li>
+                  <li>Ébano africano — diapasón</li>
                 </ul>
               </div>
-              <div class="arte__item-image">
-                <img src="assets/images/proceso_01.jpg" alt="Selección de maderas" loading="lazy"  class="img-mono" />
+              <div class="arte__item-image img-bw">
+                <img src="assets/images/proceso_01.jpg" alt="Selección de maderas en el taller" loading="lazy" />
               </div>
             </div>
           </div>
@@ -110,7 +143,7 @@
           <span class="arte__item-num">02</span>
           <span class="arte__item-title">DISEÑO</span>
           <div class="arte__item-arrow" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
           </div>
@@ -119,15 +152,15 @@
           <div class="arte__item-body-inner">
             <div class="arte__item-content">
               <div class="arte__item-text">
-                <p>Cada mano es distinta. El diseño se ajusta a quien va a tocar, no al revés.</p>
+                <p>El instrumento se dibuja desde el músico hacia afuera. Escala, ergonomía y estética se resuelven juntas antes de cortar la primera pieza.</p>
                 <ul class="arte__item-list">
-                  <li>Plantillas personalizadas por músico</li>
-                  <li>Cálculo de escala y tensión óptima</li>
-                  <li>Bocetos y maquetas de referencia</li>
+                  <li>Plantillas a medida por perfil</li>
+                  <li>Cálculo de escala y tensión</li>
+                  <li>Bocetos y maquetas previos</li>
                 </ul>
               </div>
-              <div class="arte__item-image">
-                <img src="assets/images/proceso_02.jpg" alt="Diseño del instrumento" loading="lazy"  class="img-mono" />
+              <div class="arte__item-image img-bw">
+                <img src="assets/images/proceso_02.jpg" alt="Diseño del instrumento" loading="lazy" />
               </div>
             </div>
           </div>
@@ -139,7 +172,7 @@
           <span class="arte__item-num">03</span>
           <span class="arte__item-title">CONSTRUCCIÓN</span>
           <div class="arte__item-arrow" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
           </div>
@@ -148,15 +181,15 @@
           <div class="arte__item-body-inner">
             <div class="arte__item-content">
               <div class="arte__item-text">
-                <p>Horas de banco, gubia y paciencia. Así toma forma el instrumento, pieza a pieza.</p>
+                <p>Cientos de horas de ensamble preciso. Cada unión, cada curva, cada traste define cómo va a sonar el instrumento dentro de veinte años.</p>
                 <ul class="arte__item-list">
                   <li>Encolado y prensado en frío</li>
-                  <li>Tallado de mástil a mano</li>
-                  <li>Instalación de trastes y cejuela</li>
+                  <li>Mástil tallado a mano</li>
+                  <li>Trastes y cejuela instalados a medida</li>
                 </ul>
               </div>
-              <div class="arte__item-image">
-                <img src="assets/images/proceso_03.jpg" alt="Construcción del instrumento" loading="lazy"  class="img-mono" />
+              <div class="arte__item-image img-bw">
+                <img src="assets/images/proceso_03.jpg" alt="Construcción del instrumento" loading="lazy" />
               </div>
             </div>
           </div>
@@ -168,7 +201,7 @@
           <span class="arte__item-num">04</span>
           <span class="arte__item-title">ACABADO</span>
           <div class="arte__item-arrow" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
           </div>
@@ -177,15 +210,15 @@
           <div class="arte__item-body-inner">
             <div class="arte__item-content">
               <div class="arte__item-text">
-                <p>La última mano no es cosmética: sella el sonido y protege la madera para toda una vida.</p>
+                <p>La laca no solo protege: deja respirar la madera y potencia la resonancia. El pulido final es también un acto de escucha.</p>
                 <ul class="arte__item-list">
-                  <li>Laca nitrocelulósica de curado lento</li>
-                  <li>Pulido a mano en varias etapas</li>
-                  <li>Configuración y puesta a punto final</li>
+                  <li>Laca nitrocelulósica, curado lento</li>
+                  <li>Pulido a mano en etapas</li>
+                  <li>Puesta a punto y ajuste final</li>
                 </ul>
               </div>
-              <div class="arte__item-image">
-                <img src="assets/images/proceso_04.jpg" alt="Acabado del instrumento" loading="lazy"  class="img-mono" />
+              <div class="arte__item-image img-bw">
+                <img src="assets/images/proceso_04.jpg" alt="Acabado del instrumento" loading="lazy" />
               </div>
             </div>
           </div>
@@ -195,224 +228,49 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       3. DE LA IDEA AL INSTRUMENTO — Proceso
-  ══════════════════════════════════════════ -->
-  <section class="proceso" id="proceso" aria-label="Proceso de construcción">
-    <div class="container">
-      <div class="section-header reveal">
-        <p class="label-num">/ 02</p>
-        <h2>DE LA IDEA<br>AL INSTRUMENTO</h2>
-      </div>
-      <div class="proceso__steps">
-        <div class="proceso__step reveal reveal-delay-1">
-          <span class="proceso__step-dot" aria-hidden="true">
-            <svg class="proceso__step-note" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 17V4.5c0-.4.3-.75.68-.83l9-2A.85.85 0 0 1 20 2.5v11.32a3 3 0 1 1-1.7-2.71V6.13l-7.6 1.69v6.68a3 3 0 1 1-1.7 2.5z"/></svg>
-          </span>
-          <span class="proceso__step-num">01</span>
-          <h3 class="proceso__step-title">SOLICITUD</h3>
-          <p class="proceso__step-desc">Maderas escogidas por estabilidad, resonancia y carácter acústico.</p>
-        </div>
-        <div class="proceso__step reveal reveal-delay-2">
-          <span class="proceso__step-dot" aria-hidden="true">
-            <svg class="proceso__step-note" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 17V4.5c0-.4.3-.75.68-.83l9-2A.85.85 0 0 1 20 2.5v11.32a3 3 0 1 1-1.7-2.71V6.13l-7.6 1.69v6.68a3 3 0 1 1-1.7 2.5z"/></svg>
-          </span>
-          <span class="proceso__step-num">02</span>
-          <h3 class="proceso__step-title">DIAGNÓSTICO</h3>
-          <p class="proceso__step-desc">Ergonomía adaptada al músico y a su forma de tocar.</p>
-        </div>
-        <div class="proceso__step reveal reveal-delay-3">
-          <span class="proceso__step-dot" aria-hidden="true">
-            <svg class="proceso__step-note" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 17V4.5c0-.4.3-.75.68-.83l9-2A.85.85 0 0 1 20 2.5v11.32a3 3 0 1 1-1.7-2.71V6.13l-7.6 1.69v6.68a3 3 0 1 1-1.7 2.5z"/></svg>
-          </span>
-          <span class="proceso__step-num">03</span>
-          <h3 class="proceso__step-title">PRESUPUESTO</h3>
-          <p class="proceso__step-desc">Ensamblado artesanal, calibración y afinación estructural.</p>
-        </div>
-        <div class="proceso__step reveal reveal-delay-4">
-          <span class="proceso__step-dot" aria-hidden="true">
-            <svg class="proceso__step-note" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 17V4.5c0-.4.3-.75.68-.83l9-2A.85.85 0 0 1 20 2.5v11.32a3 3 0 1 1-1.7-2.71V6.13l-7.6 1.69v6.68a3 3 0 1 1-1.7 2.5z"/></svg>
-          </span>
-          <span class="proceso__step-num">04</span>
-          <h3 class="proceso__step-title">INTERVENCIÓN</h3>
-          <p class="proceso__step-desc">Protección, estética y máxima resonancia.</p>
-        </div>
-        <div class="proceso__step reveal" style="transition-delay:0.4s">
-          <span class="proceso__step-dot" aria-hidden="true">
-            <svg class="proceso__step-note" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 17V4.5c0-.4.3-.75.68-.83l9-2A.85.85 0 0 1 20 2.5v11.32a3 3 0 1 1-1.7-2.71V6.13l-7.6 1.69v6.68a3 3 0 1 1-1.7 2.5z"/></svg>
-          </span>
-          <span class="proceso__step-num">05</span>
-          <h3 class="proceso__step-title">ENTREGA</h3>
-          <p class="proceso__step-desc">Puesta a punto final y revisión profesional del instrumento.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════
-       4. VIDEO — No fabricamos instrumentos
-  ══════════════════════════════════════════ -->
-  <section class="video-section" id="video" aria-label="Video del taller">
-    <div class="video-section__text">
-      <h2 class="reveal">NO FABRICAMOS<br>INSTRUMENTOS.<br>CREAMOS UN<br>LEGADO ÚNICO.</h2>
-      <p class="reveal reveal-delay-1">
-        Damos vida a instrumentos únicos, cuidando desde la madera hasta el ajuste final, diseñados para toda la vida.
-      </p>
-    </div>
-    <div class="video-section__player">
-      <div class="video-wrapper" role="button" tabindex="0" aria-label="Reproducir video del taller">
-        <video src="assets/images/video_thumb.mp4" poster="assets/images/video_thumb.jpg" loop muted playsinline preload="none"></video>
-        <img class="video-thumb" src="assets/images/video_thumb.jpg" alt="Video del taller" style="display:none" loading="lazy" />
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════
-       5. MADERAS — La madera que da voz (PÚAS técnicas)
-  ══════════════════════════════════════════ -->
-  <section class="maderas" id="maderas" aria-label="Especies de madera">
-    <div class="maderas__top">
-      <div class="maderas__header reveal">
-        <p class="label-num">/ 03</p>
-        <h2>LA MADERA<br>QUE DA VOZ</h2>
-        <p class="maderas__intro-text">Cuatro especies, cuatro carácteres sonoros distintos.</p>
-      </div>
-    </div>
-
-    <div class="picks__grid">
-
-      <div class="pick-card">
-        <span class="pick-card__index">01</span>
-        <div class="pick-card__icon pick--palisandro">
-          <img src="assets/images/maderas/palisandro.jpg" alt="Textura de madera de palisandro" loading="lazy">
-        </div>
-        <p class="pick-card__name">PALISANDRO</p>
-        <div class="pick-card__panel">
-          <div class="pick-card__panel-inner">
-            <div class="pick-card__panel-inner-pad">
-              <p class="pick-card__panel-title">// PROPIEDADES</p>
-              <ul>
-                <li>Densidad alta, gran proyección</li>
-                <li>Veta oscura de alto valor decorativo</li>
-                <li>Uso típico: aros, fondo y diapasón</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pick-card">
-        <span class="pick-card__index">02</span>
-        <div class="pick-card__icon pick--algarrobo">
-          <img src="assets/images/maderas/algarrobo.jpg" alt="Textura de madera de algarrobo" loading="lazy">
-        </div>
-        <p class="pick-card__name">ALGARROBO</p>
-        <div class="pick-card__panel">
-          <div class="pick-card__panel-inner">
-            <div class="pick-card__panel-inner-pad">
-              <p class="pick-card__panel-title">// PROPIEDADES</p>
-              <ul>
-                <li>Alternativa local de gran estabilidad</li>
-                <li>Excelente resistencia estructural</li>
-                <li>Uso típico: aros, fondo y mástil</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pick-card">
-        <span class="pick-card__index">03</span>
-        <div class="pick-card__icon pick--cipres">
-          <img src="assets/images/maderas/cipres.jpg" alt="Textura de madera de ciprés" loading="lazy">
-        </div>
-        <p class="pick-card__name">CIPRÉS</p>
-        <div class="pick-card__panel">
-          <div class="pick-card__panel-inner">
-            <div class="pick-card__panel-inner-pad">
-              <p class="pick-card__panel-title">// PROPIEDADES</p>
-              <ul>
-                <li>Respuesta rápida y percutiva</li>
-                <li>Tradicional en guitarra flamenca</li>
-                <li>Peso liviano, gran brillo en agudos</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pick-card">
-        <span class="pick-card__index">04</span>
-        <div class="pick-card__icon pick--abeto">
-          <img src="assets/images/maderas/abeto.jpg" alt="Textura de madera de abeto" loading="lazy">
-        </div>
-        <p class="pick-card__name">ABETO</p>
-        <div class="pick-card__panel">
-          <div class="pick-card__panel-inner">
-            <div class="pick-card__panel-inner-pad">
-              <p class="pick-card__panel-title">// PROPIEDADES</p>
-              <ul>
-                <li>La más usada en tapas armónicas</li>
-                <li>Brillante, articulada, gran dinámica</li>
-                <li>Mejora su tono con los años de uso</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════
-       6. MAPA DE GUITARRA — sección interactiva
-  ══════════════════════════════════════════ -->
+  <!-- ══ 02 · MAPA DE LA GUITARRA ════════════════════════ -->
   <section class="mapa" id="mapa" aria-label="Mapa técnico de la guitarra">
     <div class="mapa__header reveal">
-      <p class="label-num">/ 04</p>
+      <p class="label-num">/ 02</p>
       <h2>MAPA<br>DE LA GUITARRA</h2>
-      <p class="maderas__intro-text">Tres zonas, tres lógicas constructivas distintas. Tocá un punto del diagrama para ver su ficha técnica.</p>
+      <p class="mapa__intro">Tres zonas, tres lógicas constructivas. Seleccioná una parte para ver su ficha técnica.</p>
     </div>
 
     <div class="mapa__grid">
+      <!-- Imagen de guitarra con hotspots absolutos -->
       <div class="mapa__diagram">
-        <svg viewBox="0 0 240 460" aria-hidden="true">
-          <!-- Cabeza -->
-          <path class="guitar-line" d="M82,8 C82,4 158,4 158,8 L162,46 C162,54 78,54 78,46 Z"/>
-          <circle class="guitar-detail" cx="96" cy="18" r="3"/>
-          <circle class="guitar-detail" cx="96" cy="34" r="3"/>
-          <circle class="guitar-detail" cx="96" cy="50" r="3" />
-          <circle class="guitar-detail" cx="144" cy="18" r="3"/>
-          <circle class="guitar-detail" cx="144" cy="34" r="3"/>
-          <circle class="guitar-detail" cx="144" cy="50" r="3"/>
-          <!-- Mástil -->
-          <path class="guitar-line" d="M100,54 L100,210 L140,210 L140,54"/>
-          <line class="guitar-detail" x1="100" y1="80" x2="140" y2="80"/>
-          <line class="guitar-detail" x1="100" y1="106" x2="140" y2="106"/>
-          <line class="guitar-detail" x1="100" y1="132" x2="140" y2="132"/>
-          <line class="guitar-detail" x1="100" y1="158" x2="140" y2="158"/>
-          <line class="guitar-detail" x1="100" y1="184" x2="140" y2="184"/>
-          <!-- Caja -->
-          <path class="guitar-line" d="M120,206
-            C70,206 30,238 30,284
-            C30,318 48,338 60,358
-            C36,372 24,398 24,422
-            C24,448 70,452 120,452
-            C170,452 216,448 216,422
-            C216,398 204,372 180,358
-            C192,338 210,318 210,284
-            C210,238 170,206 120,206 Z"/>
-          <circle class="guitar-detail" cx="120" cy="356" r="46"/>
-          <line class="guitar-detail" x1="86" y1="392" x2="154" y2="392"/>
-        </svg>
+        <!--
+          Para cambiar la imagen: reemplazá el src de la etiqueta <img> de abajo.
+          Los hotspots se posicionan con top/left en porcentaje sobre la imagen.
+          Si reemplazás la imagen, ajustá esos valores según la nueva composición.
+        -->
+        <div class="mapa__img-wrap">
+          <img
+            src="assets/images/guitarra-mapa.png"
+            alt="Guitarra clásica de frente — diagrama técnico"
+            class="mapa__guitar-img img-bw"
+            loading="lazy"
+            onerror="this.parentElement.classList.add('mapa__img-wrap--fallback')"
+          />
 
-        <button class="hotspot hotspot--cabeza" type="button" data-part="cabeza" aria-pressed="false" aria-label="Cabeza">3</button>
-        <button class="hotspot hotspot--mastil" type="button" data-part="mastil" aria-pressed="false" aria-label="Mástil">2</button>
-        <button class="hotspot hotspot--caja" type="button" data-part="caja" aria-pressed="false" aria-label="Caja">1</button>
+          <button class="hotspot hotspot--cabeza" type="button" data-part="cabeza"
+            aria-pressed="false" aria-label="Cabeza / Clavijero">
+            <span class="hotspot__label">CABEZA</span>
+          </button>
+          <button class="hotspot hotspot--mastil" type="button" data-part="mastil"
+            aria-pressed="false" aria-label="Mástil">
+            <span class="hotspot__label">MÁSTIL</span>
+          </button>
+          <button class="hotspot hotspot--caja" type="button" data-part="caja"
+            aria-pressed="false" aria-label="Caja / Cuerpo">
+            <span class="hotspot__label">CAJA</span>
+          </button>
+        </div>
       </div>
 
+      <!-- Panel de información -->
       <div class="mapa__panel">
-        <p class="mapa__panel-empty">// SELECCIONÁ UN PUNTO DEL DIAGRAMA</p>
+        <p class="mapa__panel-empty">Seleccioná una parte del instrumento</p>
 
         <div class="mapa__panel-content" data-part="caja">
           <p class="mapa__panel-tag">01 / CUERPO</p>
@@ -420,7 +278,7 @@
           <dl class="mapa__panel-spec">
             <dt>Construcción</dt>
             <dd>Tapa armónica + aros doblados a fuego + fondo en dos piezas</dd>
-            <dt>Materiales comunes</dt>
+            <dt>Materiales</dt>
             <dd>Cedro o abeto (tapa) · Palo santo o nogal (aros/fondo)</dd>
           </dl>
           <ul class="mapa__panel-list">
@@ -436,13 +294,13 @@
           <dl class="mapa__panel-spec">
             <dt>Construcción</dt>
             <dd>Tallado a mano con alma de refuerzo interna</dd>
-            <dt>Materiales comunes</dt>
-            <dd>Caoba hondureña (cuerpo) · Ébano o palisandro (diapasón)</dd>
+            <dt>Materiales</dt>
+            <dd>Caoba hondureña · Ébano o palisandro (diapasón)</dd>
           </dl>
           <ul class="mapa__panel-list">
-            <li>Ancho de cejuela: 52mm aprox.</li>
+            <li>Ancho de cejuela: 52 mm aprox.</li>
             <li>Trastes nivelados y pulidos a mano</li>
-            <li>Cálculo de escala según el instrumento</li>
+            <li>Escala calculada por instrumento</li>
           </ul>
         </div>
 
@@ -452,112 +310,94 @@
           <dl class="mapa__panel-spec">
             <dt>Construcción</dt>
             <dd>Paleta plana con tres clavijeros por lado</dd>
-            <dt>Materiales comunes</dt>
-            <dd>Misma madera del mástil · Mecanismos de metal o hueso</dd>
+            <dt>Materiales</dt>
+            <dd>Continuación del mástil · Mecanismos de metal o hueso</dd>
           </dl>
           <ul class="mapa__panel-list">
             <li>Ángulo de quiebre para tensión correcta</li>
             <li>Cejuela de hueso tallada a medida</li>
-            <li>Logotipo grabado o incrustado</li>
+            <li>Logo grabado o incrustado</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       7. STATS — Cada pieza importa
-  ══════════════════════════════════════════ -->
-  <section class="stats" aria-label="Estadísticas del taller">
+  <!-- ══ 03 · DE LA IDEA AL INSTRUMENTO ══════════════════ -->
+  <section class="proceso" id="proceso" aria-label="Proceso de construcción">
     <div class="container">
-      <div class="stats__inner">
-        <h2 class="stats__heading reveal">
-          CADA<br>PIEZA<br><em>IMPORTA.</em>
-        </h2>
-        <div class="stats__grid">
-          <div class="stat-item">
-            <span class="stat-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg></span>
-            <span class="stat-item__value" data-target="18" data-suffix="+">0+</span>
-            <span class="stat-item__label">Años de oficio</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM21 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg></span>
-            <span class="stat-item__value" data-target="340" data-suffix="+">0+</span>
-            <span class="stat-item__label">Instrumentos entregados</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-            <span class="stat-item__value" data-target="500" data-suffix="+">0+</span>
-            <span class="stat-item__label">Alumnos formados</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg></span>
-            <span class="stat-item__value" data-target="12" data-suffix="">0</span>
-            <span class="stat-item__label">Países donde suenan</span>
-          </div>
+      <div class="section-header reveal">
+        <p class="label-num">/ 03</p>
+        <h2>DE LA IDEA<br>AL INSTRUMENTO</h2>
+      </div>
+      <div class="proceso__steps">
+        <div class="proceso__step reveal reveal-delay-1">
+          <span class="proceso__step-dot" aria-hidden="true"></span>
+          <span class="proceso__step-num">01</span>
+          <h3 class="proceso__step-title">CONSULTA</h3>
+          <p class="proceso__step-desc">Definimos juntos el instrumento: estilo, escala, maderas y presupuesto.</p>
+        </div>
+        <div class="proceso__step reveal reveal-delay-2">
+          <span class="proceso__step-dot" aria-hidden="true"></span>
+          <span class="proceso__step-num">02</span>
+          <h3 class="proceso__step-title">DIAGNÓSTICO</h3>
+          <p class="proceso__step-desc">Análisis técnico del músico y sus necesidades reales de sonido.</p>
+        </div>
+        <div class="proceso__step reveal reveal-delay-3">
+          <span class="proceso__step-dot" aria-hidden="true"></span>
+          <span class="proceso__step-num">03</span>
+          <h3 class="proceso__step-title">PRESUPUESTO</h3>
+          <p class="proceso__step-desc">Propuesta detallada sin sorpresas: materiales, tiempos y costo total.</p>
+        </div>
+        <div class="proceso__step reveal reveal-delay-4">
+          <span class="proceso__step-dot" aria-hidden="true"></span>
+          <span class="proceso__step-num">04</span>
+          <h3 class="proceso__step-title">CONSTRUCCIÓN</h3>
+          <p class="proceso__step-desc">Trabajo artesanal, con actualizaciones periódicas del proceso.</p>
+        </div>
+        <div class="proceso__step reveal" style="transition-delay:.4s">
+          <span class="proceso__step-dot" aria-hidden="true"></span>
+          <span class="proceso__step-num">05</span>
+          <h3 class="proceso__step-title">ENTREGA</h3>
+          <p class="proceso__step-desc">Puesta a punto final y revisión profesional antes de que el instrumento llegue a tus manos.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       8. GALERÍA — Imágenes del proceso
-  ══════════════════════════════════════════ -->
-  <section class="galeria" aria-label="Galería del proceso">
-    <div class="galeria__header reveal">
-      <p class="label-num">/ 05</p>
-      <h2>IMÁGENES<br>DEL PROCESO</h2>
-    </div>
-
-    <div class="galeria__grid">
-      <div class="galeria-item reveal">
-        <img src="assets/images/galeria_01.jpg" alt="Vista del taller" loading="lazy"  class="img-mono" />
-        <div class="galeria-item__overlay"><span>El taller — luz natural, banco de trabajo principal</span></div>
-      </div>
-      <div class="galeria-item reveal reveal-delay-1">
-        <img src="assets/images/galeria_02.jpg" alt="Detalle de encolado" loading="lazy"  class="img-mono" />
-        <div class="galeria-item__overlay"><span>Encolado — prensas en frío, 24hs de secado</span></div>
-      </div>
-      <div class="galeria-item reveal reveal-delay-2">
-        <img src="assets/images/galeria_03.jpg" alt="Tallado a mano" loading="lazy"  class="img-mono" />
-        <div class="galeria-item__overlay"><span>Tallado — gubias y formones, trabajo a mano</span></div>
-      </div>
-      <div class="galeria-item reveal reveal-delay-1">
-        <img src="assets/images/galeria_04.jpg" alt="Lacado final" loading="lazy"  class="img-mono" />
-        <div class="galeria-item__overlay"><span>Lacado — nitrocelulosa, curado lento</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════
-       9. CURSOS — Del taller a tus manos
-  ══════════════════════════════════════════ -->
+  <!-- ══ 04 · CURSOS — Del taller a tus manos ════════════ -->
   <section class="cursos" id="cursos" aria-label="Cursos de luthería">
     <div class="cursos__intro reveal">
-      <h2>DEL TALLER<br>A TUS MANOS.</h2>
+      <div>
+        <p class="label-num">/ 04</p>
+        <h2>DEL TALLER<br>A TUS MANOS.</h2>
+      </div>
       <div class="cursos__intro-sub">
-        <p>Cursos presenciales para construir de manera profesional.</p>
+        <p>Cursos presenciales para construir, reparar y entender instrumentos de manera profesional.</p>
       </div>
     </div>
 
     <div class="cursos__rail" role="list" aria-label="Listado de cursos">
 
       <article class="curso-card curso-card--featured" role="listitem">
-        <a href="curso-guitarra-clasica-inicial.html" class="curso-card__link" aria-label="Ver detalles: Guitarra Clásica Nivel Inicial">
+        <a href="curso-guitarra-clasica-inicial.html" target="_blank" rel="noopener" class="curso-card__link" aria-label="Ver detalles: Guitarra Clásica Nivel Inicial">
           <div class="curso-card__image">
-            <img src="assets/images/curso_01.jpg" alt="Construcción de guitarra clásica nivel inicial" loading="lazy"  class="img-mono" />
+            <img src="assets/images/curso_01.jpg" alt="Construcción de guitarra clásica nivel inicial" loading="lazy" />
+            <!-- Overlay inicial: sólo imagen + título -->
             <div class="curso-card__overlay">
-              <h3 class="curso-card__title">Guitarra Clásica<br>Nivel Inicial</h3>
-            </div>
-            <div class="curso-card__info">
               <span class="curso-card__badge">⭐ Curso estrella</span>
+              <h3 class="curso-card__title">Guitarra Clásica<br>Nivel Inicial</h3>
+              <p class="curso-card__sub">12 semanas · Presencial</p>
+            </div>
+            <!-- Info en hover -->
+            <div class="curso-card__info">
               <h3 class="curso-card__title">Guitarra Clásica Nivel Inicial</h3>
-              <p>El programa más completo del taller. Construís tu propia guitarra clásica de principio a fin.</p>
+              <p>Construís tu propia guitarra clásica de principio a fin, aprendiendo cada etapa del oficio.</p>
               <div class="curso-card__meta">
                 <span>12 semanas</span>
                 <span>Presencial</span>
+                <span>Cupos limitados</span>
               </div>
-              <p class="curso-card__price">Valor: a consultar</p>
               <span class="btn btn-accent">Ver detalles →</span>
             </div>
           </div>
@@ -565,11 +405,12 @@
       </article>
 
       <article class="curso-card" role="listitem">
-        <a href="curso-reparacion-restauracion.html" class="curso-card__link" aria-label="Ver detalles: Reparación &amp; Restauración">
+        <a href="curso-reparacion-restauracion.html" class="curso-card__link" aria-label="Ver detalles: Reparación & Restauración">
           <div class="curso-card__image">
-            <img src="assets/images/curso_02.jpg" alt="Reparación y restauración de guitarras" loading="lazy"  class="img-mono" />
+            <img src="assets/images/curso_02.jpg" alt="Reparación y restauración de guitarras" loading="lazy" />
             <div class="curso-card__overlay">
               <h3 class="curso-card__title">Reparación<br>& Restauración</h3>
+              <p class="curso-card__sub">6 semanas · Presencial</p>
             </div>
             <div class="curso-card__info">
               <h3 class="curso-card__title">Reparación & Restauración</h3>
@@ -578,7 +419,6 @@
                 <span>6 semanas</span>
                 <span>Presencial</span>
               </div>
-              <p class="curso-card__price">Valor: a consultar</p>
               <span class="btn btn-accent">Ver detalles →</span>
             </div>
           </div>
@@ -588,18 +428,18 @@
       <article class="curso-card" role="listitem">
         <a href="curso-lutheria-electrica.html" class="curso-card__link" aria-label="Ver detalles: Luthería Eléctrica">
           <div class="curso-card__image">
-            <img src="assets/images/curso_03.jpg" alt="Luthería eléctrica" loading="lazy"  class="img-mono" />
+            <img src="assets/images/curso_03.jpg" alt="Luthería eléctrica" loading="lazy" />
             <div class="curso-card__overlay">
               <h3 class="curso-card__title">Luthería<br>Eléctrica</h3>
+              <p class="curso-card__sub">8 semanas · Presencial</p>
             </div>
             <div class="curso-card__info">
               <h3 class="curso-card__title">Luthería Eléctrica</h3>
-              <p>Construí tu propia guitarra eléctrica sólida o semi-hollow, incluyendo electrónica.</p>
+              <p>Construís tu propia guitarra eléctrica sólida o semi-hollow, incluyendo electrónica.</p>
               <div class="curso-card__meta">
                 <span>8 semanas</span>
                 <span>Presencial</span>
               </div>
-              <p class="curso-card__price">Valor: a consultar</p>
               <span class="btn btn-accent">Ver detalles →</span>
             </div>
           </div>
@@ -609,38 +449,260 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       10. TESTIMONIOS — Lo que dicen quienes tocan
-  ══════════════════════════════════════════ -->
-  <section class="testimonios" id="testimonios" aria-label="Testimonios de alumnos">
-    <div class="testimonios__header reveal">
-      <div>
-        <p class="label-num">/ 06</p>
-        <h2>LO QUE DICEN<br>QUIENES TOCAN</h2>
+  <!-- ══ 05 · STATS — Cada pieza importa ═════════════════ -->
+  <section class="stats" aria-label="Estadísticas del taller">
+    <div class="container">
+      <div class="stats__inner">
+        <div class="stats__left">
+          <h2 class="stats__heading reveal">
+            CADA<br>PIEZA<br><em>IMPORTA.</em>
+          </h2>
+          <p class="stats__copy reveal reveal-delay-1">
+            Construir un instrumento para toda la vida significa que no existen detalles menores.
+          </p>
+          <!-- Imagen del luthier trabajando -->
+          <div class="stats__img-wrap reveal reveal-delay-2">
+            <img src="assets/images/cada_pieza_importa.png" alt="Luthier trabajando en el taller" loading="lazy" class="img-bw" />
+          </div>
+        </div>
+        <div class="stats__grid">
+          <div class="stat-item">
+            <span class="stat-item__label">años de oficio.</span>
+            <span class="stat-item__value" data-target="18" data-suffix="">18</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-item__label">alumnos formados.</span>
+            <span class="stat-item__value" data-target="500" data-suffix="">500</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-item__label">cantidad de instrumentos realizados.</span>
+            <span class="stat-item__value" data-target="340" data-suffix="">340</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-item__label">sonando en distintos países.</span>
+            <span class="stat-item__value" data-target="12" data-suffix="">12</span>
+          </div>
+        </div>
       </div>
-      <div class="testimonios__nav">
-        <button type="button" class="testimonios__nav-btn" id="testi-prev" aria-label="Testimonio anterior">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button type="button" class="testimonios__nav-btn" id="testi-next" aria-label="Testimonio siguiente">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
+    </div>
+  </section>
+
+  <!-- ══ 06 · MADERAS — La madera que da voz ════════════ -->
+  <section class="maderas" id="maderas" aria-label="Especies de madera">
+    <div class="maderas__top">
+      <div class="maderas__header reveal">
+        <p class="label-num">/ 06</p>
+        <h2>LA MADERA<br>QUE DA VOZ</h2>
+        <p class="maderas__intro-text">Cuatro especies. Cuatro caracteres sonoros distintos.</p>
       </div>
     </div>
 
-    <div class="testimonios__grid" id="testimonios-track" tabindex="0" aria-label="Carrusel de testimonios, desplazable con el teclado">
+    <!-- Grid 4 columnas desktop · carrusel mobile -->
+    <div class="picks__grid" role="list">
 
-      <article class="testimonio-card reveal">
-        <div class="testimonio-card__stars">
-          <div class="testimonio-card__star"></div><div class="testimonio-card__star"></div>
-          <div class="testimonio-card__star"></div><div class="testimonio-card__star"></div>
-          <div class="testimonio-card__star"></div>
+      <div class="pick-card" tabindex="0" role="listitem" aria-label="Palisandro">
+        <span class="pick-card__index">01</span>
+        <!-- Contenedor cuadrado: insertar PNG de púa con fondo transparente -->
+        <div class="pick-card__icon pick--palisandro">
+          <img src="assets/images/maderas/palisandro.jpg"
+               alt="Púa de palisandro"
+               loading="lazy" />
+        </div>
+        <p class="pick-card__name">PALISANDRO</p>
+        <div class="pick-card__panel">
+          <div class="pick-card__panel-inner">
+            <div class="pick-card__panel-inner-pad">
+              <p class="pick-card__panel-title">PROPIEDADES</p>
+              <ul>
+                <li>Densidad alta, gran proyección</li>
+                <li>Veta oscura de alto valor decorativo</li>
+                <li>Uso típico: aros, fondo y diapasón</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pick-card" tabindex="0" role="listitem" aria-label="Algarrobo">
+        <span class="pick-card__index">02</span>
+        <div class="pick-card__icon pick--algarrobo">
+          <img src="assets/images/maderas/algarrobo.jpg"
+               alt="Púa de algarrobo"
+               loading="lazy" />
+        </div>
+        <p class="pick-card__name">ALGARROBO</p>
+        <div class="pick-card__panel">
+          <div class="pick-card__panel-inner">
+            <div class="pick-card__panel-inner-pad">
+              <p class="pick-card__panel-title">PROPIEDADES</p>
+              <ul>
+                <li>Alternativa local de gran estabilidad</li>
+                <li>Excelente resistencia estructural</li>
+                <li>Uso típico: aros, fondo y mástil</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pick-card" tabindex="0" role="listitem" aria-label="Ciprés">
+        <span class="pick-card__index">03</span>
+        <div class="pick-card__icon pick--cipres">
+          <img src="assets/images/maderas/cipres.jpg"
+               alt="Púa de ciprés"
+               loading="lazy" />
+        </div>
+        <p class="pick-card__name">CIPRÉS</p>
+        <div class="pick-card__panel">
+          <div class="pick-card__panel-inner">
+            <div class="pick-card__panel-inner-pad">
+              <p class="pick-card__panel-title">PROPIEDADES</p>
+              <ul>
+                <li>Respuesta rápida y percutiva</li>
+                <li>Tradicional en guitarra flamenca</li>
+                <li>Peso liviano, brillo en agudos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pick-card" tabindex="0" role="listitem" aria-label="Abeto">
+        <span class="pick-card__index">04</span>
+        <div class="pick-card__icon pick--abeto">
+          <img src="assets/images/maderas/abeto.jpg"
+               alt="Púa de abeto"
+               loading="lazy" />
+        </div>
+        <p class="pick-card__name">ABETO</p>
+        <div class="pick-card__panel">
+          <div class="pick-card__panel-inner">
+            <div class="pick-card__panel-inner-pad">
+              <p class="pick-card__panel-title">PROPIEDADES</p>
+              <ul>
+                <li>La más usada en tapas armónicas</li>
+                <li>Brillante, articulada, gran dinámica</li>
+                <li>Mejora su tono con los años</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 07 · VIDEO — No fabricamos instrumentos ════════ -->
+  <section class="video-section" id="video" aria-label="Video del taller">
+    <div class="video-section__text">
+      <h2 class="reveal">NO FABRICAMOS<br>INSTRUMENTOS.<br>CREAMOS UN<br>LEGADO ÚNICO.</h2>
+      <p class="reveal reveal-delay-1">
+        Cada instrumento que sale del taller lleva el tiempo, el criterio y el oído de alguien que conoce la madera desde adentro.
+      </p>
+    </div>
+    <div class="video-section__player">
+      <!-- Video: actúa como póster fotográfico. Click reproduce sin botón visible. -->
+      <div class="video-wrapper" role="button" tabindex="0" aria-label="Reproducir video del taller">
+        <video
+          src="assets/images/video_thumb.mp4"
+          poster="assets/images/video_thumb.jpg"
+          loop muted playsinline preload="none">
+        </video>
+        <!-- Fallback imagen si no hay video -->
+        <img class="video-thumb" src="assets/images/video_thumb.jpg"
+             alt="Video del taller" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 08 · GALERÍA — Acordeón tipo video_effects ══════ -->
+  <section class="galeria" id="galeria" aria-label="Imágenes del proceso">
+    <div class="galeria__header reveal">
+      <p class="label-num">/ 08</p>
+      <h2>IMÁGENES<br>DEL PROCESO</h2>
+    </div>
+
+    <!-- Cursor personalizado (solo desktop) -->
+    <div class="galeria__cursor" aria-hidden="true" id="galeriaCursor">
+      <div class="galeria__cursor-inner"></div>
+    </div>
+
+    <div class="galeria__accordion" role="list" id="galeriaAccordion">
+
+      <div class="galeria-col" role="listitem" tabindex="0"
+           data-img="assets/images/galeria_01.jpg"
+           data-title="El taller"
+           data-desc="Luz natural, banco de trabajo. Aquí empieza todo.">
+        <div class="galeria-col__bg"></div>
+        <div class="galeria-col__title">El taller</div>
+        <div class="galeria-col__content">
+          <p class="galeria-col__desc">Luz natural, banco de trabajo. Aquí empieza todo.</p>
+          <button class="galeria-col__close" aria-label="Cerrar">✕</button>
+        </div>
+      </div>
+
+      <div class="galeria-col" role="listitem" tabindex="0"
+           data-img="assets/images/galeria_02.jpg"
+           data-title="Encolado"
+           data-desc="Prensas en frío. 24 horas de silencio y presión exacta.">
+        <div class="galeria-col__bg"></div>
+        <div class="galeria-col__title">Encolado</div>
+        <div class="galeria-col__content">
+          <p class="galeria-col__desc">Prensas en frío. 24 horas de silencio y presión exacta.</p>
+          <button class="galeria-col__close" aria-label="Cerrar">✕</button>
+        </div>
+      </div>
+
+      <div class="galeria-col" role="listitem" tabindex="0"
+           data-img="assets/images/galeria_03.jpg"
+           data-title="Tallado"
+           data-desc="Gubias y formones. Cada virucha es una decisión sonora.">
+        <div class="galeria-col__bg"></div>
+        <div class="galeria-col__title">Tallado</div>
+        <div class="galeria-col__content">
+          <p class="galeria-col__desc">Gubias y formones. Cada virucha es una decisión sonora.</p>
+          <button class="galeria-col__close" aria-label="Cerrar">✕</button>
+        </div>
+      </div>
+
+      <div class="galeria-col" role="listitem" tabindex="0"
+           data-img="assets/images/galeria_04.jpg"
+           data-title="Lacado"
+           data-desc="Nitrocelulosa de curado lento. La última piel del instrumento.">
+        <div class="galeria-col__bg"></div>
+        <div class="galeria-col__title">Lacado</div>
+        <div class="galeria-col__content">
+          <p class="galeria-col__desc">Nitrocelulosa de curado lento. La última piel del instrumento.</p>
+          <button class="galeria-col__close" aria-label="Cerrar">✕</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 09 · TESTIMONIOS ═════════════════════════════════ -->
+  <section class="testimonios" id="testimonios" aria-label="Testimonios de alumnos">
+    <div class="testimonios__header reveal">
+      <p class="label-num">/ 09</p>
+      <h2>LO QUE DICEN<br>QUIENES TOCAN</h2>
+    </div>
+
+    <!-- Carrusel con scroll-snap -->
+    <div class="testimonios__carousel" role="list" id="testimoniosCarousel" aria-label="Testimonios">
+
+      <article class="testimonio-card" role="listitem">
+        <div class="testimonio-card__stars" aria-label="5 estrellas">
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
         </div>
         <blockquote class="testimonio-card__text">
-          "El proceso de construcción me cambió para siempre. No solo aprendí luthería: aprendí a escuchar la madera y a entender qué quiere ser cada instrumento."
+          "Aprendí a escuchar la madera. El proceso de construcción me cambió la forma de tocar."
         </blockquote>
         <div class="testimonio-card__author">
-          <div class="testimonio-card__avatar"><img src="assets/images/testimonio_01.jpg" alt="Martín Rosas" loading="lazy"  class="img-mono" /></div>
+          <div class="testimonio-card__avatar img-bw">
+            <img src="assets/images/testimonio_01.jpg" alt="Martín Rosas" loading="lazy" />
+          </div>
           <div>
             <p class="testimonio-card__name">Martín Rosas</p>
             <p class="testimonio-card__role">Guitarrista profesional</p>
@@ -648,17 +710,19 @@
         </div>
       </article>
 
-      <article class="testimonio-card reveal reveal-delay-1">
-        <div class="testimonio-card__stars">
-          <div class="testimonio-card__star"></div><div class="testimonio-card__star"></div>
-          <div class="testimonio-card__star"></div><div class="testimonio-card__star"></div>
-          <div class="testimonio-card__star"></div>
+      <article class="testimonio-card" role="listitem">
+        <div class="testimonio-card__stars" aria-label="5 estrellas">
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
         </div>
         <blockquote class="testimonio-card__text">
-          "El taller que está construyendo juntos es lo mejor. No me imaginé que aprendería tanto en tan poco tiempo. Cada lección fue una revelación."
+          "Cada lección fue una revelación. No imaginé que aprendería tanto en tan poco tiempo."
         </blockquote>
         <div class="testimonio-card__author">
-          <div class="testimonio-card__avatar"><img src="assets/images/testimonio_02.jpg" alt="Laura Cáceres" loading="lazy"  class="img-mono" /></div>
+          <div class="testimonio-card__avatar img-bw">
+            <img src="assets/images/testimonio_02.jpg" alt="Laura Cáceres" loading="lazy" />
+          </div>
           <div>
             <p class="testimonio-card__name">Laura Cáceres</p>
             <p class="testimonio-card__role">Alumna, Ciclo 2024</p>
@@ -666,17 +730,19 @@
         </div>
       </article>
 
-      <article class="testimonio-card reveal reveal-delay-2">
-        <div class="testimonio-card__stars">
-          <div class="testimonio-card__star"></div><div class="testimonio-card__star"></div>
-          <div class="testimonio-card__star"></div><div class="testimonio-card__star"></div>
-          <div class="testimonio-card__star"></div>
+      <article class="testimonio-card" role="listitem">
+        <div class="testimonio-card__stars" aria-label="5 estrellas">
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
         </div>
         <blockquote class="testimonio-card__text">
-          "Traje mi guitarra favorita para restaurarla y volví con otra perspectiva del instrumento. Diego la devolvió mejor de lo que era cuando salió de fábrica."
+          "La devolvió mejor de lo que era cuando salió de fábrica. Un trabajo impecable."
         </blockquote>
         <div class="testimonio-card__author">
-          <div class="testimonio-card__avatar"><img src="assets/images/testimonio_03.jpg" alt="Diego Ferreira" loading="lazy"  class="img-mono" /></div>
+          <div class="testimonio-card__avatar img-bw">
+            <img src="assets/images/testimonio_03.jpg" alt="Diego Ferreira" loading="lazy" />
+          </div>
           <div>
             <p class="testimonio-card__name">Diego Ferreira</p>
             <p class="testimonio-card__role">Músico de sesión</p>
@@ -684,111 +750,144 @@
         </div>
       </article>
 
-      <article class="testimonio-card reveal">
-        <div class="testimonio-card__stars">
-          <div class="testimonio-card__star"></div><div class="testimonio-card__star"></div>
-          <div class="testimonio-card__star"></div><div class="testimonio-card__star"></div>
-          <div class="testimonio-card__star"></div>
+      <article class="testimonio-card" role="listitem">
+        <div class="testimonio-card__stars" aria-label="5 estrellas">
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
         </div>
         <blockquote class="testimonio-card__text">
-          "Llegué sin saber sostener un formón y me fui con una guitarra propia. El ritmo de las clases respeta a cada alumno."
+          "El instrumento que construí en el taller suena mejor que cualquier guitarra que compré."
         </blockquote>
         <div class="testimonio-card__author">
-          <div class="testimonio-card__avatar"><img src="assets/images/testimonio_01.jpg" alt="Sofía Aranda" loading="lazy"  class="img-mono" /></div>
+          <div class="testimonio-card__avatar img-bw">
+            <img src="assets/images/testimonio_01.jpg" alt="Sebastián Torres" loading="lazy" />
+          </div>
           <div>
-            <p class="testimonio-card__name">Sofía Aranda</p>
-            <p class="testimonio-card__role">Alumna, Ciclo 2023</p>
+            <p class="testimonio-card__name">Sebastián Torres</p>
+            <p class="testimonio-card__role">Compositor, Buenos Aires</p>
           </div>
         </div>
       </article>
 
-      <article class="testimonio-card reveal reveal-delay-1">
-        <div class="testimonio-card__stars">
-          <div class="testimonio-card__star"></div><div class="testimonio-card__star"></div>
-          <div class="testimonio-card__star"></div><div class="testimonio-card__star"></div>
-          <div class="testimonio-card__star"></div>
+      <article class="testimonio-card" role="listitem">
+        <div class="testimonio-card__stars" aria-label="5 estrellas">
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
         </div>
         <blockquote class="testimonio-card__text">
-          "Encargué una guitarra a medida para mi hija y el resultado superó lo que imaginábamos. Se nota el oficio en cada detalle."
+          "Recomiendo el curso a cualquier músico que quiera entender su instrumento de verdad."
         </blockquote>
         <div class="testimonio-card__author">
-          <div class="testimonio-card__avatar"><img src="assets/images/testimonio_02.jpg" alt="Pablo Ibáñez" loading="lazy"  class="img-mono" /></div>
+          <div class="testimonio-card__avatar img-bw">
+            <img src="assets/images/testimonio_02.jpg" alt="Carla Medina" loading="lazy" />
+          </div>
           <div>
-            <p class="testimonio-card__name">Pablo Ibáñez</p>
-            <p class="testimonio-card__role">Padre de alumna</p>
+            <p class="testimonio-card__name">Carla Medina</p>
+            <p class="testimonio-card__role">Docente de música</p>
           </div>
         </div>
       </article>
 
     </div>
+
+    <!-- Controles del carrusel -->
+    <div class="testimonios__controls">
+      <button class="testimonios__btn" id="testimoniosPrev" aria-label="Testimonio anterior">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <div class="testimonios__dots" id="testimoniosDots" aria-label="Indicadores de posición"></div>
+      <button class="testimonios__btn" id="testimoniosNext" aria-label="Testimonio siguiente">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+    </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       11. PREGUNTAS FRECUENTES
-  ══════════════════════════════════════════ -->
+  <!-- ══ 10 · FAQ ══════════════════════════════════════════ -->
   <section class="faq" id="faq" aria-label="Preguntas frecuentes">
     <div class="faq__header reveal">
-      <p class="label-num">/ 07</p>
+      <p class="label-num">/ 10</p>
       <h2>PREGUNTAS<br>FRECUENTES</h2>
     </div>
     <div class="faq__list">
 
       <div class="faq__item">
         <button class="faq__question" aria-expanded="false">
-          ¿Necesito experiencia previa para anotarme a un curso?
-          <span class="faq__icon" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <span>¿Necesito experiencia previa para inscribirme?</span>
+          <div class="faq__icon" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
-          </span>
+          </div>
         </button>
-        <div class="faq__answer">
-          <p>No. El curso de Guitarra Clásica Nivel Inicial está pensado para personas sin ninguna experiencia previa en luthería ni en música. El ritmo de las clases y el seguimiento personalizado están diseñados para que cualquiera pueda construir su instrumento de principio a fin.</p>
-        </div>
+        <div class="faq__answer"><p>No. Los cursos iniciales están diseñados para personas sin experiencia previa. Solo necesitás ganas de aprender y compromiso con el proceso.</p></div>
       </div>
 
       <div class="faq__item">
         <button class="faq__question" aria-expanded="false">
-          ¿Los materiales están incluidos en el precio del curso?
-          <span class="faq__icon" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <span>¿Los materiales están incluidos?</span>
+          <div class="faq__icon" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
-          </span>
+          </div>
         </button>
-        <div class="faq__answer">
-          <p>Sí. Todos nuestros cursos presenciales incluyen las maderas y materiales de luthería necesarios, además de acceso completo al taller y a las herramientas durante la cursada. Al finalizar, te llevás el instrumento que construiste.</p>
-        </div>
+        <div class="faq__answer"><p>Sí. Maderas, herrajes, lacas y herramientas del taller están incluidos en el costo del curso. Al terminar, te llevás el instrumento que construiste.</p></div>
       </div>
 
       <div class="faq__item">
         <button class="faq__question" aria-expanded="false">
-          ¿Qué pasa si no puedo asistir a alguna clase?
-          <span class="faq__icon" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <span>¿Puedo encargar un instrumento a medida?</span>
+          <div class="faq__icon" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
-          </span>
+          </div>
         </button>
-        <div class="faq__answer">
-          <p>Como los grupos son reducidos (máximo 8 alumnos), coordinamos con cada estudiante la mejor forma de ponerse al día. Escribinos por WhatsApp o email apenas sepas que vas a faltar y te ayudamos a reorganizar tu avance sin perder el ritmo del grupo.</p>
-        </div>
+        <div class="faq__answer"><p>Sí. Trabajamos con músicos que necesitan un instrumento construido específicamente para su forma de tocar. Escribinos para coordinar una consulta.</p></div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question" aria-expanded="false">
+          <span>¿Hacen restauración de instrumentos?</span>
+          <div class="faq__icon" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </div>
+        </button>
+        <div class="faq__answer"><p>Sí. Hacemos restauraciones y reparaciones de guitarras acústicas, clásicas y eléctricas. Cada trabajo incluye diagnóstico previo y presupuesto sin compromiso.</p></div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question" aria-expanded="false">
+          <span>¿Cuántas horas semanales requiere el curso?</span>
+          <div class="faq__icon" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </div>
+        </button>
+        <div class="faq__answer"><p>Depende del curso. Los programas de construcción tienen carga horaria semanal de 4 a 6 horas, distribuidas en dos o tres encuentros presenciales.</p></div>
       </div>
 
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       12. CTA BANNER
-  ══════════════════════════════════════════ -->
-  <section class="cta-section" aria-label="Llamada a la acción">
+  <!-- ══ CTA BANNER ════════════════════════════════════════ -->
+  <section class="cta-section" id="contacto" aria-label="Llamada a la acción">
     <div class="cta-banner reveal">
       <div class="cta-banner__bg">
-        <img src="assets/images/proceso_03.jpg" alt="" role="presentation" loading="lazy"  class="img-mono" />
+        <img src="assets/images/proceso_03.jpg" alt="" role="presentation" loading="lazy" />
       </div>
       <div class="cta-banner__inner">
         <h2>¿LISTO PARA DAR<br>VIDA A TU<br>INSTRUMENTO?</h2>
-        <p>Dos formas de empezar: encargá tu instrumento a medida o sumáte a uno de nuestros cursos del próximo ciclo.</p>
+        <p>Encargá tu instrumento a medida o inscribite en el próximo ciclo de cursos.</p>
         <div class="cta-banner__actions">
           <a href="#cursos" class="btn btn-accent">Inscribirme al taller</a>
           <a href="mailto:trastes@gmail.com" class="btn btn-outline-light">Encargar instrumento</a>
@@ -797,56 +896,7 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       13. CONTACTO / DÓNDE ESTAMOS
-  ══════════════════════════════════════════ -->
-  <section class="contacto" id="contacto" aria-label="Contacto">
-    <div class="contacto__header reveal">
-      <p class="label-num">/ 08</p>
-      <h2>DÓNDE<br>ESTAMOS</h2>
-    </div>
-    <div class="contacto__grid">
-
-      <div class="contacto__info reveal">
-        <div class="contacto__info-item">
-          <span class="contacto__info-label">Dirección</span>
-          <span class="contacto__info-value">Taller Trastes, Buenos Aires, Argentina</span>
-        </div>
-        <div class="contacto__info-item">
-          <span class="contacto__info-label">Email</span>
-          <span class="contacto__info-value"><a href="mailto:trastes@gmail.com">trastes@gmail.com</a></span>
-        </div>
-        <div class="contacto__info-item">
-          <span class="contacto__info-label">Teléfono</span>
-          <span class="contacto__info-value"><a href="tel:+541112345678">+54 11 1234-5678</a></span>
-        </div>
-        <a href="https://wa.me/5491112345678?text=Hola!%20Quiero%20consultar%20por%20los%20cursos%20de%20Trastes." target="_blank" rel="noopener" class="contacto__whatsapp">
-          Escribinos por WhatsApp →
-        </a>
-      </div>
-
-      <form class="contacto__form reveal reveal-delay-1" aria-label="Formulario de contacto">
-        <div class="contacto__field">
-          <label for="c-nombre">Nombre</label>
-          <input type="text" id="c-nombre" name="nombre" placeholder="Tu nombre" required />
-        </div>
-        <div class="contacto__field">
-          <label for="c-email">Email</label>
-          <input type="email" id="c-email" name="email" placeholder="tu@email.com" required />
-        </div>
-        <div class="contacto__field">
-          <label for="c-mensaje">Mensaje</label>
-          <textarea id="c-mensaje" name="mensaje" rows="4" placeholder="Contanos qué instrumento tenés en mente" required></textarea>
-        </div>
-        <button type="submit" class="contacto__submit">Enviar mensaje</button>
-      </form>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════ -->
+  <!-- ══ FOOTER ════════════════════════════════════════════ -->
   <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer__inner">
@@ -860,20 +910,24 @@
             <li><a href="#proceso">El proceso</a></li>
             <li><a href="#mapa">Mapa de la guitarra</a></li>
             <li><a href="#maderas">Maderas</a></li>
+            <li><a href="#galeria">Galería</a></li>
           </ul>
         </div>
         <div class="footer__col">
           <h4>Formación</h4>
           <ul>
             <li><a href="#cursos">Cursos presenciales</a></li>
-            <li><a href="#faq">Preguntas frecuentes</a></li>
+            <li><a href="#">Calendario</a></li>
+            <li><a href="#">Becas</a></li>
+            <li><a href="#">Materiales</a></li>
           </ul>
         </div>
         <div class="footer__col">
           <h4>Contacto</h4>
           <ul>
-            <li><a href="#contacto">Dónde estamos</a></li>
             <li><a href="mailto:trastes@gmail.com">trastes@gmail.com</a></li>
+            <li><a href="tel:+541112345678">+54 11 1234-5678</a></li>
+            <li><a href="#">Buenos Aires, AR</a></li>
           </ul>
         </div>
       </div>
@@ -882,19 +936,12 @@
         <div class="footer__social">
           <a href="#" aria-label="Instagram">Instagram</a>
           <a href="#" aria-label="YouTube">YouTube</a>
-          <a href="https://wa.me/5491112345678" aria-label="WhatsApp">WhatsApp</a>
+          <a href="#" aria-label="WhatsApp">WhatsApp</a>
         </div>
       </div>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
-
-  <script>
-    const vid = document.querySelector('.video-wrapper video');
-    const thumb = document.querySelector('.video-wrapper img.video-thumb');
-    if (vid && !vid.src) { vid.style.display = 'none'; if (thumb) thumb.style.display = 'block'; }
-  </script>
-
 </body>
 </html>
