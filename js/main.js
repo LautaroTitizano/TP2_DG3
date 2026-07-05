@@ -298,47 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function createGrainAndSpotlight(section) {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Grano
-    if (!reduceMotion) {
-      const canvas = document.createElement('canvas');
-      canvas.className = 'dark-static-canvas';
-      canvas.setAttribute('aria-hidden', 'true');
-      section.appendChild(canvas);
-      const ctx = canvas.getContext('2d');
-      const resize = () => {
-        canvas.width = Math.ceil(section.offsetWidth / 4);
-        canvas.height = Math.ceil(section.offsetHeight / 4);
-      };
-      resize();
-      const draw = () => {
-        const w = canvas.width, h = canvas.height;
-        if (!w || !h) return;
-        const imgData = ctx.createImageData(w, h);
-        const d = imgData.data;
-        for (let i = 0; i < d.length; i += 4) {
-          const v = Math.random() * 255 | 0;
-          d[i] = d[i+1] = d[i+2] = v; d[i+3] = 255;
-        }
-        ctx.putImageData(imgData, 0, 0);
-      };
-      let isVisible = false, frame = 0, animId = null;
-      const loop = () => {
-        if (isVisible) {
-          frame++;
-          if (frame % 4 === 0) draw(); // redibuja cada pocos frames: grano fijo, no parpadeante
-          animId = requestAnimationFrame(loop);
-        }
-      };
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          isVisible = e.isIntersecting;
-          if (isVisible) { resize(); draw(); animId = requestAnimationFrame(loop); }
-          else if (animId) cancelAnimationFrame(animId);
-        });
-      }, { threshold: 0.05 });
-      obs.observe(section);
-      window.addEventListener('resize', () => { if (isVisible) resize(); }, { passive: true });
-    }
+  
 
     // Luz difuminada que sigue el mouse
     const spot = document.createElement('div');

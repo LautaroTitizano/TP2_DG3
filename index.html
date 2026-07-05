@@ -600,17 +600,13 @@
         Cada instrumento que sale del taller lleva el tiempo, el criterio y el oído de alguien que conoce la madera desde adentro.
       </p>
     </div>
-    <div class="video-section__player">
-      <!-- Video: actúa como póster fotográfico. Click reproduce sin botón visible. -->
+  <div class="video-section__player">
       <div class="video-wrapper" role="button" tabindex="0" aria-label="Reproducir video del taller">
-        <video
-          src="assets/images/video_thumb.mp4"
-          poster="assets/images/video_thumb.jpg"
-          loop muted playsinline preload="none">
-        </video>
-        <!-- Fallback imagen si no hay video -->
-        <img class="video-thumb" src="assets/images/video_thumb.jpg"
-             alt="Video del taller" loading="lazy" />
+        <video src="assets/images/video_thumb.mp4" poster="assets/images/video_thumb.jpg" loop muted playsinline preload="none"></video>
+        <img class="video-thumb" src="assets/images/video_thumb.jpg" alt="Video del taller" style="display:none" loading="lazy" />
+      </div>
+    </div>
+  </section>
       </div>
     </div>
   </section>
