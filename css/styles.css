@@ -94,7 +94,7 @@ svg { display: block; flex-shrink: 0; }
 /* Títulos: display condensada */
 h1, h2, h3, h4 {
   font-family: var(--f-display);
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: -0.01em;
   line-height: 0.94;
@@ -184,29 +184,18 @@ h1, h2, h3, h4 {
   height: var(--nav-h);
   padding-inline: var(--s-4);
   display: flex; align-items: center; justify-content: space-between;
-  background: var(--c-bg);
-  border-bottom: var(--line);
+  background: transparent;
+  border-bottom: 1px solid transparent;
   transition: background 0.4s var(--ease), border-color 0.4s var(--ease);
 }
 @media (min-width: 768px) { .nav { padding-inline: var(--s-8); } }
-
-/* En estado oscuro (body.hero-dark) el nav se vuelve oscuro también */
-body.hero-dark .nav {
-  background: var(--c-dark);
-  border-color: rgba(255,255,255,0.1);
-}
-body.hero-dark .nav .nav__links a,
-body.hero-dark .nav .nav__logo { color: var(--c-white); }
-body.hero-dark .nav .nav__logo-dot { background: var(--c-accent); }
-body.hero-dark .nav .nav__cta { background: var(--c-accent); color: var(--c-text); border-color: var(--c-accent); }
-body.hero-dark .nav .nav__burger span { background: var(--c-white); }
 
 .nav__logo {
   font-family: var(--f-display);
   font-size: 1.25rem; font-weight: 900;
   letter-spacing: 0.02em;
   display: flex; align-items: center; gap: 6px;
-  color: var(--c-text);
+  color: var(--c-white);
   transition: color 0.4s var(--ease);
 }
 .nav__logo-dot { width: 7px; height: 7px; background: var(--c-accent); border-radius: 1px; }
@@ -223,7 +212,7 @@ body.hero-dark .nav .nav__burger span { background: var(--c-white); }
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--c-muted);
+  color: rgba(255,255,255,0.8);
   transition: color var(--dur) var(--ease);
   position: relative;
 }
@@ -232,7 +221,7 @@ body.hero-dark .nav .nav__burger span { background: var(--c-white); }
   width: 0; height: 1px; background: var(--c-accent);
   transition: width var(--dur) var(--ease);
 }
-.nav__links a:hover { color: var(--c-text); }
+.nav__links a:hover { color: var(--c-white); }
 .nav__links a:hover::after { width: 100%; }
 
 .nav__right { display: flex; align-items: center; gap: var(--s-2); }
@@ -259,13 +248,23 @@ body.hero-dark .nav .nav__burger span { background: var(--c-white); }
 @media (min-width: 1024px) { .nav__burger { display: none; } }
 .nav__burger span {
   display: block; width: 20px; height: 1.5px;
-  background: var(--c-text);
-  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+  background: var(--c-white);
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease), background 0.4s var(--ease);
   transform-origin: center;
 }
 .nav__burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 .nav__burger.open span:nth-child(2) { opacity: 0; }
 .nav__burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── NAV SÓLIDO: cuando se hace scroll y se deja atrás el hero ── */
+.nav.nav--scrolled {
+  background: var(--c-bg);
+  border-color: var(--c-line);
+}
+.nav.nav--scrolled .nav__logo,
+.nav.nav--scrolled .nav__links a { color: var(--c-text); }
+.nav.nav--scrolled .nav__links a:hover { color: var(--c-text); }
+.nav.nav--scrolled .nav__burger span { background: var(--c-text); }
 
 /* ── MENÚ MOBILE OVERLAY ────────────────────────────────── */
 .mobile-menu {
@@ -309,198 +308,109 @@ body.hero-dark .nav .nav__burger span { background: var(--c-white); }
 }
 
 /* ══════════════════════════════════════════════════════════
-   HERO — Dos estados: claro (reposo) y oscuro (scroll)
-   ══════════════════════════════════════════════════════════ */
-/* ══════════════════════════════════════════════════════════
-   HERO — Dos estados: claro (reposo) y oscuro (al hacer scroll)
+   HERO — Pantalla completa, imagen de fondo + overlay oscuro
    ══════════════════════════════════════════════════════════ */
 .hero {
   position: relative;
-  min-height: 100svh;
-  margin-top: var(--nav-h);
+  min-height: 100vh;
   overflow: hidden;
-  border-bottom: var(--line);
+  isolation: isolate; /* nuevo contexto de stacking, prolijo */
 }
 
-/* Fondo imagen: arranca invisible, aparece al hacer cualquier scroll */
-.hero__bg {
-  position: absolute; inset: 0;
-  opacity: 0;
-  transition: opacity 0.8s var(--ease);
-  z-index: 0;
-}
-.hero__bg img {
+/* Imagen + overlay: ocupan todo el hero, detrás del contenido */
+.hero__media { position: absolute; inset: 0; z-index: 0; }
+.hero__img {
   width: 100%; height: 100%;
   object-fit: cover;
   object-position: center 30%;
+  transition: transform 1.4s var(--ease);
+  will-change: transform;
 }
-.hero__bg-overlay {
+.hero__overlay {
   position: absolute; inset: 0;
   background: linear-gradient(
     to top,
-    rgba(17,17,17,0.92) 0%,
-    rgba(17,17,17,0.55) 45%,
-    rgba(17,17,17,0.25) 100%
+    rgba(10,10,10,0.88) 0%,
+    rgba(10,10,10,0.45) 45%,
+    rgba(10,10,10,0.32) 100%
+  );
+  transition: background 0.6s var(--ease);
+}
+
+/* Hover: leve zoom en la imagen + overlay un poco más oscuro */
+.hero:hover .hero__img { transform: scale(1.06); }
+.hero:hover .hero__overlay {
+  background: linear-gradient(
+    to top,
+    rgba(10,10,10,0.92) 0%,
+    rgba(10,10,10,0.55) 45%,
+    rgba(10,10,10,0.4) 100%
   );
 }
-body.hero-dark .hero__bg { opacity: 1; }
 
-/* Contenido: ocupa toda la altura, centrado verticalmente */
+/* Contenido: título a la izquierda, texto+CTA a la derecha, centrado verticalmente */
 .hero__content {
-  position: relative; z-index: 1;
-  width: 100%;
-  min-height: calc(100svh - var(--nav-h));
-  display: flex;
-  align-items: center;          /* centrado vertical */
-  padding: var(--s-8);
-}
-
-/* ── Estado CLARO: layout 2 columnas ── */
-.hero__light-state {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: end;
-  gap: var(--s-8);
-  width: 100%;
-  opacity: 1;
-  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
-}
-body.hero-dark .hero__light-state {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-10px);
-}
-
-/* Columna izquierda: el H1 grande */
-.hero__light-col-title { /* sin estilos extra necesarios */ }
-
-.hero__title-light {
-  font-size: var(--ts-hero);
-  color: var(--c-text);
-  line-height: 0.9;
-  margin: 0;
-}
-.hero__title-accent {
-  color: var(--c-accent);
-  display: block;
-}
-
-/* Columna derecha: bajada + botones, alineados al fondo del H1 */
-.hero__light-col-sub {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  gap: var(--s-3);
-  padding-bottom: 4px;           /* alinea visualmente con la base del H1 */
+  justify-content: center;
+  padding: calc(var(--nav-h) + var(--s-8)) var(--s-8);
 }
 
-.hero__sub-light {
-  font-family: var(--f-ui);
-  font-size: var(--ts-body);
-  color: var(--c-muted);
-  line-height: 1.65;
-  max-width: 340px;
-}
-.hero__actions-light {
+.hero__row {
   display: flex;
-  gap: var(--s-2);
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-8);
   flex-wrap: wrap;
 }
 
-/* ── Estado OSCURO: sobre la imagen, pegado al fondo ── */
-.hero__dark-state {
-  position: absolute;
-  bottom: var(--s-8);
-  left: var(--s-8);
-  right: var(--s-8);
-  max-width: 660px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(12px);
-  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
-}
-body.hero-dark .hero__dark-state {
-  opacity: 1;
-  pointer-events: all;
-  transform: none;
-}
-
-.hero__eyebrow {
-  font-family: var(--f-ui);
-  font-size: var(--ts-cap);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--c-accent);
-  margin-bottom: var(--s-2);
-}
-.hero__title-dark {
+.hero__title {
   font-size: var(--ts-hero);
   color: var(--c-white);
   line-height: 0.9;
-  margin-bottom: var(--s-4);
+  margin: 0;
 }
-.hero__title-dark em { font-style: normal; color: var(--c-accent); }
+.hero__title-accent { color: var(--c-white); display: block; }
 
-.hero__subtitle {
+.hero__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  gap: var(--s-4);
+  max-width: 360px;
+  flex-shrink: 0;
+}
+.hero__sub {
   font-family: var(--f-ui);
-  font-size: var(--ts-small);
-  color: rgba(255,255,255,0.75);
-  max-width: 460px;
-  line-height: 1.65;
-  margin-bottom: var(--s-6);
+  font-size: var(--ts-body);
+  color: rgba(255,255,255,0.82);
+  line-height: 1.5;
+  margin: 0;
 }
-.hero__actions { display: flex; gap: var(--s-2); flex-wrap: wrap; }
-
-/* Indicador de scroll */
-.hero__scroll-indicator {
-  position: absolute; bottom: var(--s-4); left: 50%;
-  transform: translateX(-50%);
-  width: 1px; height: 48px;
-  background: rgba(29,29,29,0.18);
-  overflow: hidden; z-index: 2;
-  transition: background 0.5s var(--ease);
-}
-body.hero-dark .hero__scroll-indicator { background: rgba(255,255,255,0.25); }
-.hero__scroll-line {
-  position: absolute; top: -100%; left: 0;
-  width: 100%; height: 100%;
-  background: var(--c-accent);
-  animation: scrollLine 2s var(--ease) infinite;
-}
-@keyframes scrollLine { 0%{ top:-100%; } 65%{ top:100%; } 100%{ top:100%; } }
+.hero__cta { flex-shrink: 0; }
 
 /* ── TABLET ── */
 @media (min-width: 769px) and (max-width: 1024px) {
-  .hero__content { padding: var(--s-6); }
-  .hero__light-state { gap: var(--s-4); }
-  .hero__dark-state { left: var(--s-6); bottom: var(--s-6); }
+  .hero__content { padding: calc(var(--nav-h) + var(--s-6)) var(--s-6); }
+  .hero__row { gap: var(--s-6); }
 }
 
-/* ── MOBILE: una sola columna, centrado ── */
+/* ── MOBILE: se apila y centra ── */
 @media (max-width: 768px) {
   .hero__content {
-    padding: var(--s-6) var(--s-4);
-    align-items: center;
+    padding: calc(var(--nav-h) + var(--s-6)) var(--s-4);
   }
-  .hero__light-state {
-    grid-template-columns: 1fr;
+  .hero__row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: var(--s-4);
-    text-align: center;
   }
-  .hero__light-col-sub {
-    align-items: center;
-    justify-content: flex-start;
-  }
-  .hero__sub-light  { text-align: center; max-width: 100%; }
-  .hero__actions-light { justify-content: center; }
-  .hero__dark-state {
-    left: var(--s-4); right: var(--s-4); bottom: var(--s-6);
-    text-align: center;
-  }
-  .hero__eyebrow { text-align: center; }
-  .hero__actions { justify-content: center; }
+  .hero__aside { align-items: center; text-align: center; max-width: 100%; }
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -910,13 +820,29 @@ body.hero-dark .hero__scroll-indicator { background: rgba(255,255,255,0.25); }
   transform: scale(1.06);
   filter: none;
 }
+.stats__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.stat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  border-right: var(--line);
+  border-bottom: var(--line);
+}
 .stat-item:nth-child(2n) { border-right: none; }
 .stat-item:nth-last-child(-n+2) { border-bottom: none; }
 .stat-item.visible { opacity: 1; transform: none; }
-.stat-item__label { font-family: var(--f-ui); font-size: var(--ts-cap); color: var(--c-muted); line-height: 1.4; }
-.stat-item__value { font-family: var(--f-display); font-weight: 900; font-size: clamp(3rem, 7vw, 5rem); line-height: 1; color: var(--c-text); }
+.stat-item__label { font-family: var(--f-ui); font-size: var(--ts-cap); color: var(--c-muted); line-height: 1.4; max-width: 9ch; }
+.stat-item__value { font-family: var(--f-display); font-weight: 900; font-size: clamp(2.5rem, 4vw, 3.5rem); line-height: 1; color: var(--c-text); white-space: nowrap; }
 
-@media (max-width: 480px) { .stats__grid { grid-template-columns: 1fr; } .stat-item { border-right: none; border-bottom: var(--line); } }
+@media (max-width: 480px) {
+  .stat-item { padding: var(--s-4) var(--s-3); }
+  .stat-item__label { max-width: 7ch; }
+}
 
 /* ══════════════════════════════════════════════════════════
    MADERAS — Contenedores cuadrados para PNGs de púas
@@ -1409,166 +1335,25 @@ body.hero-dark .hero__scroll-indicator { background: rgba(255,255,255,0.25); }
   object-fit: contain;
   display: block;
   /* Mantiene proporción, no se deforma */
+  filter: brightness(0) invert(1); /* blanco por defecto: nav transparente sobre el hero */
+  transition: filter 0.4s var(--ease);
 }
-/* En estado hero-dark: el logo claro necesita versión blanca.
-   Si tenés logo-white.png, usa un filtro o swapea el src con JS.
-   Por ahora, invertimos el color si el fondo es oscuro. */
-body.hero-dark .nav__logo-img {
-  filter: brightness(0) invert(1);
+/* Al hacer scroll (nav sólido) el logo vuelve a su color original */
+.nav--scrolled .nav__logo-img {
+  filter: none;
 }
 .nav__logo-text {
   font-family: var(--f-display);
   font-size: 1.25rem; font-weight: 900;
   letter-spacing: 0.02em;
   align-items: center; gap: 6px;
-  color: var(--c-text);
+  color: var(--c-white);
   transition: color 0.4s var(--ease);
 }
-body.hero-dark .nav__logo-text { color: var(--c-white); }
+.nav--scrolled .nav__logo-text { color: var(--c-text); }
 
-/* ══════════════════════════════════════════════════════════
-   HERO — Layout editorial 2 columnas (estado claro)
-   ══════════════════════════════════════════════════════════ */
-
-/* Reemplaza el padding excesivo y alinea el contenido */
-.hero__content {
-  position: relative; z-index: 1;
-  width: 100%; height: 100%;
-  min-height: calc(100svh - var(--nav-h));
-  /* Centrado vertical con más aire */
-  display: flex;
-  align-items: center;
-  padding: var(--s-8);
-}
-
-/* Layout 2 columnas: título izquierda / bajada+botones derecha */
-.hero__light-state {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: end;
-  gap: var(--s-8);
-  width: 100%;
-  opacity: 1;
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
-}
-body.hero-dark .hero__light-state {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-8px);
-}
-
-.hero__light-col-title {
-  /* Columna izquierda: solo el H1 grande */
-}
-.hero__light-col-sub {
-  /* Columna derecha: bajada + botones, alineados al fondo */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  gap: var(--s-4);
-  padding-bottom: var(--s-2);
-}
-
-.hero__title-light {
-  font-size: var(--ts-hero);
-  color: var(--c-text);
-  line-height: 0.9;
-  /* Sin margin-bottom: el gap del grid maneja el espacio */
-  margin-bottom: 0;
-}
-.hero__title-accent { color: var(--c-accent); display: block; }
-
-.hero__sub-light {
-  font-family: var(--f-ui);
-  font-size: var(--ts-small);
-  color: var(--c-muted);
-  line-height: 1.65;
-  max-width: 340px;
-  margin-bottom: 0;
-}
-.hero__actions-light {
-  display: flex;
-  gap: var(--s-2);
-  flex-wrap: wrap;
-}
-
-/* Estado oscuro: posición absoluta corregida */
-.hero__dark-state {
-  position: absolute;
-  bottom: var(--s-8);
-  left: var(--s-8);
-  right: var(--s-8);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(10px);
-  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
-  max-width: 660px;
-}
-body.hero-dark .hero__dark-state {
-  opacity: 1;
-  pointer-events: all;
-  transform: none;
-}
-
-/* Mobile hero: una sola columna, centrado */
-@media (max-width: 768px) {
-  .hero__content {
-    padding: var(--s-6) var(--s-4);
-    align-items: center;
-  }
-  .hero__light-state {
-    grid-template-columns: 1fr;
-    gap: var(--s-4);
-    text-align: center;
-  }
-  .hero__light-col-sub {
-    align-items: center;
-    justify-content: flex-start;
-  }
-  .hero__sub-light { text-align: center; max-width: 100%; }
-  .hero__actions-light { justify-content: center; }
-  .hero__dark-state {
-    left: var(--s-4);
-    right: var(--s-4);
-    bottom: var(--s-6);
-    text-align: center;
-  }
-  .hero__eyebrow { text-align: center; }
-  .hero__actions { justify-content: center; }
-}
-
-/* Tablet: reducir gap */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .hero__content { padding: var(--s-6); }
-  .hero__light-state { gap: var(--s-4); }
-}
-
-/* ══════════════════════════════════════════════════════════
-   STATS — grid 2x2 en TODOS los breakpoints mobile
-   Reemplaza el @media 480px que hacía 1 columna
-   ══════════════════════════════════════════════════════════ */
-
-/* Forzar grid 2 columnas siempre dentro de stats */
-.stats__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;  /* Siempre 2 columnas */
-  background: var(--c-bg);
-}
-
-/* Mobile: el contenedor inner apila (ya existe), el grid mantiene 2 col */
+/* Mobile: números más pequeños para que quepan en la grilla 2x2 */
 @media (max-width: 480px) {
-  /* Anulamos la regla anterior que lo ponía en 1 col */
-  .stats__grid { grid-template-columns: 1fr 1fr; }
-  .stat-item {
-    border-right: var(--line);
-    border-bottom: var(--line);
-    padding: var(--s-4) var(--s-3);
-  }
-  /* Restaurar bordes correctos en grilla 2x2 */
-  .stat-item:nth-child(2n) { border-right: none; }
-  .stat-item:nth-last-child(-n+2) { border-bottom: none; }
-  /* Números más pequeños en mobile para que quepan */
   .stat-item__value { font-size: clamp(2rem, 10vw, 3rem); }
   .stat-item__label { font-size: 0.7rem; }
 }

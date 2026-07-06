@@ -9,19 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
    1. NAV + HERO — switch claro/oscuro por scroll
       La imagen aparece al bajar ~100px, no al salir del hero
    ══════════════════════════════════════════════════════════ */
-const HERO_DARK_THRESHOLD = 100; // px de scroll para activar estado oscuro
+const nav = document.getElementById('nav');
+const NAV_SOLID_THRESHOLD = 80;
 
-const applyHeroState = () => {
-  const scrolled = window.scrollY > HERO_DARK_THRESHOLD;
-  document.body.classList.toggle('hero-dark', scrolled);
+const applyNavState = () => {
+  nav.classList.toggle('nav--scrolled', window.scrollY > NAV_SOLID_THRESHOLD);
 };
-
-// Aplica el estado inicial sin esperar scroll
-applyHeroState();
-
-// Escucha el scroll con passive:true para no bloquear el render
-window.addEventListener('scroll', applyHeroState, { passive: true });
-
+applyNavState();
+window.addEventListener('scroll', applyNavState, { passive: true });
   /* ══════════════════════════════════════════════════════════
    2. MENÚ HAMBURGUESA MOBILE — reemplazar el bloque completo
    ══════════════════════════════════════════════════════════ */
