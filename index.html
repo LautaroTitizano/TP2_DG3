@@ -16,7 +16,17 @@
 
   <!-- ══ NAV ══════════════════════════════════════════════ -->
   <nav class="nav" id="nav" role="navigation" aria-label="Navegación principal">
-    <a href="#" class="nav__logo">TRASTES<span class="nav__logo-dot"></span></a>
+    <a href="#" class="nav__logo" aria-label="Trastes — inicio">
+  <img
+    src="assets/images/logo.png"
+    alt="Trastes"
+    class="nav__logo-img"
+    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+  />
+  <span class="nav__logo-text" style="display:none">
+    TRASTES<span class="nav__logo-dot"></span>
+  </span>
+  </a>
 
     <!-- Links desktop -->
     <ul class="nav__links" role="list">
@@ -54,19 +64,24 @@
   </div>
 
   <!-- ══ HERO — Claro en reposo, oscuro al hacer scroll ══ -->
-  <section class="hero" id="hero" aria-label="Inicio">
-    <!-- Fondo imagen (visible en estado oscuro) -->
-    <div class="hero__bg" aria-hidden="true">
-      <img src="assets/images/hero_guitar.jpg" alt="" role="presentation" loading="eager" fetchpriority="high" />
-      <div class="hero__bg-overlay"></div>
+  <div class="hero__light-state">
+  <div class="hero__light-col-title">
+    <h1 class="hero__title-light">
+      INSTRUMENTOS<br>
+      <span class="hero__title-accent">DEL ALMA.</span>
+    </h1>
+  </div>
+  <div class="hero__light-col-sub">
+    <p class="hero__sub-light">
+      Construcción artesanal y restauración profesional.<br>
+      Buenos Aires, desde 2006.
+    </p>
+    <div class="hero__actions-light">
+      <a href="#cursos" class="btn btn-dark">Explorar taller</a>
+      <a href="#arte" class="btn btn-outline">Ver proceso</a>
     </div>
-
-    <div class="hero__content">
-      <!-- Estado claro: título limpio sobre fondo crema -->
-      <div class="hero__light-state">
-        <h1 class="hero__title-light">
-          INSTRUMENTOS<br>
-          <span class="hero__title-accent">DEL ALMA.</span>
+  </div>
+  </div>
         </h1>
         <p class="hero__sub-light">
           Construcción artesanal y restauración profesional.<br>
@@ -391,12 +406,17 @@
             </div>
             <!-- Info en hover -->
             <div class="curso-card__info">
+              
               <h3 class="curso-card__title">Guitarra Clásica Nivel Inicial</h3>
               <p>Construís tu propia guitarra clásica de principio a fin, aprendiendo cada etapa del oficio.</p>
               <div class="curso-card__meta">
                 <span>12 semanas</span>
                 <span>Presencial</span>
                 <span>Cupos limitados</span>
+              </div>
+              <div class="curso-card__price">
+              <span class="curso-card__price-label">Inversión</span>
+              <span class="curso-card__price-value">$85.000</span>
               </div>
               <span class="btn btn-accent">Ver detalles →</span>
             </div>
@@ -419,6 +439,10 @@
                 <span>6 semanas</span>
                 <span>Presencial</span>
               </div>
+              <div class="curso-card__price">
+              <span class="curso-card__price-label">Inversión</span>
+              <span class="curso-card__price-value">$55.000</span>
+              </div>
               <span class="btn btn-accent">Ver detalles →</span>
             </div>
           </div>
@@ -433,6 +457,10 @@
               <h3 class="curso-card__title">Luthería<br>Eléctrica</h3>
               <p class="curso-card__sub">8 semanas · Presencial</p>
             </div>
+            <div class="curso-card__price">
+            <span class="curso-card__price-label">Inversión</span>
+            <span class="curso-card__price-value">$55.000</span>
+            </div>
             <div class="curso-card__info">
               <h3 class="curso-card__title">Luthería Eléctrica</h3>
               <p>Construís tu propia guitarra eléctrica sólida o semi-hollow, incluyendo electrónica.</p>
@@ -440,6 +468,10 @@
                 <span>8 semanas</span>
                 <span>Presencial</span>
               </div>
+              <div class="curso-card__price">
+             <span class="curso-card__price-label">Inversión</span>
+             <span class="curso-card__price-value">$65.000</span>
+             </div>
               <span class="btn btn-accent">Ver detalles →</span>
             </div>
           </div>

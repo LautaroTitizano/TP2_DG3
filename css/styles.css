@@ -311,6 +311,9 @@ body.hero-dark .nav .nav__burger span { background: var(--c-white); }
 /* ══════════════════════════════════════════════════════════
    HERO — Dos estados: claro (reposo) y oscuro (scroll)
    ══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   HERO — Dos estados: claro (reposo) y oscuro (al hacer scroll)
+   ══════════════════════════════════════════════════════════ */
 .hero {
   position: relative;
   min-height: 100svh;
@@ -319,97 +322,147 @@ body.hero-dark .nav .nav__burger span { background: var(--c-white); }
   border-bottom: var(--line);
 }
 
-/* Fondo oscuro: invisible hasta que body tenga .hero-dark */
+/* Fondo imagen: arranca invisible, aparece al hacer cualquier scroll */
 .hero__bg {
   position: absolute; inset: 0;
   opacity: 0;
-  transition: opacity 0.7s var(--ease);
+  transition: opacity 0.8s var(--ease);
   z-index: 0;
 }
-.hero__bg img { width: 100%; height: 100%; object-fit: cover; }
+.hero__bg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
 .hero__bg-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(29,29,29,0.92) 0%, rgba(29,29,29,0.45) 55%, rgba(29,29,29,0.2) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(17,17,17,0.92) 0%,
+    rgba(17,17,17,0.55) 45%,
+    rgba(17,17,17,0.25) 100%
+  );
 }
 body.hero-dark .hero__bg { opacity: 1; }
 
+/* Contenido: ocupa toda la altura, centrado verticalmente */
 .hero__content {
   position: relative; z-index: 1;
-  width: 100%; height: 100%;
+  width: 100%;
   min-height: calc(100svh - var(--nav-h));
-  display: flex; align-items: flex-end;
-  padding: var(--s-16) var(--s-8) var(--s-8);
+  display: flex;
+  align-items: center;          /* centrado vertical */
+  padding: var(--s-8);
 }
 
-/* Estado claro */
+/* ── Estado CLARO: layout 2 columnas ── */
 .hero__light-state {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: var(--s-8);
+  width: 100%;
   opacity: 1;
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
 }
 body.hero-dark .hero__light-state {
-  opacity: 0; pointer-events: none;
-  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
 }
+
+/* Columna izquierda: el H1 grande */
+.hero__light-col-title { /* sin estilos extra necesarios */ }
+
 .hero__title-light {
   font-size: var(--ts-hero);
   color: var(--c-text);
-  line-height: 0.92;
-  margin-bottom: var(--s-4);
+  line-height: 0.9;
+  margin: 0;
 }
-.hero__title-accent { color: var(--c-accent); display: block; }
+.hero__title-accent {
+  color: var(--c-accent);
+  display: block;
+}
+
+/* Columna derecha: bajada + botones, alineados al fondo del H1 */
+.hero__light-col-sub {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: var(--s-3);
+  padding-bottom: 4px;           /* alinea visualmente con la base del H1 */
+}
+
 .hero__sub-light {
   font-family: var(--f-ui);
-  font-size: var(--ts-small);
+  font-size: var(--ts-body);
   color: var(--c-muted);
   line-height: 1.65;
-  max-width: 400px;
-  margin-bottom: var(--s-6);
+  max-width: 340px;
 }
-.hero__actions-light { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+.hero__actions-light {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
 
-/* Estado oscuro */
+/* ── Estado OSCURO: sobre la imagen, pegado al fondo ── */
 .hero__dark-state {
-  position: absolute; bottom: var(--s-8); left: var(--s-8);
-  opacity: 0; pointer-events: none;
-  transform: translateY(10px);
+  position: absolute;
+  bottom: var(--s-8);
+  left: var(--s-8);
+  right: var(--s-8);
+  max-width: 660px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
   transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
-  max-width: 700px;
 }
 body.hero-dark .hero__dark-state {
-  opacity: 1; pointer-events: all; transform: none;
+  opacity: 1;
+  pointer-events: all;
+  transform: none;
 }
+
 .hero__eyebrow {
   font-family: var(--f-ui);
   font-size: var(--ts-cap);
-  font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--c-accent); margin-bottom: var(--s-2);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: var(--s-2);
 }
 .hero__title-dark {
   font-size: var(--ts-hero);
   color: var(--c-white);
-  line-height: 0.92;
+  line-height: 0.9;
   margin-bottom: var(--s-4);
 }
 .hero__title-dark em { font-style: normal; color: var(--c-accent); }
+
 .hero__subtitle {
   font-family: var(--f-ui);
   font-size: var(--ts-small);
   color: rgba(255,255,255,0.75);
-  max-width: 460px; line-height: 1.65;
+  max-width: 460px;
+  line-height: 1.65;
   margin-bottom: var(--s-6);
 }
 .hero__actions { display: flex; gap: var(--s-2); flex-wrap: wrap; }
 
-/* Indicador scroll */
+/* Indicador de scroll */
 .hero__scroll-indicator {
   position: absolute; bottom: var(--s-4); left: 50%;
   transform: translateX(-50%);
   width: 1px; height: 48px;
-  background: rgba(29,29,29,0.15);
+  background: rgba(29,29,29,0.18);
   overflow: hidden; z-index: 2;
   transition: background 0.5s var(--ease);
 }
-body.hero-dark .hero__scroll-indicator { background: rgba(255,255,255,0.2); }
+body.hero-dark .hero__scroll-indicator { background: rgba(255,255,255,0.25); }
 .hero__scroll-line {
   position: absolute; top: -100%; left: 0;
   width: 100%; height: 100%;
@@ -418,19 +471,34 @@ body.hero-dark .hero__scroll-indicator { background: rgba(255,255,255,0.2); }
 }
 @keyframes scrollLine { 0%{ top:-100%; } 65%{ top:100%; } 100%{ top:100%; } }
 
-/* Mobile hero: texto centrado */
+/* ── TABLET ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero__content { padding: var(--s-6); }
+  .hero__light-state { gap: var(--s-4); }
+  .hero__dark-state { left: var(--s-6); bottom: var(--s-6); }
+}
+
+/* ── MOBILE: una sola columna, centrado ── */
 @media (max-width: 768px) {
   .hero__content {
-    padding: var(--s-12) var(--s-4) var(--s-8);
+    padding: var(--s-6) var(--s-4);
     align-items: center;
   }
   .hero__light-state {
-    display: flex; flex-direction: column; align-items: center; text-align: center;
-    width: 100%;
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+    text-align: center;
   }
-  .hero__sub-light { text-align: center; }
+  .hero__light-col-sub {
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .hero__sub-light  { text-align: center; max-width: 100%; }
   .hero__actions-light { justify-content: center; }
-  .hero__dark-state { left: var(--s-4); bottom: var(--s-6); right: var(--s-4); text-align: center; }
+  .hero__dark-state {
+    left: var(--s-4); right: var(--s-4); bottom: var(--s-6);
+    text-align: center;
+  }
   .hero__eyebrow { text-align: center; }
   .hero__actions { justify-content: center; }
 }
@@ -816,17 +884,31 @@ body.hero-dark .hero__scroll-indicator { background: rgba(255,255,255,0.2); }
 }
 .stats__img-wrap img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Grid de estadísticas: 2x2 */
-.stats__grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  background: var(--c-bg);
+/* Contenedor: marco neutro para PNG con transparencia */
+.pick-card__icon {
+  width: 140px; height: 140px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  /* Sin overflow:hidden para no recortar formas irregulares */
+  overflow: visible;
 }
-.stat-item {
-  padding: var(--s-6) var(--s-4);
-  border-right: var(--line); border-bottom: var(--line);
-  display: flex; flex-direction: column; justify-content: flex-end; gap: var(--s-2);
-  opacity: 0; transform: translateY(8px);
-  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+
+/* Especificidad alta para ganar al reset global img{} */
+.pick-card__icon > img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;  /* respeta transparencia y proporción */
+  filter: none;                     /* sin B&W: las púas tienen color propio */
+  transition: transform 0.4s var(--ease), filter 0.4s var(--ease);
+}
+
+/* Hover: leve escala, sin cambiar colores de la imagen PNG */
+.pick-card:hover .pick-card__icon > img,
+.pick-card.open   .pick-card__icon > img {
+  transform: scale(1.06);
+  filter: none;
 }
 .stat-item:nth-child(2n) { border-right: none; }
 .stat-item:nth-last-child(-n+2) { border-bottom: none; }
@@ -1316,4 +1398,280 @@ body.hero-dark .hero__scroll-indicator { background: rgba(255,255,255,0.2); }
   .curso-sidebar { position: static; }
   .temario__grid, .aprende__list, .para-quien__list { grid-template-columns: 1fr; }
   .temario__semana, .aprende__item, .para-quien__item { border-right: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   LOGO CON IMAGEN
+   ══════════════════════════════════════════════════════════ */
+.nav__logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  /* Mantiene proporción, no se deforma */
+}
+/* En estado hero-dark: el logo claro necesita versión blanca.
+   Si tenés logo-white.png, usa un filtro o swapea el src con JS.
+   Por ahora, invertimos el color si el fondo es oscuro. */
+body.hero-dark .nav__logo-img {
+  filter: brightness(0) invert(1);
+}
+.nav__logo-text {
+  font-family: var(--f-display);
+  font-size: 1.25rem; font-weight: 900;
+  letter-spacing: 0.02em;
+  align-items: center; gap: 6px;
+  color: var(--c-text);
+  transition: color 0.4s var(--ease);
+}
+body.hero-dark .nav__logo-text { color: var(--c-white); }
+
+/* ══════════════════════════════════════════════════════════
+   HERO — Layout editorial 2 columnas (estado claro)
+   ══════════════════════════════════════════════════════════ */
+
+/* Reemplaza el padding excesivo y alinea el contenido */
+.hero__content {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%;
+  min-height: calc(100svh - var(--nav-h));
+  /* Centrado vertical con más aire */
+  display: flex;
+  align-items: center;
+  padding: var(--s-8);
+}
+
+/* Layout 2 columnas: título izquierda / bajada+botones derecha */
+.hero__light-state {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: var(--s-8);
+  width: 100%;
+  opacity: 1;
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+body.hero-dark .hero__light-state {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+}
+
+.hero__light-col-title {
+  /* Columna izquierda: solo el H1 grande */
+}
+.hero__light-col-sub {
+  /* Columna derecha: bajada + botones, alineados al fondo */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: var(--s-4);
+  padding-bottom: var(--s-2);
+}
+
+.hero__title-light {
+  font-size: var(--ts-hero);
+  color: var(--c-text);
+  line-height: 0.9;
+  /* Sin margin-bottom: el gap del grid maneja el espacio */
+  margin-bottom: 0;
+}
+.hero__title-accent { color: var(--c-accent); display: block; }
+
+.hero__sub-light {
+  font-family: var(--f-ui);
+  font-size: var(--ts-small);
+  color: var(--c-muted);
+  line-height: 1.65;
+  max-width: 340px;
+  margin-bottom: 0;
+}
+.hero__actions-light {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+/* Estado oscuro: posición absoluta corregida */
+.hero__dark-state {
+  position: absolute;
+  bottom: var(--s-8);
+  left: var(--s-8);
+  right: var(--s-8);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  max-width: 660px;
+}
+body.hero-dark .hero__dark-state {
+  opacity: 1;
+  pointer-events: all;
+  transform: none;
+}
+
+/* Mobile hero: una sola columna, centrado */
+@media (max-width: 768px) {
+  .hero__content {
+    padding: var(--s-6) var(--s-4);
+    align-items: center;
+  }
+  .hero__light-state {
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+    text-align: center;
+  }
+  .hero__light-col-sub {
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .hero__sub-light { text-align: center; max-width: 100%; }
+  .hero__actions-light { justify-content: center; }
+  .hero__dark-state {
+    left: var(--s-4);
+    right: var(--s-4);
+    bottom: var(--s-6);
+    text-align: center;
+  }
+  .hero__eyebrow { text-align: center; }
+  .hero__actions { justify-content: center; }
+}
+
+/* Tablet: reducir gap */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero__content { padding: var(--s-6); }
+  .hero__light-state { gap: var(--s-4); }
+}
+
+/* ══════════════════════════════════════════════════════════
+   STATS — grid 2x2 en TODOS los breakpoints mobile
+   Reemplaza el @media 480px que hacía 1 columna
+   ══════════════════════════════════════════════════════════ */
+
+/* Forzar grid 2 columnas siempre dentro de stats */
+.stats__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Siempre 2 columnas */
+  background: var(--c-bg);
+}
+
+/* Mobile: el contenedor inner apila (ya existe), el grid mantiene 2 col */
+@media (max-width: 480px) {
+  /* Anulamos la regla anterior que lo ponía en 1 col */
+  .stats__grid { grid-template-columns: 1fr 1fr; }
+  .stat-item {
+    border-right: var(--line);
+    border-bottom: var(--line);
+    padding: var(--s-4) var(--s-3);
+  }
+  /* Restaurar bordes correctos en grilla 2x2 */
+  .stat-item:nth-child(2n) { border-right: none; }
+  .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+  /* Números más pequeños en mobile para que quepan */
+  .stat-item__value { font-size: clamp(2rem, 10vw, 3rem); }
+  .stat-item__label { font-size: 0.7rem; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   CURSOS — precio en hover
+   ══════════════════════════════════════════════════════════ */
+.curso-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-1);
+  margin-bottom: var(--s-3);
+  padding: var(--s-2) 0;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.curso-card__price-label {
+  font-family: var(--f-ui);
+  font-size: var(--ts-cap);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+.curso-card__price-value {
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--c-accent);
+  letter-spacing: -0.01em;
+}
+
+/* ══════════════════════════════════════════════════════════
+   GALERÍA — fix imagen visible desde el inicio en desktop
+   El .galeria-col__bg empieza invisible. Al hover/active aparece.
+   En mobile ya era visible. Mejoramos el estado hover para que
+   la imagen aparezca inmediatamente al entrar.
+   ══════════════════════════════════════════════════════════ */
+
+/* Las columnas tienen un fondo placeholder hasta que carga la imagen */
+.galeria-col {
+  background: var(--c-dark);  /* fondo oscuro neutro en reposo */
+}
+
+/* El título en reposo (no hover) es blanco para ser visible sobre oscuro */
+.galeria-col__title {
+  color: rgba(255,255,255,0.55);
+}
+
+/* Cuando la imagen está activa, el content se posiciona abajo */
+.galeria-col__content {
+  position: absolute;
+  /* Cambio: bottom en lugar de inset, así el texto queda al pie */
+  inset: auto;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--s-6) var(--s-4);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s var(--ease) 0.15s, transform 0.4s var(--ease) 0.15s;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(29,29,29,0.85) 0%, transparent 100%);
+}
+.galeria-col.active .galeria-col__content {
+  opacity: 1; transform: none; pointer-events: all;
+}
+
+.galeria-col__desc {
+  font-family: var(--f-ui);
+  font-size: var(--ts-small);
+  color: rgba(255,255,255,0.9);
+  line-height: 1.65;
+  max-width: 360px;
+  margin-bottom: var(--s-3);
+}
+
+/* Botón cerrar: posición top-right para no quedar superpuesto al texto */
+.galeria-col__close {
+  position: absolute;
+  top: var(--s-3);
+  right: var(--s-3);
+  width: 36px; height: 36px;
+  border: 1px solid rgba(255,255,255,0.5);
+  color: var(--c-white);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--dur);
+  background: rgba(29,29,29,0.5);
+}
+.galeria-col__close:hover { background: rgba(255,255,255,0.2); }
+
+/* Mobile: fondo visible por defecto */
+@media (max-width: 768px) {
+  .galeria-col { background: var(--c-dark); }
+  .galeria-col__bg { opacity: 1; }
+  .galeria-col__title {
+    writing-mode: horizontal-tb;
+    rotate: none;
+    color: var(--c-white);
+    bottom: var(--s-3); left: var(--s-4);
+    font-size: 1rem;
+  }
 }

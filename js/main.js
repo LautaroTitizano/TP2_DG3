@@ -6,74 +6,90 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ══════════════════════════════════════════════════════════
-     1. NAV — scroll + hero dark/light switch
-     ══════════════════════════════════════════════════════════ */
-  const nav   = document.querySelector('.nav');
-  const hero  = document.querySelector('.hero');
+   1. NAV + HERO — switch claro/oscuro por scroll
+      La imagen aparece al bajar ~100px, no al salir del hero
+   ══════════════════════════════════════════════════════════ */
+const HERO_DARK_THRESHOLD = 100; // px de scroll para activar estado oscuro
 
-  if (hero) {
-    const heroObs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(e => {
-          // Cuando el hero deja de verse → fondo oscuro
-          document.body.classList.toggle('hero-dark', !e.isIntersecting);
-        });
-      },
-      { threshold: 0.15 }
-    );
-    heroObs.observe(hero);
-  }
+const applyHeroState = () => {
+  const scrolled = window.scrollY > HERO_DARK_THRESHOLD;
+  document.body.classList.toggle('hero-dark', scrolled);
+};
+
+// Aplica el estado inicial sin esperar scroll
+applyHeroState();
+
+// Escucha el scroll con passive:true para no bloquear el render
+window.addEventListener('scroll', applyHeroState, { passive: true });
 
   /* ══════════════════════════════════════════════════════════
-     2. MENÚ HAMBURGUESA MOBILE
-        - Abre/cierra con botón
-        - Bloquea scroll del body
-        - Se cierra con Escape o clic en cualquier link
-        - Accesible: aria-expanded, aria-hidden, foco atrapado
-     ══════════════════════════════════════════════════════════ */
-  const burger      = document.getElementById('navBurger');
-  const mobileMenu  = document.getElementById('mobileMenu');
-  const mobileClose = document.getElementById('mobileClose');
-  const mobileLinks = document.querySelectorAll('.mobile-menu__link');
+   2. MENÚ HAMBURGUESA MOBILE — reemplazar el bloque completo
+   ══════════════════════════════════════════════════════════ */
+const burger      = document.getElementById('navBurger');
+const mobileMenu  = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileClose');
+const mobileLinks = document.querySelectorAll('.mobile-menu__link');
 
-  if (burger && mobileMenu) {
+if (burger && mobileMenu) {
 
-    const openMenu = () => {
-      mobileMenu.classList.add('open');
-      burger.classList.add('open');
-      burger.setAttribute('aria-expanded', 'true');
-      mobileMenu.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('menu-open');
-      // Foco al botón cerrar
-      if (mobileClose) mobileClose.focus();
-    };
+  const openMenu = () => {
+    mobileMenu.classList.add('open');
+    burger.classList.add('open');
+    burger.setAttribute('aria-expanded', 'true');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
+    if (mobileClose) mobileClose.focus();
+  };
 
-    const closeMenu = () => {
-      mobileMenu.classList.remove('open');
-      burger.classList.remove('open');
-      burger.setAttribute('aria-expanded', 'false');
-      mobileMenu.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('menu-open');
-      burger.focus();
-    };
+  const closeMenu = () => {
+    mobileMenu.classList.remove('open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
+    burger.focus();
+  };
 
-    burger.addEventListener('click', () => {
-      mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
-    });
+  /* Toggle al hacer clic en el burger */
+  burger.addEventListener('click', (e) => {
+    e.stopPropagation(); /* evita que el click llegue al document */
+    mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+  });
 
-    if (mobileClose) mobileClose.addEventListener('click', closeMenu);
-
-    // Cierre al hacer clic en cualquier enlace
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', closeMenu);
-    });
-
-    // Cierre con Escape
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
+  /* Botón cerrar interno */
+  if (mobileClose) {
+    mobileClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeMenu();
     });
   }
 
+  /* Cierre al hacer clic en cualquier enlace del menú */
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => closeMenu());
+  });
+
+  /* Cierre con Escape */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
+  });
+
+  /* Cierre al hacer clic FUERA del menú (no en el burger ni en el propio menú) */
+  document.addEventListener('click', (e) => {
+    if (
+      mobileMenu.classList.contains('open') &&
+      !mobileMenu.contains(e.target) &&
+      !burger.contains(e.target)
+    ) {
+      closeMenu();
+    }
+  });
+
+  /* El menú en sí: stopPropagation para que un clic dentro no lo cierre */
+  mobileMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+}
   /* ══════════════════════════════════════════════════════════
      3. REVEAL on scroll
      ══════════════════════════════════════════════════════════ */
@@ -301,6 +317,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const bg = col.querySelector('.galeria-col__bg');
         if (bg) bg.style.backgroundImage = `url('${img}')`;
       }
+      // FIX: precargar la imagen y hacerla visible al hover sin esperar al CSS
+    if (img) {
+      const bg = col.querySelector('.galeria-col__bg');
+      if (bg) {
+        bg.style.backgroundImage = `url('${img}')`;
+        // Precarga para evitar flash blanco
+        const preload = new Image();
+        preload.src = img;
+      }
+    }
     });
 
     // Cursor personalizado (solo desktop)
