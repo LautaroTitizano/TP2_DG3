@@ -6,17 +6,17 @@
 /* ── 1. TOKENS ─────────────────────────────────────────────────── */
 :root{
   /* Color — bloques contrapuestos */
-  --c-paper:        #F2F2F2;   /* claro: fondo perla */
+  --c-paper:        #FDFCF8;   /* claro: crema unificado — TODAS las secciones claras usan este mismo tono */
   --c-paper-ink:     #111111;  /* claro: texto */
   --c-asphalt:       #0F0F0F;  /* oscuro: fondo asfalto */
-  --c-asphalt-ink:    #E5E5E5; /* oscuro: texto */
+  --c-asphalt-ink:    #ffffff; /* oscuro: texto */
   --c-line-light:     rgba(17,17,17,.14);
-  --c-line-dark:      rgba(229,229,229,.16);
+  --c-line-dark:      rgba(189, 28, 0, 0.203), 0.16);
 
   /* Acento mínimo — cobre / madera cruda, sólo interactividad */
-  --c-copper:   #B87333;
-  --c-copper-2: #C19A6B;
-  --c-copper-deep: #8F5623;
+  --c-copper:   #cb5429;
+  --c-copper-2: #e37d00;
+  --c-copper-deep: #b84000;
 
   /* Tipografía */
   --f-display: 'Nata Sans', 'Inter', sans-serif;
@@ -32,7 +32,7 @@
   --sp-7:  3rem;     /* 48  */
   --sp-8:  4rem;     /* 64  */
   --sp-9:  6rem;     /* 96  */
-  --sp-10: 8rem;     /* 128 */
+  --sp-10: 5rem;     /* 64 */
   --sp-11: 10rem;    /* 160 */
 
   /* Grilla de 12 columnas */
@@ -98,6 +98,39 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
 }
 .label-num--light{ color: var(--c-copper-2); }
 
+/* ── Kicker con ícono — mismo lenguaje que .label-num, versión con
+   marca "★" para secciones que abren con una frase corta. ── */
+.section-tag{
+  display:inline-flex; align-items:center; gap:.5em;
+  font-family: var(--f-body); font-weight:700; font-size:.75rem;
+  letter-spacing:.22em; text-transform:uppercase; color: var(--c-copper);
+  margin-bottom: var(--sp-5);
+}
+
+/* ── Sistema de subrayado reutilizable (.hl) — el mismo lenguaje que
+   ya vive en "El arte" y en el FAQ, ahora disponible para resaltar
+   una palabra suelta dentro de cualquier título. Se "asienta" una
+   sola vez al cargar, nunca en loop. Usar con moderación. ── */
+.hl{
+  position:relative; display:inline-block; color: var(--c-copper);
+}
+.hl::after{
+  content:''; position:absolute; left:0; bottom:.06em; height:.07em; width:100%;
+  opacity:.55; transform-origin:left center;
+  transform: scaleX(0);
+  animation: hl-settle .9s .3s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes hl-settle{ to{ transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce){
+  .hl::after{ animation:none; transform:scaleX(1); }
+}
+
+/* Variante "grupo": varias .hl conviven en el mismo título y compiten
+   por atención — pasar el mouse por una baja la opacidad de las demás,
+   nunca al revés (la que tiene el foco se queda a opacidad plena). */
+.hl--group{ transition: opacity var(--dur-mid) var(--ease-out); }
+.hl--group.is-dimmed{ opacity:.4; }
+
 h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 .section-header h2, .arte__header h2, .componentes__header h2{ font-size: clamp(1.35rem, 2.3vw, 2.1rem); }
 
@@ -114,8 +147,17 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
   gap: var(--grid-gap);
 }
 
-/* ── 5. BOTONES ────────────────────────────────────────────────── */
+/* ── 5. BOTONES — expansión radial ────────────────────────────────
+   Un único componente reutilizable para todos los CTA del sitio.
+   Cada variante sólo define 4 variables (fondo/color/borde en reposo
+   + el color que "explota" desde un punto): la mecánica del efecto
+   (el círculo que crece desde ::before) vive una sola vez acá.
+   Inspirado en el botón de Uiverse que mandaste, adaptado a la
+   tipografía, el sistema de espaciado y la paleta ya existentes. ── */
 .btn{
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: .6em;
@@ -125,41 +167,75 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
   letter-spacing: .04em;
   text-transform: uppercase;
   padding: 1.05em 1.9em;
-  border: 1px solid transparent;
+  background: var(--btn-bg, transparent);
+  color: var(--btn-color, currentColor);
+  border: 1px solid var(--btn-border, transparent);
   border-radius: var(--r-sharp);
-  transition: transform var(--dur-fast) var(--ease-out),
-              background-color var(--dur-fast) var(--ease-out),
-              color var(--dur-fast) var(--ease-out),
-              border-color var(--dur-fast) var(--ease-out);
+  transition: color .45s var(--ease-out), border-color .45s var(--ease-out), transform var(--dur-fast) var(--ease-out);
   white-space: nowrap;
+}
+.btn::before{
+  content: '';
+  position: absolute;
+  left: 1.15em; top: 50%;
+  width: 10px; height: 10px; margin-top: -5px;
+  border-radius: 50%;
+  background: var(--btn-fill, var(--c-copper));
+  transform: scale(0);
+  transition: transform .65s cubic-bezier(.65, 0, .35, 1);
+  z-index: -1;
+  pointer-events: none;
+}
+.btn:hover::before, .btn:focus-visible::before{ transform: scale(48); }
+.btn:hover, .btn:focus-visible{
+  color: var(--btn-fill-color, #0F0F0F);
+  border-color: var(--btn-fill, var(--c-copper));
 }
 .btn span{ transition: transform var(--dur-fast) var(--ease-out); display:inline-block; }
 .btn:hover span{ transform: translate(3px,-2px); }
 .btn:active{ transform: scale(.97); }
+.btn:focus-visible{ outline: 2px solid var(--c-copper); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce){
+  .btn::before{ transition: none; }
+}
 
 .btn-outline-light{
-  color: var(--c-asphalt-ink);
-  border-color: rgba(229,229,229,.5);
-}
-.btn-outline-light:hover{
-  background: var(--c-asphalt-ink);
-  color: var(--c-asphalt);
-  border-color: var(--c-asphalt-ink);
+  --btn-bg: transparent;
+  --btn-color: var(--c-asphalt-ink);
+  --btn-border: rgba(229,229,229,.5);
+  --btn-fill: var(--c-asphalt-ink);
+  --btn-fill-color: var(--c-asphalt);
 }
 
 .btn-accent{
-  background: var(--c-copper);
-  color: #0F0F0F;
-  border-color: var(--c-copper);
+  --btn-bg: var(--c-copper);
+  --btn-color: #0F0F0F;
+  --btn-border: var(--c-copper);
+  --btn-fill: var(--c-copper-2);
+  --btn-fill-color: #0F0F0F;
 }
-.btn-accent:hover{ background: var(--c-copper-2); border-color: var(--c-copper-2); }
 
 .btn-dark{
-  background: var(--c-asphalt);
-  color: var(--c-asphalt-ink);
-  border-color: var(--c-asphalt);
+  --btn-bg: var(--c-asphalt);
+  --btn-color: var(--c-asphalt-ink);
+  --btn-border: var(--c-asphalt);
+  --btn-fill: var(--c-copper);
+  --btn-fill-color: #0F0F0F;
 }
-.btn-dark:hover{ background: var(--c-copper); border-color: var(--c-copper); color:#0F0F0F; }
+
+/* Usado por el formulario de contacto ("Enviar mensaje") — mismo
+   componente, tono oscuro sobre fondo claro. */
+.btn-primary{
+  --btn-bg: var(--c-paper-ink);
+  --btn-color: var(--c-paper);
+  --btn-border: var(--c-paper-ink);
+  --btn-fill: var(--c-copper);
+  --btn-fill-color: #0F0F0F;
+}
+.btn-primary:disabled{
+  opacity: .5; cursor: not-allowed;
+}
+.btn-primary:disabled::before{ display:none; }
 
 /* ── 6. IMÁGENES B/N — "trabajo sucio" del taller ────────────────
    Fotos del proceso desaturadas; el color aparece sólo como acento
@@ -201,7 +277,7 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
    ══════════════════════════════════════════════════════════════════ */
 .nav{
   position: fixed; top:0; left:0; right:0; z-index: 900;
-  display:flex; align-items:center; justify-content:space-between;
+  display:grid; grid-template-columns: auto 1fr auto; align-items:center; gap: var(--sp-5);
   height: var(--nav-h);
   padding-inline: var(--grid-margin);
   background: transparent;
@@ -228,7 +304,8 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 
 .nav__links{
   display:flex; gap: var(--sp-6);
-  position:absolute; left:50%; transform:translateX(-50%);
+  justify-self:center;
+  flex-wrap: wrap; /* red de seguridad: nunca se sale de su columna ni pisa al resto */
 }
 .nav__links a{
   font-size: .82rem; font-weight: 600; letter-spacing:.03em;
@@ -243,7 +320,7 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 .nav__links a:hover{ opacity:1; }
 .nav__links a:hover::after{ width:100%; }
 
-.nav__right{ display:flex; align-items:center; gap: var(--sp-5); z-index:2; }
+.nav__right{ display:flex; align-items:center; gap: var(--sp-5); z-index:2; justify-content: flex-end; }
 .nav__cta{
   font-size:.78rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
   padding: .75em 1.4em; border:1px solid var(--c-copper); border-radius: var(--r-sharp);
@@ -306,25 +383,37 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 .hero__content{
   position:relative; z-index:1; width:100%;
   padding: 0 var(--grid-margin) var(--sp-9);
-  display:grid; grid-template-columns: repeat(12, 1fr); gap: var(--grid-gap);
+  display:grid; grid-template-columns: repeat(12, 1fr); gap: var(--grid-gap); 
 }
-.hero__block{ grid-column: 3 / span 8; }
-.hero__title{
+.hero__block { 
+  grid-column: 1 / span 10; /* Extendemos el bloque para evitar cortes toscos */
+}
+
+.hero__title {
   color: var(--c-asphalt-ink);
-  font-size: clamp(2.5rem, 6.5vw, 6rem);
-  line-height: .95;
+  font-size: clamp(2.5rem, 5.5vw, 5rem); /* Ajustamos levemente el tope para un mejor balance visual */
+  line-height: 1.05;
+  letter-spacing: -0.02em;
 }
-.hero__title-accent{ color: var(--c-copper); font-style: normal; }
-.hero__sub{
+
+.hero__sub {
   color: rgba(229,229,229,.75);
   font-size: clamp(1rem, 1.4vw, 1.2rem);
-  margin-top: var(--sp-5);
-  max-width: 32ch;
+  margin-top: var(--sp-4);
+  max-width: 45ch; /* Más margen de caracteres para que no queden líneas viudas */
 }
+
 .hero__cta{ margin-top: var(--sp-6); }
 
 @media (max-width: 900px){
-  .hero__block{ grid-column: 1 / -1; }
+  .hero{ align-items: center; } /* antes flex-end: empujaba todo el bloque al piso de la pantalla */
+  .hero__content{ padding: 0 var(--grid-margin); } /* sacamos el padding-bottom de desktop, ya no hace falta al centrar */
+  .hero__block{
+    grid-column: 1 / -1;
+    text-align: center; /* centra título, párrafo (inline) y el botón (es un <a> inline-flex) */
+  }
+  .hero__sub{ margin-inline: auto; } /* tiene max-width:45ch → sin esto quedaba pegado a la izquierda */
+  .hero__cta{ margin-top: var(--sp-6); }
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -417,11 +506,11 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
    vía GSAP para no generar reflows innecesarios.
    ══════════════════════════════════════════════════════════════════ */
 .arte{
-  background: var(--c-asphalt); color: var(--c-asphalt-ink);
+  background: var(--c-paper); color: var(--c-paper-ink);
   padding: var(--sp-10) var(--grid-margin);
 }
-.arte__header{ display:flex; align-items:baseline; gap: var(--sp-4); margin-bottom: var(--sp-9); }
-.arte__header h2{ color: var(--c-asphalt-ink); }
+.arte__header{ display:flex; flex-direction:column; align-items:flex-start; text-align:left; gap: var(--sp-3); margin-bottom: var(--sp-9); }
+.arte__header h2{ color: var(--c-paper-ink); }
 
 .arte__scroll{
   display:grid; grid-template-columns: repeat(12,1fr); gap: var(--grid-gap);
@@ -429,8 +518,10 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 }
 
 /* ── Columna izquierda: número gigante, sticky ──
-   Bajo contraste a propósito (8% de opacidad): debe leerse pero
-   sentirse integrado al fondo, nunca competir con el contenido. */
+   Bajo contraste a propósito (6% de opacidad): debe leerse pero
+   sentirse integrado al fondo, nunca competir con el contenido.
+   En mobile se elimina del todo (ver @media más abajo): ahí ocupa
+   demasiado espacio para lo que aporta. */
 .arte__sticky{
   grid-column: 1 / span 3;
   position: sticky;
@@ -442,7 +533,7 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 .arte__num{
   display:block; font-family: var(--f-display); font-weight:900;
   font-size: clamp(5.5rem, 9vw, 10rem); line-height:1;
-  color: var(--c-asphalt-ink); opacity:.08;
+  color: var(--c-paper-ink); opacity:.06;
   will-change: transform, opacity, filter;
 }
 
@@ -450,7 +541,7 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 .arte__list{ grid-column: 4 / span 9; position:relative; }
 
 .arte__item{ position:relative; transition: opacity .45s var(--ease-out); }
-.arte__item--dimmed{ opacity:.35; }
+.arte__item--dimmed{ opacity:.4; }
 
 /* La línea "cuerda de guitarra": reemplaza al border-top clásico.
    Es un SVG con un único path horizontal; JS anima su curvatura
@@ -458,7 +549,7 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 .arte__item-line{ width:100%; height:24px; margin-top:-12px; }
 .arte__item-line svg{ width:100%; height:100%; display:block; overflow:visible; }
 .arte__item-line path{
-  fill:none; stroke: var(--c-line-dark); stroke-width:1;
+  fill:none; stroke: var(--c-line-light); stroke-width:1;
   vector-effect: non-scaling-stroke;
   transition: stroke var(--dur-fast) var(--ease-out);
 }
@@ -472,25 +563,35 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
   font: inherit; color:inherit; text-align:left; -webkit-tap-highlight-color:transparent;
 }
 .arte__item-header-left{ display:flex; align-items:center; gap: var(--sp-5); }
-.arte__item-num{ font-family: var(--f-body); font-weight:700; font-size:.8rem; color: var(--c-copper-2); min-width:2ch; }
+.arte__item-num{ font-family: var(--f-body); font-weight:700; font-size:.8rem; color: var(--c-copper); min-width:2ch; }
+.arte__item-title-wrap{ position:relative; display:inline-block; }
 .arte__item-title{
   font-family: var(--f-display); font-weight:800; letter-spacing:-.01em;
-  font-size: clamp(1.35rem, 2.2vw, 2rem); color: rgba(229,229,229,.5);
+  font-size: clamp(1.35rem, 2.2vw, 2rem); color: rgba(17,17,17,.5);
   transition: color var(--dur-fast) var(--ease-out);
 }
-.arte__item--active .arte__item-title, .arte__item-header:hover .arte__item-title{ color: var(--c-asphalt-ink); }
+.arte__item--active .arte__item-title, .arte__item-header:hover .arte__item-title{ color: var(--c-paper-ink); }
 .arte__item-header:focus-visible{ outline:1px solid var(--c-copper); outline-offset:6px; }
 
-/* Ícono "+" → "×" cuando la etapa está activa */
-.arte__item-icon{ position:relative; width:18px; height:18px; flex-shrink:0; }
+/* La línea corta bajo el título activo: nace en scaleX(0) y "se
+   suelta" con ease elástico — esta es la cuerda de guitarra. */
+.arte__item-title-underline{
+  position:absolute; left:0; bottom:-6px; height:2px; width:100%;
+  background: var(--c-copper); transform-origin: left center; transform: scaleX(0);
+}
+
+/* Ícono "+": sólo visible en las etapas colapsadas. En la activa
+   desaparece del todo (no hace falta un "cerrar", el hover/tap en
+   otra etapa ya se encarga). */
+.arte__item-icon{ position:relative; width:18px; height:18px; flex-shrink:0; transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-mid) var(--ease-out); }
 .arte__item-icon i{
   position:absolute; top:50%; left:50%; width:100%; height:1px;
-  background: currentColor; color: var(--c-asphalt-ink);
-  transform: translate(-50%,-50%); transition: transform var(--dur-fast) var(--ease-out);
+  background: currentColor; color: var(--c-paper-ink);
+  transform: translate(-50%,-50%);
 }
-.arte__item-icon i:last-child{ transform: translate(-50%,-50%) rotate(90deg); }
-.arte__item--active .arte__item-icon i:first-child{ transform: translate(-50%,-50%) rotate(45deg); }
-.arte__item--active .arte__item-icon i:last-child{ transform: translate(-50%,-50%) rotate(-45deg); }
+.arte__item-icon i:last-child{ transform: translate(-50%,-50%) rotate(90deg); transition: transform var(--dur-mid) var(--ease-out); }
+.arte__item--active .arte__item-icon{ opacity:0; pointer-events:none; }
+.arte__item--active .arte__item-icon i:last-child{ transform: translate(-50%,-50%) rotate(0deg); }
 
 /* ── Panel de contenido: la altura la controla GSAP (medición real),
    por eso arranca en 0 con overflow oculto. El contenido interno
@@ -502,19 +603,19 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
   padding-bottom: var(--sp-7);
 }
 .arte__item-text p.swiss-paragraph{
-  font-family: var(--f-body); color: rgba(229,229,229,.66);
+  font-family: var(--f-body); color: rgba(17,17,17,.66);
   max-width: 38ch; font-size: 1rem; line-height:1.6; margin-bottom: var(--sp-5);
 }
 .arte__item-tags{
   list-style:none; display:flex; flex-direction:column; gap:.55em;
-  border-left: 2px solid var(--c-copper); padding-left: var(--sp-4);
+  border-left: 2px solid var(--c-line-light); padding-left: var(--sp-4);
 }
 .arte__item-tags li{
   font-family: var(--f-body); font-weight:600; font-size:.76rem;
-  letter-spacing:.05em; text-transform:uppercase; color: rgba(229,229,229,.78);
+  letter-spacing:.05em; text-transform:uppercase; color: rgba(17,17,17,.7);
 }
 .arte__item-image{
-  aspect-ratio: 16/10; overflow:hidden; border-radius: var(--r-sharp); background:#1a1a1a;
+  aspect-ratio: 16/10; overflow:hidden; border-radius: var(--r-sharp); background:#EAE7DE;
 }
 .arte__item-image img{
   width:100%; height:100%; object-fit:cover; filter: grayscale(.4) contrast(1.05);
@@ -524,14 +625,15 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 
 .arte__item-line--end{ width:100%; height:24px; margin-top:-12px; }
 .arte__item-line--end svg{ width:100%; height:100%; display:block; overflow:visible; }
-.arte__item-line--end path{ fill:none; stroke: var(--c-line-dark); stroke-width:1; vector-effect: non-scaling-stroke; }
+.arte__item-line--end path{ fill:none; stroke: var(--c-line-light); stroke-width:1; vector-effect: non-scaling-stroke; }
 
 @media (max-width: 900px){
   .arte__scroll{ grid-template-columns: 1fr; }
-  .arte__sticky{
-    position:static; grid-column: 1 / -1; margin-bottom: var(--sp-5);
-  }
-  .arte__num{ font-size: clamp(3rem, 15vw, 4.5rem); opacity:.14; }
+  /* Punto 2 del brief: el número gigante se elimina por completo en
+     mobile, no se achica — ahí compite por espacio con el contenido
+     real y no aporta nada que el propio índice "01/02/03/04" no diga
+     ya de forma compacta. */
+  .arte__sticky{ display:none; }
   .arte__list{ grid-column: 1 / -1; }
   .arte__item-inner{ grid-template-columns: 1fr; gap: var(--sp-5); }
 }
@@ -543,7 +645,7 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 /* ══════════════════════════════════════════════════════════════════
    04 · COMPONENTES DE LA GUITARRA — mapa interactivo
    ══════════════════════════════════════════════════════════════════ */
-.componentes{ background: #FDFCF8; color: var(--c-paper-ink); padding: var(--sp-10) var(--grid-margin); }
+.componentes{ background: var(--c-paper); color: var(--c-paper-ink); padding: var(--sp-10) var(--grid-margin); }
 .componentes__header{ margin-bottom: var(--sp-8); max-width: 62ch; }
 .componentes__header h2{ color: var(--c-paper-ink); margin-bottom: var(--sp-4); }
 .componentes__intro{ color: rgba(17,17,17,.6); font-size: 1.05rem; }
@@ -615,15 +717,15 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 /* ══════════════════════════════════════════════════════════════════
    06 · CURSOS — Del taller a tus manos
    ══════════════════════════════════════════════════════════════════ */
-.cursos{ background: var(--c-asphalt); color: var(--c-asphalt-ink); padding: var(--sp-10) var(--grid-margin); }
+.cursos{ background: var(--c-paper); color: var(--c-paper-ink); padding: var(--sp-10) var(--grid-margin); }
 .cursos__intro{
   display:grid; grid-template-columns: repeat(12,1fr); gap: var(--grid-gap);
   margin-bottom: var(--sp-8); align-items:end;
 }
-.cursos__intro h2{ color: var(--c-asphalt-ink); }
+.cursos__intro h2{ color: var(--c-paper-ink); }
 .cursos__intro > div:first-child{ grid-column: 1 / span 7; }
 .cursos__intro-sub{ grid-column: 9 / span 4; }
-.cursos__intro-sub p{ color: rgba(229,229,229,.62); font-size: 1.02rem; }
+.cursos__intro-sub p{ color: rgba(17,17,17,.62); font-size: 1.02rem; }
 
 .cursos__rail{
   display:grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gap);
@@ -661,6 +763,7 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
   background: linear-gradient(180deg, rgba(15,15,15,.15) 0%, rgba(15,15,15,.97) 62%);
   opacity:0; transform: translateY(12px);
   transition: opacity var(--dur-mid) var(--ease-out), transform var(--dur-mid) var(--ease-out);
+  overflow-y:auto; /* red de seguridad: si el contenido no entra, scrollea en vez de romper el card */
 }
 .curso-card__link:hover .curso-card__info, .curso-card__link:focus-visible .curso-card__info{
   opacity:1; transform: translateY(0);
@@ -678,15 +781,166 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 .curso-card__price-value{ font-family: var(--f-display); font-size: 1.3rem; color: var(--c-copper-2); }
 .curso-card__info .btn{ align-self:flex-start; margin-top: var(--sp-2); padding: .8em 1.4em; font-size:.75rem; }
 
-@media (max-width: 900px){
-  .cursos__intro > div:first-child, .cursos__intro-sub{ grid-column: 1 / -1; }
-  .cursos__intro-sub{ margin-top: var(--sp-3); }
-  .cursos__rail{ grid-template-columns: 1fr; }
-  .curso-card__info{ opacity:1; transform:none; position:relative; background:none; padding-top:0; }
-  .curso-card__overlay{ position:relative; background:none; padding-bottom: 0; }
-  .curso-card__image{ aspect-ratio: 4/3; }
+/* Rango intermedio (tablet / laptop chico): 3 columnas quedan muy
+   angostas para el panel de hover (meta + precio + botón) y se
+   rompía. Con 2 columnas cada card tiene más aire. */
+@media (max-width: 1240px) and (min-width: 901px){
+  .cursos__rail{ grid-template-columns: repeat(2, 1fr); }
 }
 
+/* ==========================================================================
+   CURSOS EN RESPONSIVE (Versión Final Corregida)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .cursos {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  /* El riel horizontal manual */
+  .cursos__rail { 
+    display: flex !important;
+    flex-direction: row !important;
+    gap: var(--sp-4) !important; 
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 0 var(--grid-margin) var(--sp-4) var(--grid-margin) !important;
+  }
+
+  /* Tarjeta contenedora con la altura total real */
+  .curso-card { 
+    flex: 0 0 82vw !important; 
+    scroll-snap-align: start !important;
+    position: relative !important;
+    border-radius: var(--r-sharp) !important;
+    overflow: hidden !important;
+    height: 420px !important; 
+  }
+
+  /* SOLUCIÓN AL ENLACE: Forzamos a que ocupe todo el alto de la tarjeta */
+  .curso-card__link {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important; /* Evita que colapse a la mitad */
+    position: relative !important;
+  }
+
+  /* Contenedor de la imagen al 100% real */
+  .curso-card__image { 
+    position: absolute !important;
+    inset: 0 !important; 
+    width: 100% !important; 
+    height: 100% !important; 
+    min-height: 100% !important;
+    aspect-ratio: auto !important; /* Desactiva el 3/4 de desktop */
+    overflow: hidden !important;
+  }
+
+  .curso-card__image img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; 
+  }
+
+  .curso-card__overlay { 
+    display: none !important; 
+  } 
+
+  /* LA CAPA DE INFORMACIÓN */
+  .curso-card__info {
+    position: absolute !important; 
+    inset: 0 !important; 
+    opacity: 1 !important; 
+    transform: none !important; 
+    visibility: visible !important;
+    
+    /* Degradado oscuro envolvente */
+    background: linear-gradient(to top, rgba(15, 15, 15, 0.98) 0%, rgba(15, 15, 15, 0.75) 50%, rgba(15, 15, 15, 0) 100%) !important;
+    
+    padding: var(--sp-6) !important; 
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important; /* Fuerza el alineado abajo */
+    z-index: 2 !important;
+  }
+
+  /* Margen superior automático empuja todo al final */
+  .curso-card__info .curso-card__title { 
+    margin-top: auto !important; 
+    font-size: 1.4rem !important; 
+    color: #ffffff !important; 
+    font-weight: 700 !important;
+    margin-bottom: var(--sp-1) !important;
+    white-space: normal !important;
+  }
+  
+  .curso-card__info p { 
+    display: block !important; 
+    color: rgba(229, 229, 229, 0.8) !important; 
+    font-size: .88rem !important; 
+    line-height: 1.4 !important;
+    margin: var(--sp-1) 0 !important;
+    white-space: normal !important;
+  } 
+
+  .curso-card__meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: var(--sp-2) !important;
+    margin-top: var(--sp-1) !important;
+    margin-bottom: var(--sp-1) !important;
+  }
+
+  .curso-card__meta span {
+    font-size: 0.72rem !important;
+    padding: .35em .7em !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .curso-card__price {
+    display: flex !important;
+    align-items: baseline !important;
+    gap: var(--sp-2) !important;
+    margin-top: var(--sp-2) !important;
+    margin-bottom: var(--sp-1) !important;
+  }
+
+  .curso-card__price-label {
+    color: rgba(229, 229, 229, 0.5) !important;
+    font-size: 0.72rem !important;
+    text-transform: uppercase !important;
+  }
+
+  .curso-card__price-value {
+    color: var(--c-copper-2) !important; 
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+  }
+
+  .curso-card__info .btn {
+    display: inline-flex !important;
+    align-self: flex-start !important;
+    margin-top: var(--sp-2) !important;
+    padding: .8em 1.4em !important;
+    font-size: 0.75rem !important;
+    background: var(--c-copper) !important;
+    color: #0F0F0F !important;
+    border: none !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .curso-card { 
+    flex: 0 0 88vw !important; 
+    height: 420px !important;
+  }
+}
 /* ══════════════════════════════════════════════════════════════════
    07 · STATS — Cada pieza importa
    ══════════════════════════════════════════════════════════════════ */
@@ -712,61 +966,122 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 .stat-item__desc{ font-size: .85rem; color: rgba(17,17,17,.55); max-width: 28ch; }
 
 @media (max-width: 900px){
-  .stats__left, .stats__grid{ grid-column: 1 / -1; }
-  .stats__left{ margin-bottom: var(--sp-7); }
-  .stats__grid{ grid-template-columns: 1fr 1fr; }
+  .stats__left{ grid-column: 1 / -1; margin-bottom: var(--sp-7); }
+
+  /* Los tiles pasan a ser cuadrados fijos en fila, con scroll
+     horizontal — así un dato numérico (que pesa poco) no termina
+     ocupando una fila entera de ancho al apilarse verticalmente. */
+  .stats__grid{
+    grid-column: 1 / -1;
+    display:flex; grid-template-columns:none;
+    overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+    border-top:0; border-left:0; gap: var(--sp-3);
+  }
+  .stat-item{
+    flex: 0 0 auto; width: 62vw; aspect-ratio: 1 / 1;
+    border: 1px solid var(--c-line-light); scroll-snap-align:start;
+    display:flex; flex-direction:column; justify-content:center;
+  }
 }
 @media (max-width: 560px){
-  .stats__grid{ grid-template-columns: 1fr; }
+  .stat-item{ width: 72vw; }
 }
 
 /* ══════════════════════════════════════════════════════════════════
    08 · MADERAS — La madera que da voz
    ══════════════════════════════════════════════════════════════════ */
-.maderas{ background: var(--c-asphalt); color: var(--c-asphalt-ink); padding: var(--sp-10) var(--grid-margin); }
-.maderas__header h2{ color: var(--c-asphalt-ink); margin-bottom: var(--sp-4); }
-.maderas__intro-text{ color: rgba(229,229,229,.62); max-width: 56ch; font-size: 1.02rem; }
+.maderas{ background: var(--c-paper); color: var(--c-paper-ink); padding: var(--sp-10) var(--grid-margin); }
+.maderas__header h2{ color: var(--c-paper-ink); margin-bottom: var(--sp-4); }
+.maderas__intro-text{ color: rgba(17,17,17,.62); max-width: 56ch; font-size: 1.02rem; }
 .maderas__top{ margin-bottom: var(--sp-8); }
 
 .picks__grid{
-  display:grid; grid-template-columns: repeat(4,1fr); gap: 1px;
-  background: var(--c-line-dark); border: 1px solid var(--c-line-dark);
+  display:grid; grid-template-columns: repeat(4,1fr); gap: var(--sp-4);
 }
-.pick-card{
-  background: var(--c-asphalt); padding: var(--sp-6); position:relative;
-  min-height: 320px; overflow:hidden; cursor:pointer;
-  transition: background-color var(--dur-mid) var(--ease-out);
-}
-.pick-card:hover, .pick-card:focus-visible{ background: #161616; }
-.pick-card__index{ display:block; font-family: var(--f-display); color: var(--c-copper-2); font-size: .9rem; margin-bottom: var(--sp-6); }
-.pick-card__icon{
-  width: 84px; height: 84px; margin-inline:auto; display:flex; align-items:center; justify-content:center;
-  filter: brightness(0) saturate(100%) invert(56%) sepia(28%) saturate(600%) hue-rotate(345deg) brightness(95%);
-  opacity: .85; transition: transform var(--dur-mid) var(--ease-out);
-}
-.pick-card__icon img{ width:100%; height:100%; object-fit:contain; }
-.pick-card:hover .pick-card__icon{ transform: translateY(-4px) rotate(-4deg); }
-.pick-card__name{
-  text-align:center; margin-top: var(--sp-5); font-weight:700; letter-spacing:.06em;
-  font-size: .92rem;
-}
-.pick-card__panel{
-  position:absolute; left:0; right:0; bottom:0; height:0; overflow:hidden;
-  background: var(--c-copper); transition: height var(--dur-mid) var(--ease-out);
-}
-.pick-card:hover .pick-card__panel, .pick-card:focus-visible .pick-card__panel{ height: 62%; }
-.pick-card__panel-inner{ height:100%; display:flex; align-items:flex-end; }
-.pick-card__panel-inner-pad{ padding: var(--sp-5); }
-.pick-card__panel-title{ font-size:.68rem; font-weight:800; letter-spacing:.1em; color: rgba(15,15,15,.6); margin-bottom: var(--sp-2); }
-.pick-card__panel ul{ display:flex; flex-direction:column; gap: .35em; }
-.pick-card__panel li{ font-size: .78rem; color:#0F0F0F; font-weight:600; line-height:1.35; }
 
-@media (max-width: 900px){
-  .picks__grid{ grid-template-columns: repeat(2,1fr); }
+/* ── Flip card 3D. .pick-card = la "ventana" con perspectiva;
+   .pick-card__inner es lo que gira; cada .pick-card__face es una cara
+   con backface-visibility oculta, así nunca se ve el reverso invertido.
+
+   Frente: foto real de la madera, sin filtros que la desvirtúen — antes
+   había un filter que teñía cualquier PNG de color naranja plano, por
+   eso "no se veía bien" (aplastaba fotos a color como si fueran íconos
+   de un solo trazo). Ahora la imagen se muestra tal cual es.
+
+   Reverso: la misma imagen a sangre completa (object-fit:cover) con un
+   velo claro para que el texto negro sea legible — listo para que se
+   reemplace por una imagen dedicada más clara/blanca sin tocar el CSS. ── */
+.pick-card{
+  perspective: 1400px; min-height: 340px; cursor:pointer;
 }
+.pick-card__inner{
+  position:relative; width:100%; height:100%; min-height:340px;
+  transform-style: preserve-3d;
+  transition: transform .8s cubic-bezier(.23,1,.32,1);
+}
+.pick-card:hover .pick-card__inner,
+.pick-card:focus-visible .pick-card__inner{ transform: rotateY(180deg); }
+
+.pick-card__face{
+  position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  border-radius: var(--r-sharp); overflow: hidden;
+  display:flex; flex-direction:column;
+}
+.pick-card__face--front{
+  background: #fff; border: 1px solid var(--c-line-light);
+  align-items:center; justify-content:center; padding: var(--sp-6);
+}
+.pick-card__face--back{
+  transform: rotateY(180deg); justify-content:flex-end; position:absolute; inset:0;
+}
+.pick-card__back-img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  z-index:0;
+}
+.pick-card__face--back::before{
+  content:''; position:absolute; inset:0; z-index:1;
+  background: linear-gradient(180deg, rgba(255,255,255,.15) 0%, rgba(255,255,255,.94) 78%);
+}
+.pick-card__face--back > *{ position:relative; z-index:2; }
+.pick-card__face--back{ padding: var(--sp-6); }
+
+.pick-card__index{ position:absolute; top: var(--sp-5); left: var(--sp-5); font-family: var(--f-display); color: var(--c-copper); font-size: .9rem; z-index:2; }
+.pick-card__icon{
+  width: 130px; height: 130px; display:flex; align-items:center; justify-content:center;
+  border-radius: var(--r-sharp); overflow:hidden; border: none solid var(--c-line-light);
+  transition: transform var(--dur-mid) var(--ease-out);
+}
+.pick-card__icon img{ width:100%; height:100%; object-fit:cover; }
+.pick-card:hover .pick-card__icon{ transform: translateY(-4px) scale(1.03); }
+.pick-card__name{ text-align:center; margin-top: var(--sp-5); font-weight:700; letter-spacing:.06em; font-size: .92rem; color: var(--c-paper-ink); }
+
+.pick-card__panel-title{ font-size:.68rem; font-weight:800; letter-spacing:.1em; color: rgba(15,15,15,.65); margin-bottom: var(--sp-2); }
+.pick-card__face--back ul{ display:flex; flex-direction:column; gap: .35em; }
+.pick-card__face--back li{ font-size: .78rem; color:#0F0F0F; font-weight:600; line-height:1.35; }
+
+/* NOTA: acá había un segundo @media (max-width: 900px) para
+   .curso-card que quedó de una versión anterior y pisaba (más abajo
+   en la cascada, con !important) al bloque correcto de arriba —
+   .curso-card__image volvía a fijarse en 120px de alto, aplastando
+   la imagen a un banner y dejando vacío el resto de la tarjeta.
+   Se eliminó: toda la lógica de .curso-card en mobile vive
+   únicamente en el bloque "CURSOS EN RESPONSIVE" más arriba. */
+
+/* ── Mobile: scroll horizontal en vez de grilla apilada.
+   El usuario desliza de izquierda a derecha; cada card mantiene su
+   ancho fijo (no se estira) y hace snap prolijo al soltar. ── */
 @media (max-width: 560px){
-  .picks__grid{ grid-template-columns: 1fr; }
-  .pick-card{ min-height: 220px; }
+  .picks__grid{
+    display:flex; grid-template-columns:none; overflow-x:auto; gap: var(--sp-4);
+    scroll-snap-type: x mandatory; padding-bottom: var(--sp-3);
+    -webkit-overflow-scrolling: touch;
+  }
+  .pick-card{
+    flex: 0 0 auto; width: 68vw; min-height: 260px; scroll-snap-align: start;
+  }
+  .pick-card__inner{ min-height: 260px; }
+  /* En touch no hay :hover real — el tap abre/cierra tocando la card */
+  .pick-card.is-flipped .pick-card__inner{ transform: rotateY(180deg); }
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -779,7 +1094,7 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
    con una transición larga y suave — no es un salto, es un fundido.
    ══════════════════════════════════════════════════════════════════ */
 .video-section{
-  background: #FDFCF8; color: var(--c-paper-ink);
+  background: var(--c-paper); color: var(--c-paper-ink);
   transition: background-color 1.1s var(--ease-in-out), color 1.1s var(--ease-in-out);
   overflow: hidden;
 }
@@ -799,9 +1114,9 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
   text-align: left;
 }
 .video-section__text h2{
-  font-size: clamp(2.5rem, 4.6vw, 4.75rem);
-  line-height: 1.04;
-  max-width: 11ch;
+  font-size: clamp(2.25rem, 4.2vw, 4.5rem);
+  line-height: 1.05;
+  max-width: 16ch;
   transition: color 1.1s var(--ease-in-out);
 }
 
@@ -892,86 +1207,178 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 /* ══════════════════════════════════════════════════════════════════
    11 · TESTIMONIOS — Carrusel scroll-snap
    ══════════════════════════════════════════════════════════════════ */
-.testimonios{ background: var(--c-paper); color: var(--c-paper-ink); padding: var(--sp-10) 0; }
-.testimonios__header{ padding: 0 var(--grid-margin); margin-bottom: var(--sp-8); }
-.testimonios__carousel{
-  display:flex; gap: var(--grid-gap); overflow-x:auto; scroll-snap-type: x mandatory;
-  padding: 0 var(--grid-margin) var(--sp-3);
-  scrollbar-width:none;
-}
-.testimonios__carousel::-webkit-scrollbar{ display:none; }
-.testimonio-card{
-  scroll-snap-align:start; flex: 0 0 clamp(280px, 32vw, 400px);
-  background: #fff; border: 1px solid var(--c-line-light); border-radius: var(--r-sharp);
-  padding: var(--sp-6); display:flex; flex-direction:column; gap: var(--sp-4);
-}
-.testimonio-card__stars{ color: var(--c-copper); letter-spacing:.15em; font-size: .9rem; }
-.testimonio-card__text{ font-size: 1.05rem; line-height:1.5; flex:1; }
-.testimonio-card__author{ display:flex; align-items:center; gap: var(--sp-3); }
-.testimonio-card__avatar{ width: 44px; height:44px; border-radius: 50%; flex-shrink:0; }
-.testimonio-card__name{ font-weight:700; font-size:.92rem; }
-.testimonio-card__role{ font-size:.78rem; color: rgba(17,17,17,.55); }
 
-.testimonios__controls{
-  display:flex; align-items:center; justify-content:center; gap: var(--sp-5);
-  margin-top: var(--sp-6);
+.testimonios { 
+  background: var(--c-asphalt); 
+  color: var(--c-asphalt-ink); 
+  padding: var(--sp-10) 0; 
+  overflow: hidden; /* Evita que el desborde de las tarjetas rompa el ancho de la pantalla */
 }
-.testimonios__btn{
-  width: 40px; height:40px; border:1px solid var(--c-line-light); border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+
+.testimonios__header { 
+  padding: 0 var(--grid-margin); 
+  margin-bottom: var(--sp-8); 
 }
-.testimonios__btn:hover{ background: var(--c-copper); border-color: var(--c-copper); color:#0F0F0F; }
-.testimonios__dots{ display:flex; gap: var(--sp-2); }
-.testimonios__dot{
-  width:8px; height:8px; border-radius:50%; background: var(--c-line-light);
-  transition: background-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+
+.testimonios__header h2 { 
+  color: var(--c-asphalt-ink); 
 }
-.testimonios__dot--active{ background: var(--c-copper); transform: scale(1.2); }
+
+/* Contenedor principal que oculta el scroll e inicializa el área */
+.testimonios__carousel {
+  display: flex;
+  overflow: hidden; 
+  width: 100%;
+  position: relative;
+  padding: 0 0 var(--sp-3) 0;
+}
+
+/* Pista interna que se mueve de forma infinita */
+.testimonios__track {
+  display: flex;
+  gap: var(--grid-gap);
+  padding-left: var(--grid-margin);
+  animation: infinite-scroll 35s linear infinite;
+}
+
+/* Pausa el movimiento cuando pasás el mouse por encima para poder leer tranqui */
+.testimonios__carousel:hover .testimonios__track {
+  animation-play-state: paused;
+}
+
+.testimonio-card {
+  flex: 0 0 clamp(280px, 32vw, 400px);
+  background: #161616; 
+  border: 1px solid var(--c-line-dark); 
+  border-radius: var(--r-sharp);
+  padding: var(--sp-6); 
+  display: flex; 
+  flex-direction: column; 
+  gap: var(--sp-4);
+  /* Mantiene los textos en su flujo natural sin romperse por el white-space del contenedor */
+  white-space: normal; 
+}
+
+.testimonio-card__stars { 
+  color: var(--c-copper); 
+  letter-spacing: .15em; 
+  font-size: .9rem; 
+}
+
+.testimonio-card__text { 
+  font-size: 1.05rem; 
+  line-height: 1.5; 
+  flex: 1; 
+  color: var(--c-asphalt-ink); 
+}
+
+.testimonio-card__author { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--sp-3); 
+}
+
+.testimonio-card__avatar { 
+  width: 44px; 
+  height: 44px; 
+  border-radius: 50%; 
+  flex-shrink: 0; 
+}
+
+.testimonio-card__name { 
+  font-weight: 700; 
+  font-size: .92rem; 
+  color: var(--c-asphalt-ink); 
+}
+
+.testimonio-card__role { 
+  font-size: .78rem; 
+  color: rgba(229,229,229,.55); 
+}
+
+/* Animación que desplaza las tarjetas exactamente la mitad de la pista */
+@keyframes infinite-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - (var(--grid-gap) / 2))); }
+}
+
+/* Ocultamos los controles antiguos de botones y puntitos ya que el scroll ahora es automático */
+.testimonios__controls {
+  display: none;
+}
 
 /* ══════════════════════════════════════════════════════════════════
    12 · FAQ
    ══════════════════════════════════════════════════════════════════ */
-.faq{ background: var(--c-asphalt); color: var(--c-asphalt-ink); padding: var(--sp-10) var(--grid-margin); }
-.faq__header{ margin-bottom: var(--sp-8); }
+.faq{ background: var(--c-asphalt); color: var(--c-asphalt-ink); padding: var(--sp-10) var(--grid-margin); display:flex; flex-direction:column; align-items:center; text-align:center; }
+.faq__header{ margin-bottom: var(--sp-8); max-width: 900px; }
 .faq__header h2{ color: var(--c-asphalt-ink); }
-.faq__list{ max-width: 900px; border-top: 1px solid var(--c-line-dark); }
+.faq__list{ max-width: 900px; width:100%; border-top: 1px solid var(--c-line-dark); text-align:left; }
 .faq__item{ border-bottom: 1px solid var(--c-line-dark); }
 .faq__question{
   display:flex; align-items:center; justify-content:space-between; gap: var(--sp-5);
   width:100%; text-align:left; padding: var(--sp-5) 0; font-size: 1.05rem; font-weight:600;
 }
+/* ── Sistema de subrayado (mismo lenguaje que "El arte detrás del
+   sonido"): nace en scaleX(0) y se abre con ease elástico al hover,
+   nunca en loop. El título además se corre unos px hacia la derecha,
+   como toda la familia de CTAs del sitio (.btn span). ── */
+.faq__question > span{
+  position:relative; display:inline-block;
+  transition: transform var(--dur-mid) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+.faq__question > span::after{
+  content:''; position:absolute; left:0; bottom:-6px; height:2px; width:100%;
+  background: var(--c-copper); transform-origin:left center; transform: scaleX(0);
+  transition: transform .55s cubic-bezier(.22,1,.36,1);
+}
+.faq__question:hover > span{ color: var(--c-copper-2); transform: translateX(6px); }
+.faq__question:hover > span::after,
+.faq__question[aria-expanded="true"] > span::after{ transform: scaleX(1); }
+.faq__question[aria-expanded="true"] > span{ color: var(--c-asphalt-ink); }
 .faq__icon{
   width:26px; height:26px; border-radius:50%; border: 1px solid var(--c-line-dark);
   display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  transition: transform var(--dur-mid) var(--ease-out), background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  transition: transform var(--dur-mid) var(--ease-out), background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
-.faq__question[aria-expanded="true"] .faq__icon{ transform: rotate(45deg); background: var(--c-copper); color:#0F0F0F; }
+.faq__question:hover .faq__icon{ border-color: var(--c-copper); color: var(--c-copper-2); }
+.faq__question[aria-expanded="true"] .faq__icon{ transform: rotate(45deg); background: var(--c-copper); border-color: var(--c-copper); color:#0F0F0F; }
 .faq__answer{ height:0; overflow:hidden; transition: height var(--dur-mid) var(--ease-out); }
 .faq__answer p{ color: rgba(229,229,229,.65); padding-bottom: var(--sp-5); max-width: 60ch; font-size: .96rem; }
 
 /* ══════════════════════════════════════════════════════════════════
-   CTA BANNER
-   ══════════════════════════════════════════════════════════════════ */
-.cta-section{ background: var(--c-paper); padding: var(--sp-9) var(--grid-margin); }
+   CTA BANNER — a sangre completa, sin márgenes muertos.
+   Antes tenía padding lateral en .cta-section que dejaba dos franjas
+   claras a los costados del banner; ahora el banner ocupa el 100%
+   del ancho y el contenido se centra en las dos direcciones para que
+   el CTA sea lo único que compite por la atención acá. ══════════════ */
+.cta-section{ background: var(--c-paper); padding: 0; }
 .cta-banner{
-  position:relative; overflow:hidden; border-radius: var(--r-sharp);
-  min-height: 60vh; display:flex; align-items:center;
+  position:relative; overflow:hidden;
+  min-height: 88vh; width: 100%;
+  display:flex; align-items:center; justify-content:center;
 }
 .cta-banner__bg{ position:absolute; inset:0; }
 .cta-banner__bg img{
   width:100%; height:100%; object-fit:cover; filter: grayscale(1) contrast(1.1) brightness(.42);
 }
 .cta-banner__bg::after{
-  content:''; position:absolute; inset:0; background: linear-gradient(120deg, rgba(15,15,15,.92) 20%, rgba(15,15,15,.55) 100%);
+  content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(15, 15, 15, 0.16) 0%, rgba(44, 1, 0, 0.279) 100%);
 }
-.cta-banner__inner{ position:relative; z-index:1; padding: var(--sp-9); max-width: 720px; }
+.cta-banner__inner{
+  position:relative; z-index:1;
+  padding: var(--sp-9) var(--grid-margin);
+  max-width: 760px;
+  display:flex; flex-direction:column; align-items:center;
+  text-align:center;
+}
 .cta-banner__inner h2{ color: var(--c-asphalt-ink); margin-bottom: var(--sp-5); }
 .cta-banner__inner p{ color: rgba(229,229,229,.72); font-size: 1.1rem; margin-bottom: var(--sp-6); max-width: 44ch; }
-.cta-banner__actions{ display:flex; flex-wrap:wrap; gap: var(--sp-4); }
+.cta-banner__actions{ display:flex; flex-wrap:wrap; justify-content:center; gap: var(--sp-4); }
 
 @media (max-width: 700px){
-  .cta-banner__inner{ padding: var(--sp-6); }
+  .cta-banner{ min-height: 80vh; }
+  .cta-banner__inner{ padding: var(--sp-6) var(--grid-margin); }
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -1017,14 +1424,803 @@ h2{ font-size: clamp(1.5rem, 2.8vw, 2.5rem); }
 /* ══════════════════════════════════════════════════════════════════
    RESPONSIVE — NAV
    ══════════════════════════════════════════════════════════════════ */
-@media (max-width: 860px){
+@media (max-width: 1024px){
   .nav__links{ display:none; }
   .nav__burger{ display:flex; }
   .nav__cta{ display:none; }
 }
+/* Piso de seguridad: en desktop el overlay de mobile-menu NUNCA debe
+   poder renderizarse, pase lo que pase con su clase --open o con el
+   transform que normalmente lo esconde. Esto es lo que de verdad
+   evita el doble menú (nav desktop + "Inscribirse" del overlay mobile
+   superpuestos): antes el overlay sólo se escondía con
+   translateY(-100%), que puede quedar "pegado" abierto si el resize
+   o el matchMedia no dispara a tiempo (típico con el zoom del navegador). */
+@media (min-width: 1025px){
+  .mobile-menu{ display:none !important; }
+}
+/* Refuerzo con JS (main.js → syncNavMode, mismo corte de 1024px): la
+   fuente de verdad real termina siendo la clase que pone matchMedia,
+   no sólo el @media de arriba. Esto es lo que evita que un redondeo
+   de zoom/viewport deje ambos menús visibles a la vez — siempre gana
+   una sola de las dos clases, nunca las dos display:flex juntas. */
+.nav.nav--is-mobile .nav__links,
+.nav.nav--is-mobile .nav__cta{ display:none !important; }
+.nav.nav--is-mobile .nav__burger{ display:flex !important; }
+.nav.nav--is-desktop .nav__burger{ display:none !important; }
+.nav.nav--is-desktop .nav__links{ display:flex !important; }
+.nav.nav--is-desktop .nav__cta{ display:inline-flex !important; }
 
 /* Reduce alturas de secciones sticky en pantallas muy bajas */
 @media (max-height: 560px){
   .curtain__item, .curtain__sticky, .showcase__item, .showcase__sticky{ height: auto; min-height: 100vh; }
 }
+/* ══════════════════════════════════════════════════════════════════
+   13 · CONTACTO — "Poné en marcha tu proyecto"
+   Dos columnas: info + links a la izquierda, formulario a la derecha.
+   Fondo oscuro (va después del video, ver punto 7 del brief). El
+   formulario se inspira en Apple/Linear/Stripe/Framer: casi sin
+   chrome, el foco lo da una línea que crece bajo el campo activo, no
+   un recuadro. Validación en vivo, estados de error por campo, envío
+   simulado con estado de carga (ver js/main.js → initContactForm()).
+   ══════════════════════════════════════════════════════════════════ */
+.contacto{
+  background: var(--c-asphalt); color: var(--c-asphalt-ink);
+  padding: var(--sp-10) var(--grid-margin);
+}
+.contacto-inner{
+  display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.05fr);
+  gap: var(--grid-gap); max-width:1360px; margin-inline:auto; align-items:start;
+}
 
+/* ── Columna izquierda: pitch + datos de contacto ── */
+.contacto-info .section-title{ color: var(--c-asphalt-ink); margin-bottom: var(--sp-5); }
+.contacto-lead{
+  color: rgba(229,229,229,.68); font-size: 1.05rem; line-height:1.55;
+  max-width: 48ch; margin-bottom: var(--sp-7);
+}
+.contacto-list{
+  border-top: 1px solid var(--c-line-dark);
+  padding-top: var(--sp-2);
+}
+.contacto-list li{
+  display:flex; align-items:baseline; justify-content:space-between; gap: var(--sp-4);
+  padding: var(--sp-5) 0; border-bottom: 1px solid var(--c-line-dark);
+}
+.contacto-label{
+  font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color: rgba(229,229,229,.5); flex-shrink:0;
+}
+.contacto-list a, .contacto-list span:last-child{
+  font-weight:600; font-size:.98rem; color: var(--c-asphalt-ink); text-align:right;
+}
+.contacto-list a{ position:relative; transition: color var(--dur-fast) var(--ease-out); }
+.contacto-list a::after{
+  content:''; position:absolute; left:0; bottom:-3px; height:1px; width:100%;
+  background: var(--c-copper); transform-origin:right center; transform: scaleX(0);
+  transition: transform .45s var(--ease-out);
+}
+.contacto-list a:hover{ color: var(--c-copper-2); }
+.contacto-list a:hover::after{ transform: scaleX(1); transform-origin:left center; }
+
+/* ── Columna derecha: formulario ── */
+.contacto-form{
+  display:flex; flex-direction:column; gap: var(--sp-7);
+  background: #121212; border: 1px solid var(--c-line-dark);
+  border-radius: var(--r-sharp); padding: var(--sp-8);
+}
+.form-field{ position:relative; display:flex; flex-direction:column; gap:.6em; }
+.form-field label{
+  font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color: rgba(229,229,229,.5); transition: color var(--dur-fast) var(--ease-out);
+}
+.form-field input, .form-field textarea{
+  background:transparent; border:0; border-bottom: 1px solid var(--c-line-dark);
+  color: var(--c-asphalt-ink); font-family: var(--f-body); font-size: 1rem;
+  padding: .65em 0; resize: vertical; min-height: 2.2em;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.form-field textarea{ min-height: 6em; }
+.form-field input::placeholder, .form-field textarea::placeholder{ color: rgba(229,229,229,.28); }
+.form-field input:focus, .form-field textarea:focus{ outline:none; border-color: var(--c-copper); }
+.form-field:focus-within label{ color: var(--c-copper-2); }
+
+/* Estado de error: borde y mensaje en rojo suave, nunca agresivo */
+.form-field__error{
+  font-size:.76rem; color:#FF8A70; min-height:1em;
+  opacity:0; transform: translateY(-4px);
+  transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.form-field.has-error input, .form-field.has-error textarea{ border-color:#FF8A70; }
+.form-field.has-error .form-field__error{ opacity:1; transform: translateY(0); }
+
+.contacto-form .btn{ align-self:flex-start; margin-top: var(--sp-1); }
+.contacto-form .btn .btn-spinner{
+  width:14px; height:14px; border-radius:50%;
+  border: 2px solid rgba(243,238,226,.35); border-top-color:#F3EEE2;
+  display:none; animation: btn-spin .7s linear infinite;
+}
+.contacto-form .btn.is-loading .btn-spinner{ display:inline-block; }
+.contacto-form .btn.is-loading .btn-txt{ opacity:.7; }
+@keyframes btn-spin{ to{ transform: rotate(360deg); } }
+
+.form-note{
+  font-size:.86rem; min-height:1.2em;
+  opacity:0; transform: translateY(-4px);
+  transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.form-note.is-visible{ opacity:1; transform: translateY(0); }
+.form-note--ok{ color: var(--c-copper-2); }
+.form-note--error{ color:#FF8A70; }
+
+@media (max-width: 1024px){
+  .contacto-inner{ grid-template-columns: 1fr; gap: var(--sp-8); }
+}
+@media (max-width: 700px){
+  .contacto-form{ padding: var(--sp-6); gap: var(--sp-6); }
+}
+
+
+/* ==========================================================================
+   SECCIÓN DE CURSOS — CONFIGURADOR, PROCESO Y DETALLES
+   ========================================================================== */
+
+/* --- Configuración base de transiciones para imágenes --- */
+#configuradorImage {
+  transition: opacity 0.18s ease-in-out;
+}
+
+/* --- Estructura y Hero del Curso --- */
+.curso-hero {
+  position: relative;
+  height: 60vh;
+  min-height: 400px;
+  display: flex;
+  align-items: flex-end;
+  padding: 4rem 2rem;
+  overflow: hidden;
+  background-color: var(--color-bg-dark, #121212);
+}
+
+.curso-hero__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.curso-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(30%) brightness(70%);
+}
+
+.curso-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 100%);
+  z-index: 2;
+}
+
+.curso-hero__content {
+  position: relative;
+  z-index: 3;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.curso-hero__badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.4rem 0.8rem;
+  background-color: var(--color-accent, #c15c3d);
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.curso-hero__title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.curso-hero__meta {
+  display: flex;
+  gap: 3rem;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 1.5rem;
+}
+
+.curso-hero__meta-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0.25rem;
+}
+
+.curso-hero__meta-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* --- Descripción del Curso (Media + Texto) --- */
+.curso-desc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1200px;
+  margin: 6rem auto;
+  padding: 0 2rem;
+  align-items: center;
+}
+
+.curso-desc__text .section-label {
+  color: var(--color-accent, #c15c3d);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.curso-desc__text h2 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  color: var(--color-text, #1a1a1a);
+}
+
+.curso-desc__text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-muted, #555);
+}
+
+.curso-desc__media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* --- Configurador de Guitarra --- */
+.configurador {
+  max-width: 1200px;
+  margin: 6rem auto;
+  padding: 0 2rem;
+}
+
+.configurador__header {
+  margin-bottom: 3rem;
+}
+
+.configurador__header .label-num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-accent, #c15c3d);
+}
+
+.configurador__header h2 {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+.configurador__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.configurador__media {
+  background-color: #eaeaea;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.configurador__media img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  display: block;
+}
+
+.configurador__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.configurador__group-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  color: var(--color-text-muted, #555);
+}
+
+.configurador__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.config-btn {
+  background: none;
+  border: 1px solid rgba(0,0,0,0.15);
+  padding: 0.8rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.config-btn:hover {
+  border-color: var(--color-accent, #c15c3d);
+}
+
+.config-btn--active {
+  background-color: var(--color-text, #1a1a1a);
+  color: #fff;
+  border-color: var(--color-text, #1a1a1a);
+}
+
+.configurador__note {
+  font-size: 0.8rem;
+  color: var(--color-text-muted, #777);
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+/* --- Nav Específico de Cursos --- */
+.curso-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.curso-nav__back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--color-text, #1a1a1a);
+  transition: opacity 0.2s;
+}
+
+.curso-nav__back:hover {
+  opacity: 0.7;
+}
+
+.curso-nav__right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+}
+
+.curso-nav__kit {
+  opacity: .7;
+}
+.curso-nav__kit:hover {
+  opacity: 1;
+}
+
+.curso-nav__consultar {
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--color-text, #1a1a1a);
+  border-bottom: 2px solid var(--color-text, #1a1a1a);
+}
+
+/* --- Footer del Curso --- */
+.curso-footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  background-color: #0f0f0f;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.85rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.curso-footer a {
+  color: #fff;
+  text-decoration: underline;
+  margin-left: 0.5rem;
+}
+
+/* --- Responsividad para Dispositivos Móviles --- */
+@media (max-width: 900px) {
+  .curso-desc {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    margin: 4rem auto;
+  }
+  
+  .configurador__grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .configurador__media img {
+    height: 350px;
+  }
+  
+  .curso-hero__meta {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+}
+/* --- Ajuste específico para el CTA de la sección de video del curso --- */
+.video-section__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.video-section__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.video-section__text h2 {
+  margin-bottom: 2rem; /* Espacio generoso entre el título y el botón */
+  order: 1;
+}
+
+.video-section__cta {
+  order: 2; /* Fuerza al botón a posicionarse siempre abajo del título */
+  align-self: flex-start;
+}
+
+/* Ajuste responsivo para celulares */
+@media (max-width: 900px) {
+  .video-section__inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  
+  .video-section__text {
+    align-items: center;
+    text-align: center;
+  }
+
+  .video-section__cta {
+    align-self: center;
+  }
+}
+
+/* --- Garantía de visibilidad para la sección de video SOLO cuando no hay transición --- */
+.video-section:not(:has(#themeWipe)) {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Fuerza a que el reproductor de video respete las dimensiones en la grilla */
+.video-section__player {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-wrapper {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+
+.video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* ══════════════════════════════════════════════════════════════════
+   ARMONÍA DE SISTEMA — "El proceso de construcción" (curso) y el CTA
+   final "¿Querés construir tu primera guitarra?". Ambas secciones
+   existían sólo en HTML/JS, sin una sola regla propia. Se integran
+   acá con los mismos tokens, tipografía y el lenguaje de línea+punto
+   que ya usa ".proceso" en el home, para que ambas timelines se
+   sientan de la misma familia.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── EL PROCESO DE CONSTRUCCIÓN — timeline con miniaturas ─────────
+   Antes cada .process-card mostraba su foto a ancho completo (sin
+   CSS, el <img> caía al 100% por el reset global). Ahora la imagen
+   es una miniatura que funciona como "nodo" sobre la línea del
+   proceso, igual que el punto de .proceso__step-dot en el home. ── */
+.process{
+  background: var(--c-paper);
+  color: var(--c-paper-ink);
+  padding: var(--sp-10) 0;
+}
+.process__container{
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  padding-inline: var(--grid-margin);
+}
+.process .label-num{ margin-bottom: var(--sp-3); }
+.process__title{
+  color: var(--c-paper-ink);
+  font-size: clamp(1.35rem, 2.3vw, 2.1rem);
+  margin-bottom: var(--sp-9);
+  max-width: 20ch;
+}
+
+.process__grid{
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--grid-gap);
+}
+.process__grid::before{
+  content: '';
+  position: absolute;
+  top: 4px; left: 0; right: 0;
+  height: 1px;
+  background: var(--c-line-light);
+}
+
+.process-card{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--sp-6);
+}
+.process-card::before{
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: rgba(17,17,17,.16);
+  transition: background var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+.process-card.is-active::before,
+.process-card:hover::before{
+  background: var(--c-copper);
+  box-shadow: 0 0 0 4px rgba(203,84,41,.18);
+}
+
+.process-card__number{
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: rgba(17,17,17,.22);
+  margin-bottom: var(--sp-3);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.process-card.is-active .process-card__number,
+.process-card:hover .process-card__number{ color: var(--c-copper); }
+
+.process-card__title{
+  font-size: 1.05rem;
+  line-height: 1.18;
+  margin-bottom: var(--sp-2);
+  color: var(--c-paper-ink);
+}
+.process-card__subtitle{
+  font-family: var(--f-body);
+  font-weight: 700;
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--c-copper-2);
+  margin-bottom: var(--sp-5);
+}
+
+.process-card__image{
+  position: relative;
+  z-index: 1;
+  width: 84px;
+  height: 84px;
+  border-radius: var(--r-sharp);
+  overflow: hidden;
+  background: #1a1a1a;
+  margin-bottom: var(--sp-4);
+  transform-origin: top center;
+  transition: transform var(--dur-mid) var(--ease-out), box-shadow var(--dur-mid) var(--ease-out);
+}
+.process-card__image img{
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+  transition: filter var(--dur-mid) var(--ease-out);
+}
+.process-card.is-active .process-card__image img,
+.process-card:hover .process-card__image img{
+  filter: grayscale(0) contrast(1.05);
+}
+/* La miniatura duplica su tamaño y sube de capa para no quedar
+   tapada ni recortada por las tarjetas vecinas */
+.process-card:hover .process-card__image{
+  transform: scale(2);
+  z-index: 5;
+  box-shadow: 0 12px 30px rgba(17,17,17,.22);
+}
+
+.process-card__caption{
+  font-size: .85rem;
+  line-height: 1.5;
+  color: rgba(17,17,17,.62);
+  max-width: 22ch;
+}
+
+@media (max-width: 1024px){
+  .process__grid{ grid-template-columns: repeat(3, 1fr); row-gap: var(--sp-8); }
+  .process__grid::before{ display: none; }
+  .process-card{ padding-top: var(--sp-4); }
+  .process-card::before{ display: none; }
+}
+@media (max-width: 640px){
+  .process__grid{ grid-template-columns: 1fr; position: relative; }
+  .process__grid::before{ display: block; top: 0; bottom: 0; left: 4px; right: auto; width: 1px; height: auto; }
+  .process-card{
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--sp-5);
+    padding-top: 0;
+    padding-left: var(--sp-6);
+  }
+  .process-card::before{ display: block; top: 6px; left: 0; }
+  .process-card__image{ width: 72px; height: 72px; flex-shrink: 0; margin-bottom: 0; }
+}
+
+/* ── CTA final — ¿Querés construir tu primera guitarra? ────────────
+   Mismo lenguaje que ".contacto": fondo asfalto + tarjeta de
+   formulario oscura. Reutiliza ".contacto-form"/".form-field" (ya
+   resuelven inputs, foco y botón); acá sólo se define el layout
+   propio de esta sección y las dos columnas nombre/email. ── */
+.footer-cta{
+  background: var(--c-asphalt);
+  color: var(--c-asphalt-ink);
+  padding: var(--sp-10) var(--grid-margin);
+}
+.footer-cta__inner{
+  max-width: 640px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-6);
+}
+.footer-cta__inner h2{ color: var(--c-asphalt-ink); }
+.footer-cta__form{
+  width: 100%;
+  text-align: left;
+}
+.footer-cta__form .form-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--grid-gap);
+}
+.footer-cta__form .btn{ align-self: center; margin-top: var(--sp-2); }
+
+@media (max-width: 600px){
+  .footer-cta__form .form-row{ grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   KIT UI — página de documentación del sistema (ui-kit.html)
+   Sólo layout propio de la página de documentación: paleta, specimens
+   de tipografía, escala de espaciado y contenedores para mostrar los
+   componentes reales del sitio (botones, tarjetas, formularios, etc.)
+   sin duplicar sus estilos — esos ya viven en las secciones de arriba.
+   ══════════════════════════════════════════════════════════════════ */
+
+.uikit-hero{
+  background: var(--c-paper);
+  padding: calc(var(--nav-h) + var(--sp-9)) var(--grid-margin) var(--sp-9);
+}
+.uikit-hero h1{
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  max-width: 18ch;
+  margin-bottom: var(--sp-5);
+}
+.uikit-hero p{
+  color: rgba(17,17,17,.62);
+  font-size: 1.05rem;
+  max-width: 60ch;
+}
+
+.uikit-section{
+  padding: var(--sp-9) var(--grid-margin);
+  border-top: 1px solid var(--c-line-light);
+}
+.uikit-section--dark{
+  background: var(--c-asphalt);
+  color: var(--c-asphalt-ink);
+  border-top-color: var(--c-line-dark);
+}
+.uikit-section__head{ max-width: 900px; margin-bottom: var(--sp-8); }
+.uikit-section__head .label-num{ margin-bottom: var(--sp-3); }
+.uikit-section__head h2{ margin-bottom: var(--sp-3); }
+.uikit-section--dark .uikit-section__head h2{ color: var(--c-asphalt-ink); }
+.uikit-section__head p{ color: rgba(17,17,17,.62); font-size: 1rem; max-width: 60ch; }
+.uikit-section--dark .uikit-section__head p{ color: rgba(229,229,229,.65); }
+
+.uikit-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--grid-gap);
+}
+.uikit-grid--wide{ grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+
+/* ── Paleta ── */
+.swatch{ display: flex; flex-direction: column; gap: var(--sp-3); }
+.swatch__block{ height: 96px; border-radius: var(--r-sharp); border: 1px solid var(--c-line-light); }
+.swatch__name{ font-weight: 700; font-size: .85rem; }
+.swatch__value{ font-family: 'SFMono-Regular', Consolas, monospace; font-size: .72rem; color: rgba(17,17,17,.5); }
+.uikit-section--dark .swatch__value{ color: rgba(229,229,229,.5); }
+
+/* ── Tipografía ── */
+.uikit-type-row{
+  display: flex; align-items: baseline; flex-wrap: wrap; justify-content: space-between;
+  gap: var(--sp-5); padding: var(--sp-5) 0; border-bottom: 1px solid var(--c-line-light);
+}
+.uikit-type-row:last-child{ border-bottom: 0; }
+.uikit-type-row__meta{ font-family: monospace; font-size: .78rem; color: rgba(17,17,17,.5); text-align: right; }
+
+/* ── Escala de espaciado ── */
+.uikit-scale{ display: flex; flex-direction: column; gap: var(--sp-4); }
+.uikit-scale-row{ display: flex; align-items: center; gap: var(--sp-5); }
+.uikit-scale-row__label{ width: 76px; flex-shrink: 0; font-family: monospace; font-size: .78rem; color: rgba(17,17,17,.6); }
+.uikit-scale-row__bar{ height: 10px; background: var(--c-copper); border-radius: var(--r-sharp); }
+
+/* ── Paneles para mostrar componentes sobre claro/oscuro ── */
+.uikit-panel{ padding: var(--sp-7); border-radius: var(--r-sharp); }
+.uikit-panel--dark{ background: var(--c-asphalt); }
+.uikit-panel--light{ background: var(--c-paper); border: 1px solid var(--c-line-light); }
+.uikit-panel__row{ display: flex; flex-wrap: wrap; gap: var(--sp-5); align-items: center; }
+
+/* ── Tarjeta contenedora de cada ejemplo, con su etiqueta de clase ── */
+.uikit-card{
+  border: 1px solid var(--c-line-light); border-radius: var(--r-sharp);
+  padding: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-5);
+}
+.uikit-section--dark .uikit-card{ border-color: var(--c-line-dark); }
+.uikit-card__label{ display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.uikit-code{
+  font-family: 'SFMono-Regular', Consolas, monospace; font-size: .72rem;
+  background: rgba(17,17,17,.05); color: var(--c-copper-deep);
+  padding: .25em .6em; border-radius: var(--r-sharp);
+}
+.uikit-section--dark .uikit-code{ background: rgba(255,255,255,.08); color: var(--c-copper-2); }
+
+.uikit-imgbw-demo{ width: 100%; max-width: 260px; aspect-ratio: 4/3; }
+.uikit-card--curso{ max-width: 280px; }
+.uikit-card--process .process-card{ padding-top: 0; }
+.uikit-card--process .process-card::before{ display: none; }
