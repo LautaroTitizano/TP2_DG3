@@ -4,29 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guitarra Clásica Nivel Inicial — TRASTES</title>
+  <meta name="description" content="Curso presencial de lutería: construí tu propia guitarra clásica de principio a fin en 12 semanas." />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 </head>
 <body>
 
   <!-- NAV -->
-  <nav class="nav">
-    <a href="index.html" class="nav__back">
+  <nav class="nav curso-nav" id="nav">
+    <a href="index.html" class="curso-nav__back">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="15 18 9 12 15 6"/>
       </svg>
       Volver al inicio
     </a>
-    <a href="index.html" class="nav__logo">
+    <a href="index.html" class="nav__logo" aria-label="Trastes — inicio">
       <img src="assets/images/logo.png" alt="Trastes" class="nav__logo-img" />
-      TRASTES<span class="nav__logo-dot"></span>
     </a>
-    <a href="mailto:trastes@gmail.com" style="font-size:0.74rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);">Consultar</a>
+    <div class="curso-nav__right">
+      <a href="ui-kit.html" class="curso-nav__consultar curso-nav__kit">Kit UI</a>
+      <a href="mailto:trastes@gmail.com" class="curso-nav__consultar">Consultar</a>
+    </div>
   </nav>
 
-  <!-- HERO -->
+  <!-- 01 · HERO -->
   <header class="curso-hero">
     <div class="curso-hero__bg">
       <img src="assets/images/curso_01.jpg" alt="Guitarra Clásica Nivel Inicial" />
@@ -48,180 +51,269 @@
           <span class="curso-hero__meta-label">Cupos</span>
           <span class="curso-hero__meta-value">8 alumnos</span>
         </div>
-        <div class="curso-hero__meta-item">
-          <span class="curso-hero__meta-label">Próximo inicio</span>
-          <span class="curso-hero__meta-value">Agosto 2025</span>
-        </div>
-        <div class="curso-hero__meta-item">
-          <span class="curso-hero__meta-label">Nivel</span>
-          <span class="curso-hero__meta-value">Sin experiencia requerida</span>
-        </div>
       </div>
     </div>
   </header>
 
-  <!-- BODY -->
   <main class="curso-body">
-
-    <div class="curso-main">
-
-      <!-- DESCRIPCIÓN -->
-      <section class="curso-desc">
+    <!-- 02 · DESCRIPCIÓN DEL CURSO (título + texto + imagen de apoyo, sin aside) -->
+    <section class="curso-desc reveal" aria-label="Sobre el curso">
+      <div class="curso-desc__text">
         <p class="section-label">Sobre el curso</p>
-        <h2>Construís tu propia<br>guitarra de principio a fin</h2>
-        <p>El programa más completo del taller. A lo largo de 12 semanas aprendés cada etapa del oficio de la luthería clásica: desde elegir y preparar las maderas hasta la puesta a punto final del instrumento que construiste con tus propias manos.</p>
-        <p>No se necesita experiencia previa. El ritmo del curso está pensado para quienes recién empiezan, con seguimiento personalizado durante todo el proceso. Al finalizar, te llevás una guitarra clásica de concierto que vale cientos de horas de trabajo artesanal.</p>
-        <p>Las clases son en grupos pequeños de máximo 8 alumnos, lo que garantiza atención individual y un ambiente de taller real, no de aula.</p>
-      </section>
-
-      <div class="section-divider"></div>
-
-      <!-- LO QUE VAS A APRENDER -->
-      <section>
-        <p class="section-label">Lo que vas a aprender</p>
-        <h2 style="font-size:clamp(1.4rem,2.5vw,2rem);margin-bottom:24px;">Habilidades concretas<br>de luthería clásica</h2>
-        <div class="aprende__list">
-          <div class="aprende__item">Selección y secado de maderas para luthería</div>
-          <div class="aprende__item">Construcción de tapa armónica con bracings</div>
-          <div class="aprende__item">Doblado y encolado de aros y fondo</div>
-          <div class="aprende__item">Tallado de mástil y cabezal a mano</div>
-          <div class="aprende__item">Instalación de trastes y cejuela de hueso</div>
-          <div class="aprende__item">Técnicas de lacado nitrocelulósico</div>
-          <div class="aprende__item">Pulido y acabado de alta calidad</div>
-          <div class="aprende__item">Puesta a punto y regulación profesional</div>
-          <div class="aprende__item">Lectura de planos técnicos de luthería</div>
-          <div class="aprende__item">Mantenimiento y cuidado del instrumento</div>
-        </div>
-      </section>
-
-      <div class="section-divider"></div>
-
-      <!-- TEMARIO -->
-      <section>
-        <p class="section-label">Programa — 12 semanas</p>
-        <h2 style="font-size:clamp(1.4rem,2.5vw,2rem);margin-bottom:24px;">Contenido semana<br>a semana</h2>
-        <div class="temario__grid">
-          <div class="temario__semana">
-            <p class="temario__semana-num">Semanas 1 – 2</p>
-            <h3 class="temario__semana-title">Maderas y Herramientas</h3>
-            <p class="temario__semana-desc">Conocés las maderas con las que vas a trabajar, aprendés a evaluarlas por densidad y resonancia, y te familiarizás con las herramientas del taller: cepillos, gubias, formones y prensas.</p>
-          </div>
-          <div class="temario__semana">
-            <p class="temario__semana-num">Semanas 3 – 4</p>
-            <h3 class="temario__semana-title">Tapa Armónica</h3>
-            <p class="temario__semana-desc">Preparación y unión de las dos mitades de la tapa, instalación del rosetón y diseño del sistema de bracings. Aprendés cómo afecta cada decisión al sonido del instrumento.</p>
-          </div>
-          <div class="temario__semana">
-            <p class="temario__semana-num">Semanas 5 – 6</p>
-            <h3 class="temario__semana-title">Aros y Fondo</h3>
-            <p class="temario__semana-desc">Doblado de los aros por calor, construcción del fondo en dos piezas y ensamble del cuerpo del instrumento. Trabajo con molduras y filetería decorativa.</p>
-          </div>
-          <div class="temario__semana">
-            <p class="temario__semana-num">Semanas 7 – 8</p>
-            <h3 class="temario__semana-title">Mástil y Diapasón</h3>
-            <p class="temario__semana-desc">Tallado a mano del mástil en madera de caoba, instalación del refuerzo metálico, preparación del diapasón de ébano y cálculo de la escala de la guitarra.</p>
-          </div>
-          <div class="temario__semana">
-            <p class="temario__semana-num">Semanas 9 – 10</p>
-            <h3 class="temario__semana-title">Trastes y Ensamble</h3>
-            <p class="temario__semana-desc">Instalación y nivelación de los trastes, encolado del mástil al cuerpo, instalación del puente de palo santo y ajuste de la cejuela de hueso.</p>
-          </div>
-          <div class="temario__semana">
-            <p class="temario__semana-num">Semanas 11 – 12</p>
-            <h3 class="temario__semana-title">Lacado y Puesta a Punto</h3>
-            <p class="temario__semana-desc">Sellado, aplicación de laca nitrocelulósica en varias manos, pulido final a mano y puesta a punto completa: acción, afinación y revisión profesional del instrumento terminado.</p>
-          </div>
-        </div>
-      </section>
-
-      <div class="section-divider"></div>
-
-      <!-- PARA QUIÉN ES -->
-      <section>
-        <p class="section-label">¿Para quién es este curso?</p>
-        <h2 style="font-size:clamp(1.4rem,2.5vw,2rem);margin-bottom:24px;">Ideal para perfiles<br>muy distintos</h2>
-        <div class="para-quien__list">
-          <div class="para-quien__item">
-            <div class="para-quien__icon">🎸</div>
-            <div class="para-quien__text">
-              <strong>Guitarristas que quieren entender su instrumento</strong>
-              <p>Si sos músico y querés saber exactamente por qué suena como suena tu guitarra, este curso te va a cambiar la forma de tocar y de escuchar.</p>
-            </div>
-          </div>
-          <div class="para-quien__item">
-            <div class="para-quien__icon">🪵</div>
-            <div class="para-quien__text">
-              <strong>Personas con habilidades manuales o carpintería</strong>
-              <p>Si ya trabajás la madera o tenés experiencia con herramientas, vas a encontrar que la luthería es un oficio exigente y muy satisfactorio.</p>
-            </div>
-          </div>
-          <div class="para-quien__item">
-            <div class="para-quien__icon">🎯</div>
-            <div class="para-quien__text">
-              <strong>Principiantes sin ninguna experiencia previa</strong>
-              <p>No necesitás saber nada de luthería ni de música para empezar. El curso está diseñado para que en 12 semanas cualquier persona construya su guitarra.</p>
-            </div>
-          </div>
-          <div class="para-quien__item">
-            <div class="para-quien__icon">🔧</div>
-            <div class="para-quien__text">
-              <strong>Quienes quieren dedicarse a la luthería profesionalmente</strong>
-              <p>Este curso es la base ideal para una carrera en luthería. Muchos de nuestros ex alumnos hoy tienen su propio taller.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- SIDEBAR -->
-    <aside class="curso-sidebar">
-
-      <div class="sidebar-card sidebar-card--dark">
-        <div class="sidebar-inscripcion">
-          <h3>Inscribite al próximo ciclo</h3>
-          <p class="precio-info">Próximo inicio: Agosto 2025</p>
-          <div class="sidebar-detalles">
-            <div class="sidebar-detalle"><span class="sidebar-detalle__label">Duración</span><span class="sidebar-detalle__value">12 semanas</span></div>
-            <div class="sidebar-detalle"><span class="sidebar-detalle__label">Modalidad</span><span class="sidebar-detalle__value">Presencial</span></div>
-            <div class="sidebar-detalle"><span class="sidebar-detalle__label">Frecuencia</span><span class="sidebar-detalle__value">2 clases por semana</span></div>
-            <div class="sidebar-detalle"><span class="sidebar-detalle__label">Cupos</span><span class="sidebar-detalle__value">8 alumnos máx.</span></div>
-            <div class="sidebar-detalle"><span class="sidebar-detalle__label">Ubicación</span><span class="sidebar-detalle__value">Buenos Aires</span></div>
-          </div>
-          <a href="mailto:trastes@gmail.com?subject=Inscripción%20Guitarra%20Clásica%20Nivel%20Inicial" class="btn-inscribir">Inscribirme al curso →</a>
-          <a href="https://wa.me/5491112345678?text=Hola!%20Me%20interesa%20el%20curso%20de%20Guitarra%20Clásica%20Nivel%20Inicial." target="_blank" rel="noopener" class="btn-consultar">Consultar por WhatsApp</a>
-        </div>
+        <h2>Construye tu propia<br>guitarra.</h2>
+        <p>A lo largo de 12 semanas aprenderás cada etapa del oficio de la luthería. </br> Desde la selección
+          estratégica, trabajaras con herramientas reales,
+          en un taller pensado para grupos chicos. </br> Terminás el curso con un instrumento propio, construido
+          enteramente por vos, calibrado y listo para tocar.</p>
       </div>
-
-      <div class="sidebar-card">
-        <div class="sidebar-cupos">
-          <div class="cupos-dot"></div>
-          <div class="cupos-text"><strong>Quedan 3 cupos disponibles</strong> para el ciclo de agosto</div>
-        </div>
+      <div class="curso-desc__media">
+        <img src="assets/images/Cursada.jpg" alt="Alumno trabajando la madera en el taller" loading="lazy" />
       </div>
-
-      <div class="sidebar-card">
-        <div class="sidebar-incluye">
-          <h4>Qué incluye el curso</h4>
-          <div class="incluye-list">
-            <div class="incluye-item"><div class="incluye-check">✓</div>Materiales de luthería incluidos</div>
-            <div class="incluye-item"><div class="incluye-check">✓</div>Acceso completo al taller y herramientas</div>
-            <div class="incluye-item"><div class="incluye-check">✓</div>Guitarra clásica terminada para llevarte</div>
-            <div class="incluye-item"><div class="incluye-check">✓</div>Seguimiento personalizado del maestro</div>
-            <div class="incluye-item"><div class="incluye-check">✓</div>Material de estudio y planos técnicos</div>
-            <div class="incluye-item"><div class="incluye-check">✓</div>Certificado de aprobación del taller</div>
-            <div class="incluye-item"><div class="incluye-check">✓</div>Acceso a comunidad de ex alumnos</div>
-          </div>
-        </div>
-      </div>
-
-    </aside>
+    </section>
   </main>
 
-  <!-- FOOTER -->
+  <div class="section-divider"></div>
+
+  <!-- 03 · DISEÑÁ TU PRIMERA GUITARRA (Configurador) -->
+  <section class="configurador" id="disena" aria-label="Diseñá tu primera guitarra">
+    <div class="configurador__header reveal">
+      <p class="label-num">PERSONALIZÁ TU INSTRUMENTO</p>
+      <h2>DISEÑÁ TU<br>PRIMERA GUITARRA</h2>
+    </div>
+
+    <div class="configurador__grid">
+      <div class="configurador__media">
+        <!-- Imagen dinámica: cambia con JS según la selección -->
+        <img id="configuradorImage"
+             src="assets/images/seleccion.jpg"
+             alt="Vista previa del instrumento configurado"
+             class="img-bw" loading="lazy" />
+      </div>
+
+      <div class="configurador__panel">
+        <div class="configurador__group">
+          <p class="configurador__group-label">01 — Selección de Madera</p>
+          <div class="configurador__options" role="list">
+            <button class="config-btn config-btn--active" type="button" data-group="madera" data-value="cedro" data-image="assets/images/cuerpo.jpg">Cedro</button>
+            <button class="config-btn" type="button" data-group="madera" data-value="palosanto" data-image="assets/images/mastil.jpg">Palo Santo</button>
+            <button class="config-btn" type="button" data-group="madera" data-value="caoba" data-image="assets/images/cabeza.jpg">Caoba</button>
+            <button class="config-btn" type="button" data-group="madera" data-value="ebano" data-image="assets/images/proceso_03.jpg">Ébano</button>
+          </div>
+        </div>
+
+        <div class="configurador__group">
+          <p class="configurador__group-label">02 — Tipo de Guitarra Acústica</p>
+          <div class="configurador__options" role="list">
+            <button class="config-btn config-btn--active" type="button" data-group="tipo" data-value="clasica" data-image="assets/images/curso_01.jpg">Clásica</button>
+            <button class="config-btn" type="button" data-group="tipo" data-value="dreadnought" data-image="assets/images/curso_02.jpg">Dreadnought</button>
+            <button class="config-btn" type="button" data-group="tipo" data-value="parlor" data-image="assets/images/curso_03.jpg">Parlor</button>
+          </div>
+        </div>
+
+        <p class="configurador__note">* Las combinaciones de maderas modifican la estética y el tono final del instrumento.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · EL PROCESO DE CONSTRUCCIÓN -->
+  <section class="process" id="proceso-construccion" aria-label="El proceso de construcción">
+    <div class="process__container">
+      <p class="label-num reveal">DE LA IDEA<br>AL INSTRUMENTO</p>
+      <h2 class="process__title reveal">EL PROCESO DE CONSTRUCCIÓN</h2>
+
+      <div class="process__grid" role="list">
+        <article class="process-card is-active reveal reveal-delay-1" role="listitem">
+          <span class="process-card__number">01</span>
+          <h3 class="process-card__title">Selección<br>de maderas</h3>
+          <p class="process-card__subtitle">Corte / lectura</p>
+          <div class="process-card__image">
+            <img src="assets/images/seleccion.jpg" alt="Selección de maderas" loading="lazy">
+          </div>
+         
+        </article>
+
+        <article class="process-card reveal reveal-delay-2" role="listitem">
+          <span class="process-card__number">02</span>
+          <h3 class="process-card__title">Diseño<br>cuerpo</h3>
+          <p class="process-card__subtitle">Forma / escala</p>
+          <div class="process-card__image">
+            <img src="assets/images/diseño.jpg" alt="Diseño del cuerpo" loading="lazy">
+          </div>
+          
+        </article>
+
+        <article class="process-card reveal reveal-delay-3" role="listitem">
+          <span class="process-card__number">03</span>
+          <h3 class="process-card__title">Construcción<br>base</h3>
+          <p class="process-card__subtitle">Ensamble / estructura</p>
+          <div class="process-card__image">
+            <img src="assets/images/construccion.jpg" alt="Construcción base" loading="lazy">
+          </div>
+        </article>
+
+        <article class="process-card reveal reveal-delay-4" role="listitem">
+          <span class="process-card__number">04</span>
+          <h3 class="process-card__title">Detalle<br>fino</h3>
+          <p class="process-card__subtitle">Lijado / ajuste</p>
+          <div class="process-card__image">
+            <img src="assets/images/detalle.jpg" alt="Detalle fino" loading="lazy">
+          </div>
+        
+        </article>
+
+        <article class="process-card reveal" style="transition-delay:.4s" role="listitem">
+          <span class="process-card__number">05</span>
+          <h3 class="process-card__title">Terminación<br>final</h3>
+          <p class="process-card__subtitle">Barniz / calibrado</p>
+          <div class="process-card__image">
+            <img src="assets/images/Pulido.jpg" alt="Terminación final" loading="lazy">
+          </div>
+          
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · VIDEO CON CTA A CURSO AVANZADO -->
+  <section class="video-section" id="video-curso" aria-label="Video del curso">
+    <div class="video-section__inner">
+      <div class="video-section__text">
+        <h2 class="reveal">TU PRIMERA<br>GUITARRA EMPIEZA<br>ACÁ.</h2>
+        <a href="curso-guitarra-clasica-avanzado.html" class="btn btn-accent video-section__cta reveal">
+          Conocé el curso avanzado ↗
+        </a>
+      </div>
+      <div class="video-section__player">
+        <div class="video-wrapper" role="button" tabindex="0" aria-label="Reproducir video">
+          <video src="assets/images/video_thumb.mp4" poster="assets/images/video_thumb.jpg" loop muted playsinline preload="none"></video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · GALERÍA (Mejores momentos del curso) -->
+  <section class="galeria" id="galeria-curso" aria-label="Imágenes del proceso">
+    <div class="galeria__header reveal">
+      <p class="label-num">MEJORES MOMENTOS EN EL TALLER</p>
+      <h2>IMÁGENES DEL PROCESO</h2>
+    </div>
+
+    <div class="galeria__accordion" role="list" id="galeriaAccordion">
+      <div class="galeria-col" role="listitem" tabindex="0" data-img="assets/images/primer.jpg" data-title="Primer día" data-desc="Conociendo las maderas y las herramientas del taller.">
+        <div class="galeria-col__bg"></div>
+        <div class="galeria-col__title">Primer día</div>
+        <div class="galeria-col__content">
+          <p class="galeria-col__desc">Conociendo las maderas y las herramientas.</p>
+          <button class="galeria-col__close">✕</button>
+        </div>
+      </div>
+
+      <div class="galeria-col" role="listitem" tabindex="0" data-img="assets/images/galeria_02.jpg" data-title="Tapa armónica" data-desc="Cada alumno arma su propio sistema de bracings.">
+        <div class="galeria-col__bg"></div>
+        <div class="galeria-col__title">Tapa armónica</div>
+        <div class="galeria-col__content">
+          <p class="galeria-col__desc">Cada alumno arma su sistema de bracings.</p>
+          <button class="galeria-col__close">✕</button>
+        </div>
+      </div>
+
+      <div class="galeria-col" role="listitem" tabindex="0" data-img="assets/images/tallado.jpg" data-title="Tallado de mástil" data-desc="Manos a la obra con gubias y formones.">
+        <div class="galeria-col__bg"></div>
+        <div class="galeria-col__title">Tallado de mástil</div>
+        <div class="galeria-col__content">
+          <p class="galeria-col__desc">Manos a la obra con gubias y formones.</p>
+          <button class="galeria-col__close">✕</button>
+        </div>
+      </div>
+
+      <div class="galeria-col" role="listitem" tabindex="0" data-img="assets/images/terminada.jpg" data-title="Guitarra terminada" data-desc="El día que cada alumno se lleva su instrumento.">
+        <div class="galeria-col__bg"></div>
+        <div class="galeria-col__title">Guitarra terminada</div>
+        <div class="galeria-col__content">
+          <p class="galeria-col__desc">El día que cada alumno se lleva su instrumento.</p>
+          <button class="galeria-col__close">✕</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · TESTIMONIOS (mismo carrusel infinito de la Home) -->
+  <section class="testimonios" id="testimonios-curso" aria-label="Testimonios de alumnos">
+    <div class="testimonios__header reveal">
+      <p class="label-num">RECOMENDACIONES DE ALUMNOS</p>
+      <h2>LO QUE DICEN<br>QUIENES YA CONSTRUYERON</h2>
+    </div>
+
+    <div class="testimonios__carousel" role="list">
+      <div class="testimonios__track">
+        <article class="testimonio-card" role="listitem">
+          <div class="testimonio-card__stars">★★★★★</div>
+          <blockquote class="testimonio-card__text">"Llegué sin saber sostener un formón. Doce semanas después salí con mi propia guitarra clásica."</blockquote>
+          <p class="testimonio-card__name">Julián Ferreyra</p>
+        </article>
+        <article class="testimonio-card" role="listitem">
+          <div class="testimonio-card__stars">★★★★★</div>
+          <blockquote class="testimonio-card__text">"El grupo chico hace toda la diferencia. Siempre hay un luthier corrigiendo a tiempo."</blockquote>
+          <p class="testimonio-card__name">Camila Sosa</p>
+        </article>
+        <article class="testimonio-card" role="listitem">
+          <div class="testimonio-card__stars">★★★★★</div>
+          <blockquote class="testimonio-card__text">"Nunca pensé que iba a poder decir 'la construí yo'. El proceso completo vale cada semana."</blockquote>
+          <p class="testimonio-card__name">Nico Aráoz</p>
+        </article>
+
+        <!-- Bloque duplicado para el loop infinito (aria-hidden porque repite el contenido) -->
+        <article class="testimonio-card" role="presentation" aria-hidden="true">
+          <div class="testimonio-card__stars">★★★★★</div>
+          <blockquote class="testimonio-card__text">"Llegué sin saber sostener un formón. Doce semanas después salí con mi propia guitarra clásica."</blockquote>
+          <p class="testimonio-card__name">Julián Ferreyra</p>
+        </article>
+        <article class="testimonio-card" role="presentation" aria-hidden="true">
+          <div class="testimonio-card__stars">★★★★★</div>
+          <blockquote class="testimonio-card__text">"El grupo chico hace toda la diferencia. Siempre hay un luthier corrigiendo a tiempo."</blockquote>
+          <p class="testimonio-card__name">Camila Sosa</p>
+        </article>
+        <article class="testimonio-card" role="presentation" aria-hidden="true">
+          <div class="testimonio-card__stars">★★★★★</div>
+          <blockquote class="testimonio-card__text">"Nunca pensé que iba a poder decir 'la construí yo'. El proceso completo vale cada semana."</blockquote>
+          <p class="testimonio-card__name">Nico Aráoz</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 · FORMULARIO DE INSCRIPCIÓN -->
+  <section class="footer-cta" id="anotate" aria-label="Formulario de inscripción">
+    <div class="footer-cta__inner">
+      <p class="label-num label-num--light reveal">CONSTRUCCIÓN DE GUITARRA DESDE CERO</p>
+      <h2 class="reveal reveal-delay-1">¿QUERÉS CONSTRUIR<br>TU PRIMERA GUITARRA?</h2>
+
+      <form class="contacto-form footer-cta__form reveal reveal-delay-2" id="curso-form" novalidate>
+        <div class="form-row">
+          <div class="form-field">
+            <input type="text" id="cc-nombre" name="nombre" placeholder="Nombre" required autocomplete="name">
+          </div>
+          <div class="form-field">
+            <input type="email" id="cc-email" name="email" placeholder="Email" required autocomplete="email">
+          </div>
+        </div>
+        <div class="form-field">
+          <input type="text" id="cc-interes" name="interes" placeholder="¿Qué te gustaría aprender?">
+        </div>
+        <div class="form-field">
+          <textarea id="cc-mensaje" name="mensaje" placeholder="Contanos qué experiencia tenés y cualquier duda sobre el curso." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-accent">
+          Quiero recibir información ↗
+        </button>
+      </form>
+    </div>
+  </section>
+
   <footer class="curso-footer">
-    <p>© 2025 TRASTES — Instrumentos construidos con alma. Buenos Aires. <a href="index.html">Volver al sitio</a></p>
+    <p>© 2026 TRASTES — Instrumentos construidos con alma. Buenos Aires. <a href="index.html">Volver al sitio</a></p>
   </footer>
 
+  <script src="js/main.js"></script>
 </body>
 </html>
