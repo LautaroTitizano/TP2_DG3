@@ -1,13 +1,13 @@
 /* ══════════════════════════════════════════════════════════════════
-   TRASTES — main.js
+   TRASTES — main.js (UNIFICADO)
    Interacciones: nav, reveal on scroll, mapa de guitarra, acordeón
-   "el arte" (GSAP), galería acordeón + cursor magnético, testimonios,
-   FAQ, video, contador de stats.
+   "el arte" (hover/tap), galería acordeón + cursor magnético,
+   testimonios, FAQ, video, contador de stats, formularios y curso.
    ══════════════════════════════════════════════════════════════════ */
 (() => {
   'use strict';
 
-  /* ── Utilidad: colapsar/expandir con altura real ─────────────── */
+  /* ── Utilidad compartida: colapsar/expandir con altura real ────── */
   function expand(el){
     el.style.height = el.scrollHeight + 'px';
   }
@@ -20,6 +20,7 @@
   const burger = document.getElementById('navBurger');
   const mobileMenu = document.getElementById('mobileMenu');
   const mobileClose = document.getElementById('mobileClose');
+  const navDesktopMQ = window.matchMedia('(min-width: 1025px)');
 
   const onScrollNav = () => {
     if (!nav) return;
@@ -28,18 +29,32 @@
   document.addEventListener('scroll', onScrollNav, { passive: true });
   onScrollNav();
 
+  function syncNavMode(){
+    if (!nav) return;
+    const isDesktop = navDesktopMQ.matches;
+    nav.classList.toggle('nav--is-desktop', isDesktop);
+    nav.classList.toggle('nav--is-mobile', !isDesktop);
+    if (isDesktop) closeMobileMenu();
+  }
+  if (navDesktopMQ.addEventListener) {
+    navDesktopMQ.addEventListener('change', syncNavMode);
+  }
+
   function openMobileMenu(){
+    if (!mobileMenu) return;
     mobileMenu.classList.add('mobile-menu--open');
     mobileMenu.setAttribute('aria-hidden', 'false');
-    burger.setAttribute('aria-expanded', 'true');
+    burger && burger.setAttribute('aria-expanded', 'true');
     document.body.classList.add('no-scroll');
   }
   function closeMobileMenu(){
+    if (!mobileMenu) return;
     mobileMenu.classList.remove('mobile-menu--open');
     mobileMenu.setAttribute('aria-hidden', 'true');
-    burger.setAttribute('aria-expanded', 'false');
+    burger && burger.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('no-scroll');
   }
+  syncNavMode();
   if (burger && mobileMenu){
     burger.addEventListener('click', () => {
       const isOpen = mobileMenu.classList.contains('mobile-menu--open');
@@ -78,71 +93,80 @@
   function setActiveParte(btn){
     parteButtons.forEach(b => {
       const item = b.closest('.parte');
+      if (!item) return;
       const body = item.querySelector('.parte__body');
       const isTarget = b === btn;
       item.classList.toggle('parte--active', isTarget);
       b.setAttribute('aria-expanded', String(isTarget));
-      if (isTarget){
-        expand(body);
-      } else {
-        collapse(body);
+      if (body) {
+        if (isTarget) expand(body);
+        else collapse(body);
       }
     });
   }
 
-  parteButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      setActiveParte(btn);
-      const src = btn.getAttribute('data-image');
-      if (src && componentesImage && componentesImage.getAttribute('src') !== src){
-        componentesImage.style.opacity = '0';
-        window.setTimeout(() => {
-          componentesImage.setAttribute('src', src);
-          componentesImage.style.opacity = '1';
-        }, 180);
-      }
+  if (parteButtons.length) {
+    parteButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        setActiveParte(btn);
+        const src = btn.getAttribute('data-image');
+        if (src && componentesImage && componentesImage.getAttribute('src') !== src){
+          componentesImage.style.opacity = '0';
+          window.setTimeout(() => {
+            componentesImage.setAttribute('src', src);
+            componentesImage.style.opacity = '1';
+          }, 180);
+        }
+      });
+    });
+    const initialActive = document.querySelector('.parte--active .parte__btn');
+    if (initialActive) setActiveParte(initialActive);
+  }
+
+  /* ══ 3b. MADERAS — flip táctil en mobile ═════════════════════════ */
+  document.querySelectorAll('.pick-card').forEach(card => {
+    card.addEventListener('click', () => {
+      if (!window.matchMedia('(hover: none)').matches) return;
+      card.classList.toggle('is-flipped');
     });
   });
-  const initialActive = document.querySelector('.parte--active .parte__btn');
-  if (initialActive) setActiveParte(initialActive);
 
-  /* ══ 4. ARTE — SCROLL ACCORDION OPTIMIZADO (GSAP + CUERDA) ══════ */
-  const section = document.querySelector('.arte');
-  if (section) {
+  /* ══ 4. "EL ARTE DETRÁS DEL SONIDO" — panel interactivo ═════════ */
+  function initArteAccordion(){
+    const section = document.querySelector('.arte');
+    if (!section) return;
+
     const items = Array.from(section.querySelectorAll('.arte__item'));
+    if (!items.length) return;
     const numEl = document.getElementById('arteNum');
     const hasGSAP = typeof window.gsap !== 'undefined';
-    const hasScrollTrigger = hasGSAP && typeof window.ScrollTrigger !== 'undefined';
-
-    if (hasScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+    const desktopHover = () => window.matchMedia('(hover: hover) and (min-width: 901px)').matches;
 
     let activeIndex = 0;
 
-    const measure = (item) => {
+    function measure(item){
       const inner = item.querySelector('.arte__item-inner');
       return inner ? inner.getBoundingClientRect().height : 0;
-    };
+    }
 
-    const setBow = (path, y) => {
-      path.setAttribute('d', `M0,12 Q50,${12 + y} 100,12`);
-    };
+    function plingUnderline(item, grow){
+      const underline = item.querySelector('.arte__item-title-underline');
+      if (!underline) return;
+      if (!hasGSAP){ underline.style.transform = grow ? 'scaleX(1)' : 'scaleX(0)'; return; }
+      gsap.killTweensOf(underline);
+      if (grow){
+        gsap.fromTo(underline, { scaleX: 0 }, { scaleX: 1, duration: 1, ease: 'elastic.out(1, 0.4)' });
+      } else {
+        gsap.to(underline, { scaleX: 0, duration: .3, ease: 'power2.in' });
+      }
+    }
 
-    const pluckLine = (lineEl) => {
-      if (!hasGSAP || !lineEl) return;
-      const path = lineEl.querySelector('path');
-      if (!path) return;
-      const proxy = { y: 0 };
-      gsap.killTweensOf(proxy);
-      gsap.timeline()
-        .to(proxy, { y: -7, duration: .08, ease: 'power2.out', onUpdate: () => setBow(path, proxy.y) })
-        .to(proxy, { y: 0, duration: 1.2, ease: 'elastic.out(1, 0.35)', onUpdate: () => setBow(path, proxy.y) });
-    };
-
-    const setNumber = (index) => {
-      if (!numEl) return;
+    function setNumber(index){
+      if (!numEl || !desktopHover()) return;
       const next = String(index + 1).padStart(2, '0');
       if (numEl.textContent.trim() === next) return;
-      if (!hasGSAP) { numEl.textContent = next; return; }
+
+      if (!hasGSAP){ numEl.textContent = next; return; }
 
       gsap.to(numEl, {
         opacity: 0, y: -18, filter: 'blur(8px)', duration: .35, ease: 'power2.in',
@@ -154,9 +178,9 @@
           );
         }
       });
-    };
+    }
 
-    const openItem = (index) => {
+    function openItem(index){
       if (index === activeIndex && items[index].classList.contains('arte__item--active')) return;
       activeIndex = index;
 
@@ -168,10 +192,11 @@
 
         header.setAttribute('aria-expanded', String(isTarget));
         item.classList.toggle('arte__item--active', isTarget);
+        plingUnderline(item, isTarget);
 
-        if (isTarget) {
+        if (isTarget){
           const h = measure(item);
-          if (hasGSAP) {
+          if (hasGSAP){
             gsap.to(body, { height: h, duration: .7, ease: 'power3.out' });
             gsap.fromTo(inner,
               { opacity: 0, y: 26, filter: 'blur(6px)' },
@@ -180,7 +205,7 @@
           } else {
             body.style.height = h + 'px';
           }
-        } else if (hasGSAP) {
+        } else if (hasGSAP){
           gsap.to(body, { height: 0, duration: .5, ease: 'power2.inOut' });
         } else {
           body.style.height = '0px';
@@ -188,69 +213,70 @@
       });
 
       setNumber(index);
-      pluckLine(items[index].querySelector('.arte__item-line'));
-    };
+    }
 
-    const openFirstImmediately = () => {
+    function closeAll(){
+      items.forEach(item => {
+        item.querySelector('.arte__item-header').setAttribute('aria-expanded', 'false');
+        item.classList.remove('arte__item--active');
+        const body = item.querySelector('.arte__item-body');
+        if (hasGSAP) gsap.to(body, { height: 0, duration: .4, ease: 'power2.inOut' });
+        else body.style.height = '0px';
+        plingUnderline(item, false);
+      });
+    }
+
+    function openFirstImmediately(){
       const first = items[0];
       const body = first.querySelector('.arte__item-body');
       const h = measure(first);
-      if (hasGSAP) gsap.set(body, { height: h });
-      else body.style.height = h + 'px';
-    };
-
-    if (hasScrollTrigger) {
-      const mm = gsap.matchMedia();
-      mm.add('(min-width: 901px)', () => {
-        const distance = window.innerHeight * items.length;
-        const pinTrigger = ScrollTrigger.create({
-          trigger: section,
-          start: 'top top',
-          end: () => `+=${distance}`,
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const idx = Math.min(items.length - 1, Math.floor(self.progress * items.length));
-            openItem(idx);
-          }
-        });
-        return () => pinTrigger.kill();
-      });
-
-      window.addEventListener('resize', () => {
-        ScrollTrigger.refresh();
-        const activeItem = items[activeIndex];
-        if (activeItem) {
-          gsap.set(activeItem.querySelector('.arte__item-body'), { height: measure(activeItem) });
-        }
-      });
+      if (hasGSAP){
+        gsap.set(body, { height: h });
+        gsap.set(first.querySelector('.arte__item-title-underline'), { scaleX: 1 });
+      } else {
+        body.style.height = h + 'px';
+      }
     }
 
     items.forEach((item, i) => {
       const header = item.querySelector('.arte__item-header');
-      header.addEventListener('click', () => openItem(i));
 
       header.addEventListener('mouseenter', () => {
-        if (!window.matchMedia('(hover: hover)').matches) return;
-        items.forEach((other, j) => {
-          if (j !== i) other.classList.add('arte__item--dimmed');
-        });
-        const line = item.querySelector('.arte__item-line');
-        if (line) line.classList.add('arte__item-line--lit');
-        pluckLine(line);
+        if (!desktopHover()) return;
+        items.forEach((other, j) => { if (j !== i) other.classList.add('arte__item--dimmed'); });
+        openItem(i);
+      });
+      header.addEventListener('mouseleave', () => {
+        if (!desktopHover()) return;
+        items.forEach(other => other.classList.remove('arte__item--dimmed'));
       });
 
-      header.addEventListener('mouseleave', () => {
-        items.forEach(other => other.classList.remove('arte__item--dimmed'));
-        const line = item.querySelector('.arte__item-line');
-        if (line) line.classList.remove('arte__item-line--lit');
+      header.addEventListener('click', () => {
+        if (desktopHover()) return;
+        const isOpen = item.classList.contains('arte__item--active');
+        isOpen ? closeAll() : openItem(i);
       });
+      header.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        const isOpen = item.classList.contains('arte__item--active');
+        isOpen ? closeAll() : openItem(i);
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      const activeItem = items[activeIndex];
+      if (activeItem && activeItem.classList.contains('arte__item--active')){
+        const body = activeItem.querySelector('.arte__item-body');
+        if (hasGSAP) gsap.set(body, { height: measure(activeItem) });
+        else body.style.height = measure(activeItem) + 'px';
+      }
     });
 
     if (document.readyState === 'complete') openFirstImmediately();
     else window.addEventListener('load', openFirstImmediately);
   }
+  initArteAccordion();
 
   /* ══ 5. GALERÍA — acordeón horizontal + cursor magnético ═══════ */
   const galeriaAccordion = document.getElementById('galeriaAccordion');
@@ -264,7 +290,7 @@
       if (bg && img) bg.style.backgroundImage = `url("${img}")`;
     });
   }
-  setGaleriaBackgrounds();
+  if (galeriaCols.length) setGaleriaBackgrounds();
 
   function activateCol(col){
     galeriaCols.forEach(c => c.classList.toggle('is-active', c === col));
@@ -273,30 +299,32 @@
     galeriaCols.forEach(c => c.classList.remove('is-active'));
   }
 
-  galeriaCols.forEach(col => {
-    col.addEventListener('mouseenter', () => {
-      if (window.matchMedia('(hover: hover)').matches) activateCol(col);
-    });
-    col.addEventListener('click', () => {
-      const isActive = col.classList.contains('is-active');
-      isActive ? deactivateAll() : activateCol(col);
-    });
-    col.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' '){
-        e.preventDefault();
+  if (galeriaCols.length) {
+    galeriaCols.forEach(col => {
+      col.addEventListener('mouseenter', () => {
+        if (window.matchMedia('(hover: hover)').matches) activateCol(col);
+      });
+      col.addEventListener('click', () => {
         const isActive = col.classList.contains('is-active');
         isActive ? deactivateAll() : activateCol(col);
-      }
+      });
+      col.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          const isActive = col.classList.contains('is-active');
+          isActive ? deactivateAll() : activateCol(col);
+        }
+      });
+      const closeBtn = col.querySelector('.galeria-col__close');
+      closeBtn && closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deactivateAll();
+      });
     });
-    const closeBtn = col.querySelector('.galeria-col__close');
-    closeBtn && closeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      deactivateAll();
-    });
-  });
 
-  if (galeriaCols.length && window.matchMedia('(hover: hover)').matches){
-    activateCol(galeriaCols[0]);
+    if (window.matchMedia('(hover: hover)').matches){
+      activateCol(galeriaCols[0]);
+    }
   }
 
   if (galeriaAccordion && galeriaCursor && window.matchMedia('(hover: hover) and (pointer: fine)').matches){
@@ -376,17 +404,19 @@
   document.querySelectorAll('.faq__item').forEach(item => {
     const question = item.querySelector('.faq__question');
     const answer = item.querySelector('.faq__answer');
-    question.addEventListener('click', () => {
-      const isOpen = question.getAttribute('aria-expanded') === 'true';
-      document.querySelectorAll('.faq__question[aria-expanded="true"]').forEach(q => {
-        if (q !== question){
-          q.setAttribute('aria-expanded', 'false');
-          collapse(q.closest('.faq__item').querySelector('.faq__answer'));
-        }
+    if (question && answer) {
+      question.addEventListener('click', () => {
+        const isOpen = question.getAttribute('aria-expanded') === 'true';
+        document.querySelectorAll('.faq__question[aria-expanded="true"]').forEach(q => {
+          if (q !== question){
+            q.setAttribute('aria-expanded', 'false');
+            collapse(q.closest('.faq__item').querySelector('.faq__answer'));
+          }
+        });
+        question.setAttribute('aria-expanded', String(!isOpen));
+        isOpen ? collapse(answer) : expand(answer);
       });
-      question.setAttribute('aria-expanded', String(!isOpen));
-      isOpen ? collapse(answer) : expand(answer);
-    });
+    }
   });
 
   /* ══ 8. VIDEO DEL TALLER ═════════════════════════════════════════ */
@@ -421,16 +451,63 @@
     });
   });
 
-  /* ══ 8b. VIDEO-SECTION — inversión de color al ocupar toda la pantalla ══ */
-  const videoSection = document.querySelector('.video-section');
-  if (videoSection && 'IntersectionObserver' in window){
-    const videoSectionObserver = new IntersectionObserver((entries) => {
+  /* ══ 8b. VIDEO-SECTION — transición claro↔oscuro ═════════════════ */
+  function initVideoThemeTransition(){
+    const videoSection = document.querySelector('.video-section');
+    const wipe = document.getElementById('themeWipe');
+    
+    if (!videoSection) return;
+
+    // Si NO existe el 'themeWipe' (página de curso), mostramos la sección directo y salimos
+    if (!wipe) {
+      videoSection.classList.add('is-inview');
+      return;
+    }
+
+    // Si EXISTE el 'themeWipe' (index.html), ejecutamos todo el efecto original
+    if (!('IntersectionObserver' in window)) {
+      videoSection.classList.add('is-inview');
+      return;
+    }
+
+    let wipeTimers = [];
+    function clearWipeTimers(){ wipeTimers.forEach(window.clearTimeout); wipeTimers = []; }
+
+    function fireWipe(toDark){
+      clearWipeTimers();
+      wipe.classList.remove('is-fading');
+      wipe.classList.toggle('is-light', !toDark);
+      void wipe.offsetWidth;
+      wipe.classList.add('is-covering');
+      wipeTimers.push(window.setTimeout(() => {
+        wipe.classList.add('is-fading');
+        wipeTimers.push(window.setTimeout(() => {
+          wipe.classList.remove('is-covering', 'is-fading');
+        }, 320));
+      }, 600));
+    }
+
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        videoSection.classList.toggle('is-inview', entry.intersectionRatio >= 0.98);
+        const toDark = entry.isIntersecting;
+        if (videoSection.classList.contains('is-inview') === toDark) return;
+        videoSection.classList.toggle('is-inview', toDark);
+        fireWipe(toDark);
       });
-    }, { threshold: [0, 0.5, 0.98, 1] });
-    videoSectionObserver.observe(videoSection);
+    }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+
+    observer.observe(videoSection);
   }
+  initVideoThemeTransition();
+
+  /* ══ 8c. GRUPOS DE PALABRAS DESTACADAS (.hl--group) ══════════════ */
+  document.querySelectorAll('.hl--group').forEach(word => {
+    const heading = word.closest('h1, h2, h3, h4') || word.parentElement;
+    if (!heading) return;
+    const siblings = Array.from(heading.querySelectorAll('.hl--group')).filter(w => w !== word);
+    word.addEventListener('mouseenter', () => siblings.forEach(s => s.classList.add('is-dimmed')));
+    word.addEventListener('mouseleave', () => siblings.forEach(s => s.classList.remove('is-dimmed')));
+  });
 
   /* ══ 9. STATS — contador numérico al entrar en viewport ═════════ */
   const statValues = document.querySelectorAll('.stat-item__value');
@@ -463,7 +540,7 @@
     requestAnimationFrame(frame);
   }
 
-  /* ══ 10. PARALLAX SUAVE ══════════════════════════════════════════ */
+  /* ══ 10. PARALLAX SUAVE — imágenes de proceso de alta resolución ══ */
   const parallaxTargets = document.querySelectorAll('.arte__item-image img, .curso-card__image img');
   if (parallaxTargets.length && window.matchMedia('(prefers-reduced-motion: no-preference)').matches){
     let ticking = false;
@@ -486,4 +563,162 @@
     updateParallax();
   }
 
+  /* ══ 11. FORMULARIO DE CONTACTO — "Poné en marcha tu proyecto" ══ */
+  function initContactForm(){
+    const form = document.getElementById('contacto-form');
+    if (!form) return;
+
+    const submitBtn = document.getElementById('contacto-submit');
+    const note = document.getElementById('contacto-note');
+
+    const fields = {
+      nombre:  { el: document.getElementById('c-nombre'),  err: document.getElementById('c-nombre-error') },
+      email:   { el: document.getElementById('c-email'),   err: document.getElementById('c-email-error') },
+      mensaje: { el: document.getElementById('c-mensaje'), err: document.getElementById('c-mensaje-error') }
+    };
+
+    const validators = {
+      nombre: (v) => v.trim().length >= 2 ? '' : 'Contanos tu nombre (mínimo 2 caracteres).',
+      email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Ingresá un email válido.',
+      mensaje: (v) => v.trim().length >= 10 ? '' : 'Contanos un poco más (mínimo 10 caracteres).'
+    };
+
+    function setFieldError(key, message){
+      const { el, err } = fields[key];
+      if (!el) return true;
+      const field = el.closest('.form-field');
+      if (message){
+        field && field.classList.add('has-error');
+        el.setAttribute('aria-invalid', 'true');
+        if (err) err.textContent = message;
+      } else {
+        field && field.classList.remove('has-error');
+        el.removeAttribute('aria-invalid');
+        if (err) err.textContent = '';
+      }
+      return !message;
+    }
+
+    function validateField(key){
+      if (!fields[key].el) return true;
+      const value = fields[key].el.value;
+      return setFieldError(key, validators[key](value));
+    }
+
+    Object.keys(fields).forEach(key => {
+      const { el } = fields[key];
+      if (!el) return;
+      el.addEventListener('blur', () => validateField(key));
+      el.addEventListener('input', () => {
+        const field = el.closest('.form-field');
+        if (field && field.classList.contains('has-error')) validateField(key);
+      });
+    });
+
+    function setNote(message, type){
+      if (!note) return;
+      note.textContent = message;
+      note.classList.remove('form-note--ok', 'form-note--error');
+      if (type) note.classList.add(type === 'ok' ? 'form-note--ok' : 'form-note--error');
+      note.classList.toggle('is-visible', Boolean(message));
+    }
+
+    function fakeSubmit(){
+      return new Promise((resolve) => window.setTimeout(resolve, 1100));
+    }
+
+    let isSubmitting = false;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (isSubmitting) return;
+
+      const results = Object.keys(fields).map(validateField);
+      const firstInvalid = Object.keys(fields).find(key => {
+        const el = fields[key].el;
+        const field = el ? el.closest('.form-field') : null;
+        return field && field.classList.contains('has-error');
+      });
+      if (!results.every(Boolean)){
+        if (firstInvalid && fields[firstInvalid].el) fields[firstInvalid].el.focus();
+        setNote('Revisá los campos marcados antes de enviar.', 'error');
+        return;
+      }
+
+      isSubmitting = true;
+      if (submitBtn) {
+        submitBtn.classList.add('is-loading');
+        submitBtn.disabled = true;
+      }
+      setNote('', null);
+
+      try {
+        await fakeSubmit();
+        setNote('¡Listo! Te vamos a responder a la brevedad.', 'ok');
+        form.reset();
+      } catch {
+        setNote('Algo salió mal. Probá de nuevo en unos minutos.', 'error');
+      } finally {
+        if (submitBtn) {
+          submitBtn.classList.remove('is-loading');
+          submitBtn.disabled = false;
+        }
+        isSubmitting = false;
+      }
+    });
+  }
+  initContactForm();
+
+  /* ══ 12. FORMULARIO CURSO — Validación básica segura ════════════ */
+  function initCursoForm(){
+    const form = document.getElementById('curso-form');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+      // Evitamos el envío por defecto para controlarlo por JS
+      e.preventDefault();
+      const nombre = document.getElementById('cc-nombre');
+      const email = document.getElementById('cc-email');
+
+      if (!nombre.value.trim() || !email.value.trim()) {
+        alert('Por favor, completa los campos requeridos.');
+        return;
+      }
+      
+      // Simula el éxito de la suscripción
+      alert('¡Gracias por inscribirte! Pronto te enviaremos la información del curso.');
+      form.reset();
+    });
+  }
+  initCursoForm();
+
+})();
+
+/* ══════════════════════════════════════════════════════════════════
+   PÁGINA DE CURSO — Configurador de guitarra
+   ══════════════════════════════════════════════════════════════════ */
+(() => {
+  const configuradorImage = document.getElementById('configuradorImage');
+  const configBtns = document.querySelectorAll('.config-btn');
+  if (!configuradorImage || !configBtns.length) return;
+
+  configBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.group;
+
+      document.querySelectorAll(`.config-btn[data-group="${group}"]`).forEach(b => {
+        b.classList.remove('config-btn--active');
+      });
+      btn.classList.add('config-btn--active');
+
+      const nextImage = btn.dataset.image;
+      if (nextImage) {
+        configuradorImage.style.opacity = '0';
+        setTimeout(() => {
+          configuradorImage.src = nextImage;
+          configuradorImage.style.opacity = '1';
+        }, 150);
+      }
+    });
+  });
 })();
