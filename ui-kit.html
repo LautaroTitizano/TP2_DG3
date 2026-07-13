@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kit UI — Sistema de diseño · TRASTES</title>
+  <meta name="description" content="Paleta, tipografía, espaciado y componentes del sistema de diseño de TRASTES." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nata+Sans:wght@400..900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ══ NAV — mismo componente que el resto del sitio; los links de
+       sección apuntan de vuelta a index.html#seccion ══════════════ -->
+  <nav class="nav" id="nav" role="navigation" aria-label="Navegación principal">
+    <a href="index.html" class="nav__logo" aria-label="Trastes — inicio">
+      <img src="assets/images/logo.png" alt="Trastes" class="nav__logo-img" />
+    </a>
+
+    <ul class="nav__links" role="list">
+      <li><a href="index.html#nosotros">Nosotros</a></li>
+      <li><a href="index.html#arte">El arte</a></li>
+      <li><a href="index.html#mapa">Guitarra</a></li>
+      <li><a href="index.html#cursos">Cursos</a></li>
+      <li><a href="index.html#testimonios">Testimonios</a></li>
+      <li><a href="ui-kit.html" aria-current="page">Kit UI</a></li>
+    </ul>
+
+    <div class="nav__right">
+      <a href="index.html#contacto" class="nav__cta">Inscribirse <span aria-hidden="true">→</span></a>
+      <button class="nav__burger" id="navBurger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+    <button class="mobile-menu__close" id="mobileClose" aria-label="Cerrar menú">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <ul class="mobile-menu__links" role="list">
+      <li><a href="index.html#nosotros" class="mobile-menu__link">Nosotros</a></li>
+      <li><a href="index.html#arte" class="mobile-menu__link">El arte</a></li>
+      <li><a href="index.html#mapa" class="mobile-menu__link">Guitarra</a></li>
+      <li><a href="index.html#cursos" class="mobile-menu__link">Cursos</a></li>
+      <li><a href="index.html#testimonios" class="mobile-menu__link">Testimonios</a></li>
+      <li><a href="ui-kit.html" class="mobile-menu__link">Kit UI</a></li>
+      <li><a href="index.html#contacto" class="mobile-menu__link mobile-menu__cta">Inscribirse →</a></li>
+    </ul>
+  </div>
+
+  <!-- ══ INTRO ═══════════════════════════════════════════════════ -->
+  <header class="uikit-hero">
+    <p class="label-num reveal">SISTEMA DE DISEÑO</p>
+    <h1 class="reveal reveal-delay-1">Kit UI de <span class="hl">Trastes</span></h1>
+    <p class="reveal reveal-delay-2">Paleta, tipografía, espaciado y los componentes que ya están en uso en el sitio — para que cualquier sección nueva se sienta parte de la misma familia.</p>
+  </header>
+
+  <!-- ══ 01 · PALETA DE COLOR ═══════════════════════════════════ -->
+  <section class="uikit-section" id="paleta" aria-label="Paleta de color">
+    <div class="uikit-section__head reveal">
+      <p class="label-num">01 — FUNDAMENTOS</p>
+      <h2 class="section-title">PALETA DE COLOR</h2>
+      <p>Bloques contrapuestos claro/oscuro, con el cobre como único acento de interactividad.</p>
+    </div>
+
+    <div class="uikit-grid reveal reveal-delay-1">
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--c-paper);"></div>
+        <div class="swatch__name">Paper</div>
+        <div class="swatch__value">--c-paper · #FDFCF8</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--c-paper-ink);"></div>
+        <div class="swatch__name">Paper Ink</div>
+        <div class="swatch__value">--c-paper-ink · #111111</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--c-asphalt);"></div>
+        <div class="swatch__name">Asphalt</div>
+        <div class="swatch__value">--c-asphalt · #0F0F0F</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--c-asphalt-ink);"></div>
+        <div class="swatch__name">Asphalt Ink</div>
+        <div class="swatch__value">--c-asphalt-ink · #FFFFFF</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--c-copper);"></div>
+        <div class="swatch__name">Copper</div>
+        <div class="swatch__value">--c-copper · #CB5429</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--c-copper-2);"></div>
+        <div class="swatch__name">Copper 2</div>
+        <div class="swatch__value">--c-copper-2 · #E37D00</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:var(--c-copper-deep);"></div>
+        <div class="swatch__name">Copper Deep</div>
+        <div class="swatch__value">--c-copper-deep · #B84000</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__block" style="background:#1a1a1a; border:1px solid var(--c-line-light);"></div>
+        <div class="swatch__name">Line light / dark</div>
+        <div class="swatch__value">--c-line-light · --c-line-dark</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 02 · TIPOGRAFÍA ═════════════════════════════════════════ -->
+  <section class="uikit-section" id="tipografia" aria-label="Tipografía">
+    <div class="uikit-section__head reveal">
+      <p class="label-num">02 — FUNDAMENTOS</p>
+      <h2 class="section-title">TIPOGRAFÍA</h2>
+      <p>Nata Sans para títulos y números grandes. Inter para cuerpo de texto y UI.</p>
+    </div>
+
+    <div class="reveal reveal-delay-1">
+      <div class="uikit-type-row">
+        <h1 style="font-size:clamp(2rem,4vw,3rem);">Título H1</h1>
+        <span class="uikit-type-row__meta">f-display · 800 · clamp(2rem,4vw,3rem)</span>
+      </div>
+      <div class="uikit-type-row">
+        <h2>Título H2</h2>
+        <span class="uikit-type-row__meta">f-display · 800 · clamp(1.5rem,2.8vw,2.5rem)</span>
+      </div>
+      <div class="uikit-type-row">
+        <h3 style="font-size:1.5rem;">Título H3</h3>
+        <span class="uikit-type-row__meta">f-display · 800 · 1.5rem</span>
+      </div>
+      <div class="uikit-type-row">
+        <p style="max-width:40ch;">Párrafo de cuerpo — Inter, altura de línea 1.6, para toda la lectura larga del sitio.</p>
+        <span class="uikit-type-row__meta">f-body · 400 · 1rem</span>
+      </div>
+      <div class="uikit-type-row">
+        <p class="label-num" style="margin:0;">LABEL-NUM · KICKER</p>
+        <span class="uikit-type-row__meta">f-body · 700 · .75rem · tracking .22em</span>
+      </div>
+      <div class="uikit-type-row">
+        <span class="section-tag" style="margin:0;">★ Section Tag</span>
+        <span class="uikit-type-row__meta">.section-tag</span>
+      </div>
+      <div class="uikit-type-row">
+        <h3 style="font-size:1.5rem;">Palabra <span class="hl hl--group">destacada</span></h3>
+        <span class="uikit-type-row__meta">.hl / .hl--group — subrayado que se asienta al cargar</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 03 · ESPACIADO ══════════════════════════════════════════ -->
+  <section class="uikit-section" id="espaciado" aria-label="Escala de espaciado">
+    <div class="uikit-section__head reveal">
+      <p class="label-num">03 — FUNDAMENTOS</p>
+      <h2 class="section-title">ESCALA DE ESPACIADO</h2>
+      <p>Base 8px / 1rem = 16px. Se usa siempre en variables, nunca en valores sueltos.</p>
+    </div>
+
+    <div class="uikit-scale reveal reveal-delay-1">
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-1</span><div class="uikit-scale-row__bar" style="width:4px;"></div></div>
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-2</span><div class="uikit-scale-row__bar" style="width:8px;"></div></div>
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-3</span><div class="uikit-scale-row__bar" style="width:12px;"></div></div>
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-4</span><div class="uikit-scale-row__bar" style="width:16px;"></div></div>
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-5</span><div class="uikit-scale-row__bar" style="width:24px;"></div></div>
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-6</span><div class="uikit-scale-row__bar" style="width:32px;"></div></div>
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-7</span><div class="uikit-scale-row__bar" style="width:48px;"></div></div>
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-8</span><div class="uikit-scale-row__bar" style="width:64px;"></div></div>
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-9</span><div class="uikit-scale-row__bar" style="width:96px;"></div></div>
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-10</span><div class="uikit-scale-row__bar" style="width:80px;"></div></div>
+      <div class="uikit-scale-row"><span class="uikit-scale-row__label">--sp-11</span><div class="uikit-scale-row__bar" style="width:160px;"></div></div>
+    </div>
+  </section>
+
+  <!-- ══ 04 · BOTONES ════════════════════════════════════════════ -->
+  <section class="uikit-section uikit-section--dark" id="botones" aria-label="Botones">
+    <div class="uikit-section__head reveal">
+      <p class="label-num label-num--light">04 — COMPONENTES</p>
+      <h2 class="section-title">BOTONES</h2>
+      <p>Un único componente reutilizable — 4 variantes definidas por variables, misma mecánica de expansión radial.</p>
+    </div>
+
+    <div class="uikit-panel__row reveal reveal-delay-1">
+      <a href="#" class="btn btn-accent" onclick="return false;">Botón accent <span aria-hidden="true">→</span></a>
+      <a href="#" class="btn btn-outline-light" onclick="return false;">Botón outline light <span aria-hidden="true">→</span></a>
+      <a href="#" class="btn btn-dark" onclick="return false;">Botón dark <span aria-hidden="true">→</span></a>
+      <a href="#" class="btn btn-primary" onclick="return false;">Botón primary <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="uikit-card__label reveal reveal-delay-2" style="margin-top:var(--sp-6);">
+      <span class="uikit-code">.btn.btn-accent</span>
+      <span class="uikit-code">.btn.btn-outline-light</span>
+      <span class="uikit-code">.btn.btn-dark</span>
+      <span class="uikit-code">.btn.btn-primary</span>
+    </div>
+  </section>
+
+  <!-- ══ 05 · IMÁGENES ═══════════════════════════════════════════ -->
+  <section class="uikit-section" id="imagenes" aria-label="Tratamiento de imágenes">
+    <div class="uikit-section__head reveal">
+      <p class="label-num">05 — COMPONENTES</p>
+      <h2 class="section-title">IMÁGENES B/N</h2>
+      <p>Fotos del taller desaturadas en reposo; el color aparece sólo como recompensa del hover.</p>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <div class="uikit-imgbw-demo img-bw">
+        <img src="assets/images/proceso_01.jpg" alt="Selección de maderas" loading="lazy">
+      </div>
+      <p class="uikit-card__label" style="margin-top:var(--sp-4);"><span class="uikit-code">.img-bw</span></p>
+    </div>
+  </section>
+
+  <!-- ══ 06 · TARJETAS ═══════════════════════════════════════════ -->
+  <section class="uikit-section" id="tarjetas" aria-label="Tarjetas">
+    <div class="uikit-section__head reveal">
+      <p class="label-num">06 — COMPONENTES</p>
+      <h2 class="section-title">TARJETAS</h2>
+      <p>Los mismos patrones que arman "Quiénes somos", "Cursos", "Testimonios" y "El proceso de construcción".</p>
+    </div>
+
+    <div class="uikit-grid uikit-grid--wide reveal reveal-delay-1">
+
+      <!-- Pilar -->
+      <div class="uikit-card">
+        <div class="pilar">
+          <span class="pilar__num">01</span>
+          <h3>Artesanía real</h3>
+          <p>Cada traste nivelado a mano, cada veta elegida por su sonido.</p>
+        </div>
+        <div class="uikit-card__label"><span class="uikit-code">.pilar</span></div>
+      </div>
+
+      <!-- Curso card -->
+      <div class="uikit-card uikit-card--curso">
+        <a href="#" class="curso-card curso-card__link" onclick="return false;" aria-label="Ejemplo de tarjeta de curso">
+          <div class="curso-card__image">
+            <img src="assets/images/curso_01.jpg" alt="Construcción de guitarra clásica" loading="lazy" />
+            <div class="curso-card__overlay">
+              <span class="curso-card__badge">Curso estrella</span>
+              <h3 class="curso-card__title">Guitarra Clásica<br>Nivel Inicial</h3>
+              <p class="curso-card__sub">12 semanas · Presencial</p>
+            </div>
+          </div>
+        </a>
+        <div class="uikit-card__label"><span class="uikit-code">.curso-card</span></div>
+      </div>
+
+      <!-- Testimonio -->
+      <div class="uikit-card" style="background:var(--c-asphalt); border-color:var(--c-line-dark);">
+        <article class="testimonio-card" style="flex-basis:auto;">
+          <div class="testimonio-card__stars">★★★★★</div>
+          <blockquote class="testimonio-card__text">"Llegué sin saber sostener un formón. Doce semanas después salí con mi propia guitarra clásica."</blockquote>
+          <p class="testimonio-card__name">Julián Ferreyra</p>
+        </article>
+        <div class="uikit-card__label"><span class="uikit-code">.testimonio-card</span></div>
+      </div>
+
+      <!-- Process card (timeline del curso) -->
+      <div class="uikit-card uikit-card--process">
+        <div class="process-card is-active">
+          <span class="process-card__number">01</span>
+          <h3 class="process-card__title">Selección<br>de maderas</h3>
+          <p class="process-card__subtitle">Corte / lectura</p>
+          <div class="process-card__image">
+            <img src="assets/images/proceso_01.jpg" alt="Selección de maderas" loading="lazy">
+          </div>
+          <p class="process-card__caption">Elegimos juntos cada tabla por su veta y sonido.</p>
+        </div>
+        <div class="uikit-card__label"><span class="uikit-code">.process-card</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 07 · FORMULARIO ═════════════════════════════════════════ -->
+  <section class="uikit-section uikit-section--dark" id="formulario" aria-label="Componentes de formulario">
+    <div class="uikit-section__head reveal">
+      <p class="label-num label-num--light">07 — COMPONENTES</p>
+      <h2 class="section-title">FORMULARIO</h2>
+      <p>Sin chrome: el foco lo da una línea que crece bajo el campo activo, no un recuadro.</p>
+    </div>
+
+    <div class="uikit-panel__row reveal reveal-delay-1" style="align-items:flex-start;">
+      <form class="contacto-form" style="flex:1; min-width:280px; max-width:420px;" onsubmit="return false;">
+        <div class="form-field">
+          <label for="uikit-nombre">Nombre</label>
+          <input type="text" id="uikit-nombre" placeholder="Tu nombre y apellido">
+        </div>
+        <div class="form-field has-error">
+          <label for="uikit-email">Email</label>
+          <input type="email" id="uikit-email" placeholder="tu@email.com">
+          <p class="form-field__error">Ingresá un email válido.</p>
+        </div>
+        <button type="button" class="btn btn-primary"><span class="btn-txt">Enviar mensaje</span> <span aria-hidden="true">→</span></button>
+      </form>
+    </div>
+    <div class="uikit-card__label reveal reveal-delay-2" style="margin-top:var(--sp-6);">
+      <span class="uikit-code">.contacto-form</span>
+      <span class="uikit-code">.form-field</span>
+      <span class="uikit-code">.form-field.has-error</span>
+    </div>
+  </section>
+
+  <!-- ══ 08 · ACORDEÓN (FAQ) ═════════════════════════════════════ -->
+  <section class="uikit-section" id="acordeon" aria-label="Componente de acordeón">
+    <div class="uikit-section__head reveal">
+      <p class="label-num">08 — COMPONENTES</p>
+      <h2 class="section-title">ACORDEÓN</h2>
+      <p>El mismo patrón que arma el FAQ del sitio — funciona igual acá, con la lógica que ya vive en main.js.</p>
+    </div>
+
+    <div class="reveal reveal-delay-1" style="max-width:640px;">
+      <div class="faq__item" style="border-bottom:1px solid var(--c-line-light);">
+        <button class="faq__question" aria-expanded="false">
+          <span>¿Este es un ejemplo de pregunta frecuente?</span>
+          <div class="faq__icon" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </div>
+        </button>
+        <div class="faq__answer"><p>Sí — mismo componente que usa la sección de preguntas frecuentes, sólo que acá vive sobre fondo claro.</p></div>
+      </div>
+    </div>
+    <div class="uikit-card__label reveal reveal-delay-2" style="margin-top:var(--sp-6);">
+      <span class="uikit-code">.faq__item</span>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ════════════════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <div class="footer__logo">TRASTES</div>
+          <p class="footer__tagline">Construcción artesanal de instrumentos de cuerda en Buenos Aires. Tradición, técnica y pasión desde 2006.</p>
+        </div>
+        <div class="footer__col">
+          <h4>Taller</h4>
+          <ul>
+            <li><a href="index.html#proceso">El proceso</a></li>
+            <li><a href="index.html#mapa">Mapa de la guitarra</a></li>
+            <li><a href="index.html#cursos">Cursos</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Sistema</h4>
+          <ul>
+            <li><a href="ui-kit.html#paleta">Paleta</a></li>
+            <li><a href="ui-kit.html#tipografia">Tipografía</a></li>
+            <li><a href="ui-kit.html#tarjetas">Componentes</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="mailto:trastes@gmail.com">trastes@gmail.com</a></li>
+            <li><a href="tel:+541112345678">+54 11 1234-5678</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2025 TRASTES. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
